@@ -29,6 +29,8 @@
 - 대화 로그
 DBMS:
 - MongoDB
+Cloud Service:
+- MongoDB Atlas
   
 ## Networking
 서비스 간의 네트워크 연결
@@ -42,3 +44,12 @@ DBMS:
 2. 사용자 정보 및 대화 로그 저장, 조회를 위한 데이터베이스 구성 
 3. Gemini API 모델과 원활히 통신할 수 있는 백엔드 환경 구성
 4. 
+
+
+# 백엔드 서비스 구현에 사용되는 프레임워크/ 클라우드 서비스
+- REST API - Spring Boot
+- Gemini Cloud - Google Cloud
+- Database Cloud - MongoDB Atlas
+- Deployment - Docker
+- CI/CD - Github Actions
+![image](https://github.com/user-attachments/assets/6343e187-213b-47cc-8cf1-872098406a8c)
