@@ -1,0 +1,5 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://pupajusang01:g4cWynTaq2oke2or@gdg.rbtvd.mongodb.net/?retryWrites=true&w=majority&appName=gdg
+      database: gdg
