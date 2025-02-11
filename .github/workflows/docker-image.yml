@@ -16,9 +16,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-
-      - name: List repository files
-        run: ls -al
       
       - name: Set up JDK
         uses: actions/setup-java@v4
@@ -29,6 +26,9 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
+      - name: List repository files
+        run: ls -al
+        
       - name: Build JAR file
         run: ./gradlew build
 
