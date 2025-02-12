@@ -33,18 +33,12 @@ class GdgbackApplicationTests {
 
 	@Test
 	void addUser() {
-		UserCreationDto userCreationDto = new UserCreationDto();
-		userCreationDto.setId("notExist");
-		userCreationDto.setName("빵빵이");
-
+		UserCreationDto userCreationDto = new UserCreationDto("notExist", "빵빵이");
 		userService.addUser(userCreationDto);
 	}
 	@Test
 	void addExistingUser() {
-		UserCreationDto userCreationDto = new UserCreationDto();
-		userCreationDto.setId("exist");
-		userCreationDto.setName("옥찌");
-
+		UserCreationDto userCreationDto = new UserCreationDto("exist", "옥찌");
 		assertThrows(IllegalArgumentException.class, () -> userService.addUser(userCreationDto));
 	}
 }
