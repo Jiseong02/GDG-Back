@@ -7,6 +7,8 @@ import com.gdg.gdgback.Domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
@@ -28,6 +30,12 @@ public class UserServiceImpl implements UserService {
 
     public Object[] getUserList() {
         return userRepository.findAll().toArray();
+    }
+
+    public Object[] getUserChatByIdAndDate(String id, Date date) {
+
+        // userRepository.findChatByIdAndDate(id, date)
+        return new Object[0];
     }
 
     // exceptions
