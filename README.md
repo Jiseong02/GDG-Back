@@ -43,6 +43,7 @@ Cloud Service:
 - ~~CI/CD 구성~~ Github Actions
 - 사용자 CRUD
 - 대화 로그 CRUD
+- ~~서버 호스팅 및 서비스 활성화~~
 ### DATABASE
 - ~~데이터베이스 선정~~ 빠른 응답을 위해 MongoDB 선정/ 촉박한 개발 시간으로 인해 Atlas 클라우드 서비스를 이용
 - ~~데이터베이스 연결~~ WAS 서버를 통해 접근 가능
