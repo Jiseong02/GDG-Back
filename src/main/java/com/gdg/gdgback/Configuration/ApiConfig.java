@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class AppConfig {
+public class ApiConfig {
     @Bean
     public GenerativeModel generativeModel() {
         String modelName = "gemini-1.5-flash-001";

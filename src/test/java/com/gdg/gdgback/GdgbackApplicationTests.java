@@ -6,12 +6,14 @@ import com.gdg.gdgback.Document.UserDocument;
 import com.gdg.gdgback.Repository.UserRepository;
 import com.gdg.gdgback.Service.AgentService;
 import com.gdg.gdgback.Service.UserService;
+import com.google.protobuf.ByteString;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
+import java.io.FileOutputStream;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -56,12 +58,23 @@ class GdgbackApplicationTests {
 		String id = "notExist";
 		assertThrows(IllegalArgumentException.class, () -> userService.getUserById(id));
 	}
-	// 해당 테스트는 토큰을 소모함!!! 자주 실행하지 말 것!!!
+	// 아래 두 개의 테스트는 토큰을 소모함!!! 자주 실행하지 말 것!!!
 	/*
 	@Test
 	void AgentRestRequest() {
 		AgentChatRequestDto agentChatRequestDto = new AgentChatRequestDto("hi there!");
 		assertDoesNotThrow(() -> System.out.println(agentService.invoke(agentChatRequestDto)));
 	}
-	 */
+	@Test
+	void AgentSpeechRequest() {
+		AgentChatRequestDto agentChatRequestDto = new AgentChatRequestDto("안녕하세요! 만나서 반갑습니다!");
+
+		assertDoesNotThrow(() -> {
+			ByteString byteString = agentService.speech(agentChatRequestDto);
+			FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\USER\\IdeaProjects\\GDG-Back\\src\\main\\resources\\testing.mp3");
+			fileOutputStream.write(byteString.toByteArray());
+			System.out.println();
+		});
+	}
+	*/
 }
