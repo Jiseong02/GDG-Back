@@ -1,5 +1,6 @@
 package com.gdg.gdgback.Document;
 
+import com.gdg.gdgback.Domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,4 +15,11 @@ public class UserDocument {
     @Id
     private String id;
     private String name;
+
+    public static UserDocument of(User user) {
+        return new UserDocumentBuilder()
+                .id(user.getId())
+                .name(user.getName())
+                .build();
+    }
 }

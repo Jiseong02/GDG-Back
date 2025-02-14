@@ -1,8 +1,10 @@
 package com.gdg.gdgback;
 
+import com.gdg.gdgback.DTO.AgentChatRequestDto;
 import com.gdg.gdgback.DTO.UserCreationDto;
 import com.gdg.gdgback.Document.UserDocument;
 import com.gdg.gdgback.Repository.UserRepository;
+import com.gdg.gdgback.Service.AgentService;
 import com.gdg.gdgback.Service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +14,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
@@ -19,6 +22,9 @@ import static org.mockito.Mockito.*;
 class GdgbackApplicationTests {
 	@Autowired
 	UserService userService;
+	@Autowired
+	AgentService agentService;
+
 	@MockitoBean
 	UserRepository mockedRepository = mock(UserRepository.class);
 
@@ -30,7 +36,6 @@ class GdgbackApplicationTests {
 		when(mockedRepository.findById(anyString())).thenReturn(Optional.empty());
 		when(mockedRepository.findById("exist")).thenReturn(Optional.of(mockedUser));
 	}
-
 	@Test
 	void addUser() {
 		UserCreationDto userCreationDto = new UserCreationDto("notExist", "빵빵이");
@@ -41,4 +46,22 @@ class GdgbackApplicationTests {
 		UserCreationDto userCreationDto = new UserCreationDto("exist", "옥찌");
 		assertThrows(IllegalArgumentException.class, () -> userService.addUser(userCreationDto));
 	}
+	@Test
+	void getUser() {
+		String id = "exist";
+		userService.getUserById(id);
+	}
+	@Test
+	void GetNotExistingUser() {
+		String id = "notExist";
+		assertThrows(IllegalArgumentException.class, () -> userService.getUserById(id));
+	}
+	// 해당 테스트는 토큰을 소모함!!! 자주 실행하지 말 것!!!
+	/*
+	@Test
+	void AgentRestRequest() {
+		AgentChatRequestDto agentChatRequestDto = new AgentChatRequestDto("hi there!");
+		assertDoesNotThrow(() -> System.out.println(agentService.invoke(agentChatRequestDto)));
+	}
+	 */
 }

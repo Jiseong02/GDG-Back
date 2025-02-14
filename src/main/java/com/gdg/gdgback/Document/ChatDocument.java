@@ -3,7 +3,6 @@ package com.gdg.gdgback.Document;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -17,7 +16,6 @@ public class ChatDocument {
     Content[] contents;
 
     @Getter
-    @Setter
     static private class Content {
         String role;
         String text;

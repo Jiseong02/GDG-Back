@@ -3,3 +3,8 @@ spring:
     mongodb:
       uri: mongodb+srv://pupajusang01:1234@gdgback.rbtvd.mongodb.net/?retryWrites=true&w=majority&appName=gdgback
       database: gdgback
+
+gemini:
+  api:
+    url: ${GEMINI_URL}
+    key: ${GEMINI_KEY}
