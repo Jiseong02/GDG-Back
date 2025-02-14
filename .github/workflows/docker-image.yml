@@ -56,7 +56,7 @@ jobs:
 
     steps:
       - name: Deploy via SSH
-        uses: appleboy/ssh-action@v0.1.6
+        uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
@@ -65,5 +65,5 @@ jobs:
             echo ${{ secrets.SERVER_PASSWORD }} | sudo -S docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
             echo ${{ secrets.SERVER_PASSWORD }} | sudo -S docker stop app || true
             echo ${{ secrets.SERVER_PASSWORD }} | sudo -S docker rm app || true
-            echo ${{ secrets.SERVER_PASSWORD }} | sudo -S docker run -d --name app -p 8080:8080 ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
+            echo ${{ secrets.SERVER_PASSWORD }} | sudo -S docker run -d -e GOOGLE_APPLICATION_CREDENTIALS=/etc/credentials/gcloud-credentials.json --name app -p 8080:8080 ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
             echo ${{ secrets.SERVER_PASSWORD }} | sudo -S docker system prune -af
