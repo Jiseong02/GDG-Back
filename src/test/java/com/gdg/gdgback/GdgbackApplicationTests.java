@@ -25,6 +25,8 @@ class GdgbackApplicationTests {
 
 	@MockitoBean
 	UserRepository mockedRepository = mock(UserRepository.class);
+	@MockitoBean
+	CounselingService counselingService;
 
 	@BeforeEach
 	void setMockedRepository() {
