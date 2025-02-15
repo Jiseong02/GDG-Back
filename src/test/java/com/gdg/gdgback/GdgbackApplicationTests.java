@@ -22,11 +22,11 @@ import static org.mockito.Mockito.*;
 class GdgbackApplicationTests {
 	@Autowired
 	UserService userService;
+	@Autowired
+	CounselingService counselingService;
 
 	@MockitoBean
 	UserRepository mockedRepository = mock(UserRepository.class);
-	@MockitoBean
-	CounselingService counselingService;
 
 	@BeforeEach
 	void setMockedRepository() {
@@ -56,11 +56,7 @@ class GdgbackApplicationTests {
 		String id = "notExist";
 		assertThrows(IllegalArgumentException.class, () -> userService.getUserById(id));
 	}
-
-	// 아래의 테스트는 토큰을 소모함!!! 자주 실행하지 말 것!!!
 	/*
-	@Autowired
-	CounselingService counselingService;
 	@Test
 	void CounselingRequest() {
 		PromptDto promptDto = new PromptDto("안녕하세요!");

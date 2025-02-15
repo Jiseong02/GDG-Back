@@ -15,8 +15,12 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/agent")
 public class CounselingController {
+    private final CounselingService counselingService;
+
     @Autowired
-    CounselingService counselingService;
+    CounselingController(CounselingService counselingService) {
+        this.counselingService = counselingService;
+    }
 
     @PostMapping("/text")
     ResponseEntity<String> getTextReply(@RequestBody PromptDto promptDto) throws IOException {
