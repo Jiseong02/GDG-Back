@@ -5,6 +5,7 @@ import com.gdg.gdgback.DTO.UserCreationDto;
 import com.gdg.gdgback.Document.UserDocument;
 import com.gdg.gdgback.Repository.UserRepository;
 import com.gdg.gdgback.Service.CounselingService;
+import com.gdg.gdgback.Service.Implement.UserServiceImpl;
 import com.gdg.gdgback.Service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
+@SpringBootTest(classes = {UserServiceImpl.class, UserRepository.class})
 class GdgbackApplicationTests {
 	@Autowired
 	UserService userService;
@@ -58,6 +59,7 @@ class GdgbackApplicationTests {
 
 	// 아래의 테스트는 토큰을 소모함!!! 자주 실행하지 말 것!!!
 	// 또한 CI/CD 시엔 반드시 실패하기 때문에 항상 주석 처리 해야함!!!
+	// 주석을 풀 경우 상단의 SpringBootTest 어노테이션에 class 추가하는 것도 잊지 말 것.
 	/*
 	@Autowired
 	CounselingService counselingService;
