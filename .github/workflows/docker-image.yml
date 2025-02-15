@@ -13,15 +13,9 @@ jobs:
     name: Build Docker Image
     runs-on: ubuntu-latest
 
-    env:
-      GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_SERVICE_KEY }}
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-
-      - name: Authenticate with GCP
-        run: echo "${GOOGLE_APPLICATION_CREDENTIALS}" > key.json && gcloud auth activate-service-account --key-file=key.json
 
       - name: Set up JDK
         uses: actions/setup-java@v4

@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
-@Service
 public interface UserService {
      void addUser(User user) throws IllegalArgumentException;
      Object getUserById(String id) throws IllegalArgumentException;

@@ -59,6 +59,7 @@ class GdgbackApplicationTests {
 	}
 
 	// 아래의 테스트는 토큰을 소모함!!! 자주 실행하지 말 것!!!
+	/*
 	@Test
 	void CounselingRequest() {
 		PromptDto promptDto = new PromptDto("안녕하세요!");
@@ -68,4 +69,5 @@ class GdgbackApplicationTests {
 			System.out.println(textReply);
 		});
 	}
+	 */
 }
