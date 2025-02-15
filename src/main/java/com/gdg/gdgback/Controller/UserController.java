@@ -21,7 +21,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserById(id));
     }
     @PostMapping
-    public ResponseEntity<String> createUser(@RequestBody UserCreationDto userCreationDto) throws  IllegalArgumentException {
+    public ResponseEntity<String> createUser(@RequestBody UserCreationDto userCreationDto) throws IllegalArgumentException {
         userService.addUser(userCreationDto);
         return ResponseEntity.ok("회원가입 되었습니다.");
     }
