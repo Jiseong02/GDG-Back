@@ -23,8 +23,6 @@ import static org.mockito.Mockito.*;
 class GdgbackApplicationTests {
 	@Autowired
 	UserService userService;
-	@Autowired
-	CounselingService counselingService;
 
 	@MockitoBean
 	UserRepository mockedRepository = mock(UserRepository.class);
@@ -61,6 +59,9 @@ class GdgbackApplicationTests {
 	// 아래의 테스트는 토큰을 소모함!!! 자주 실행하지 말 것!!!
 	// 또한 CI/CD 시엔 반드시 실패하기 때문에 항상 주석 처리 해야함!!!
 	/*
+	@Autowired
+	CounselingService counselingService;
+
 	@Test
 	void CounselingRequest() {
 		PromptDto promptDto = new PromptDto("안녕하세요!");
