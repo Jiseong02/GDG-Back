@@ -1,6 +1,6 @@
 package com.gdg.gdgback.Domain;
 
-public interface Chat {
+public interface Message {
     String getRole();
     String getText();
 }

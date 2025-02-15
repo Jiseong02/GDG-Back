@@ -1,9 +1,9 @@
 package com.gdg.gdgback.Repository;
 
-import com.gdg.gdgback.Document.ChatDocument;
+import com.gdg.gdgback.Document.MessageDocument;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ChatRepository extends MongoRepository<ChatDocument, String> {
+public interface MessageRepository extends MongoRepository<MessageDocument, String> {
 }
