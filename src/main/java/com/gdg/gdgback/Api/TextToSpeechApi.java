@@ -2,12 +2,10 @@ package com.gdg.gdgback.Api;
 
 import com.google.cloud.texttospeech.v1.*;
 import com.google.protobuf.ByteString;
-import org.springframework.stereotype.Component;
 import com.google.cloud.texttospeech.v1.TextToSpeechClient;
 
 import java.io.IOException;
 
-@Component
 public class TextToSpeechApi {
     private final VoiceSelectionParams voice;
     private final AudioConfig audioConfig;

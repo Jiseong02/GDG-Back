@@ -4,11 +4,9 @@ import com.gdg.gdgback.Domain.Prompt;
 import com.google.cloud.vertexai.VertexAI;
 import com.google.cloud.vertexai.generativeai.GenerativeModel;
 import com.google.cloud.vertexai.generativeai.ResponseHandler;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-@Component
 public class GenerativeModelApi {
     private final GenerativeModel generativeModel;
 
