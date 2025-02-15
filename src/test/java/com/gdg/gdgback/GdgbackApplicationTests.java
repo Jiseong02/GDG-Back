@@ -5,7 +5,6 @@ import com.gdg.gdgback.DTO.UserCreationDto;
 import com.gdg.gdgback.Document.UserDocument;
 import com.gdg.gdgback.Repository.UserRepository;
 import com.gdg.gdgback.Service.CounselingService;
-import com.gdg.gdgback.Service.Implement.UserServiceImpl;
 import com.gdg.gdgback.Service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,17 +12,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
-import java.io.FileOutputStream;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest(classes = {UserServiceImpl.class, UserRepository.class})
+@SpringBootTest
 class GdgbackApplicationTests {
 	@Autowired
 	UserService userService;
+
+	@Autowired
+	CounselingService counselingService;
 
 	@MockitoBean
 	UserRepository mockedRepository = mock(UserRepository.class);
@@ -58,24 +59,13 @@ class GdgbackApplicationTests {
 	}
 
 	// 아래의 테스트는 토큰을 소모함!!! 자주 실행하지 말 것!!!
-	// 또한 CI/CD 시엔 반드시 실패하기 때문에 항상 주석 처리 해야함!!!
-	// 주석을 풀 경우 상단의 SpringBootTest 어노테이션에 class 추가하는 것도 잊지 말 것.
-	/*
-	@Autowired
-	CounselingService counselingService;
-
 	@Test
 	void CounselingRequest() {
 		PromptDto promptDto = new PromptDto("안녕하세요!");
 		assertDoesNotThrow(() -> {
 			String textReply = counselingService.respondByText(promptDto);
-			System.out.println(textReply);
-
 			byte[] voiceReply = counselingService.respondByVoice(promptDto);
-			FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\pupaj\\IdeaProjects\\GDG-Back\\src\\main\\resources\\test.mp3");
-			fileOutputStream.write(voiceReply);
-			fileOutputStream.close();
+			System.out.println(textReply);
 		});
 	}
-	 */
 }
