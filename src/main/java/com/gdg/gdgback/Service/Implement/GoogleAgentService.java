@@ -7,11 +7,13 @@ import com.google.cloud.vertexai.api.GenerateContentResponse;
 import com.google.cloud.vertexai.generativeai.GenerativeModel;
 import com.google.cloud.vertexai.generativeai.ResponseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
 @Service
+@Profile("auth")
 public class GoogleAgentService implements AgentService {
     private final GenerativeModel model;
     private final SpeechService speechService;

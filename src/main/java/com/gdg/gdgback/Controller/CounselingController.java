@@ -3,6 +3,7 @@ package com.gdg.gdgback.Controller;
 import com.gdg.gdgback.DTO.PromptDto;
 import com.gdg.gdgback.Service.CounselingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/agent")
+@Profile("auth")
 public class CounselingController {
     private final CounselingService counselingService;
 

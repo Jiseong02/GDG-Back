@@ -3,9 +3,11 @@ package com.gdg.gdgback.Service.Implement;
 import com.gdg.gdgback.Service.SpeechService;
 import com.google.cloud.texttospeech.v1.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 @Service
+@Profile("auth")
 public class GoogleSpeechService implements SpeechService {
     private final TextToSpeechClient textToSpeechClient;
 

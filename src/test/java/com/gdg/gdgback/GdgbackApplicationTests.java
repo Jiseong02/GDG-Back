@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.Optional;
@@ -18,12 +19,13 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
+
+// ADC 인증이 필요한 기능을 테스트 하려면 프로필을 "auth"로 변경하고 실행.
 @SpringBootTest
+@ActiveProfiles("test")
 class GdgbackApplicationTests {
 	@Autowired
 	UserService userService;
-	@Autowired
-	CounselingService counselingService;
 
 	@MockitoBean
 	UserRepository mockedRepository = mock(UserRepository.class);
@@ -57,6 +59,9 @@ class GdgbackApplicationTests {
 		assertThrows(IllegalArgumentException.class, () -> userService.getUserById(id));
 	}
 	/*
+	@Autowired
+	CounselingService counselingService;
+
 	@Test
 	void CounselingRequest() {
 		PromptDto promptDto = new PromptDto("안녕하세요!");
