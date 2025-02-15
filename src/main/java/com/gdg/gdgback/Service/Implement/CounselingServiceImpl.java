@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 
 @Service
-@Profile("default")
+@Profile("!test")
 public class CounselingServiceImpl implements CounselingService {
     @Autowired
     GoogleAgentService agentService;

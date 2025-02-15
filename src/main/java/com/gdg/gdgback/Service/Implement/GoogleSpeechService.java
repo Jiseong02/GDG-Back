@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 @Service
-@Profile("default")
+@Profile("!test")
 public class GoogleSpeechService implements SpeechService {
     private final TextToSpeechClient textToSpeechClient;
 

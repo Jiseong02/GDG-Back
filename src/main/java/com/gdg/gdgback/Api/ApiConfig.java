@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Profile;
 import java.io.IOException;
 
 @Configuration
-@Profile("default")
+@Profile("!test")
 public class ApiConfig {
     @Bean
     public GenerativeModel generativeModel() {

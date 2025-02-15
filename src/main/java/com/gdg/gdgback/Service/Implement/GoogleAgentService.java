@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 
 @Service
-@Profile("default")
+@Profile("!test")
 public class GoogleAgentService implements AgentService {
     private final GenerativeModel model;
     private final SpeechService speechService;

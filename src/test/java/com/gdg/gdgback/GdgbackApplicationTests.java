@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 
-// ADC 인증이 필요한 기능을 테스트 하려면 프로필을 "default"로 변경하고 실행.
+// "test" 프로필 - ADC 인증 필요한 서비스는 제외하고 테스트.
 @SpringBootTest
 @ActiveProfiles("test")
 class GdgbackApplicationTests {
@@ -58,6 +58,7 @@ class GdgbackApplicationTests {
 		String id = "notExist";
 		assertThrows(IllegalArgumentException.class, () -> userService.getUserById(id));
 	}
+
 	/*
 	@Autowired
 	CounselingService counselingService;
