@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 
-// ADC 인증이 필요한 기능을 테스트 하려면 프로필을 "auth"로 변경하고 실행.
+// ADC 인증이 필요한 기능을 테스트 하려면 프로필을 "default"로 변경하고 실행.
 @SpringBootTest
 @ActiveProfiles("test")
 class GdgbackApplicationTests {

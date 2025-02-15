@@ -15,7 +15,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/agent")
-@Profile("auth")
+@Profile("default")
 public class CounselingController {
     private final CounselingService counselingService;
 
