@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-	implementation(platform("com.google.cloud:libraries-bom:26.54.0"))
+	implementation(platform("com.google.cloud:libraries-bom:26.47.0"))
 	implementation('com.google.cloud:google-cloud-vertexai')
 	implementation('com.google.cloud:google-cloud-texttospeech')
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
