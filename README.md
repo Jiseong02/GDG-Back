@@ -22,13 +22,33 @@
 
 ## Database
 요구사항:
-- 사용자 데이터
+- 사용자
+  - ID
+  - 이름
+- 공황
+  - ID
+  - 사용자 ID
+  - 날짜
+  - 기록
+    - 사진
+    - 공포 수치
+    - 전화 시간
+    - 장소
+    - 상황
+    - 내용
 - 대화 로그
+  - ID
+  - 사용자 ID
+  - 날짜
+  - 내용
+    - 대화 내용 (텍스트)
+    - 발화 주체
 DBMS:
 - MongoDB
 Cloud Service:
 - MongoDB Atlas
-- Google Cloud (Gemini API)
+### Document
+
   
 ## Networking
 서비스 간의 네트워크 연결
@@ -40,7 +60,7 @@ Cloud Service:
 ## TODO
 ### WAS
 - ~~WAS 선정~~ Spring boot
-- ~~CI/CD 구성~~ Github Actions
+- ~~CI/CD 구성~~ GitHub Actions
 - 사용자 CRUD
 - 대화 로그 CRUD
 - ~~서버 호스팅 및 서비스 활성화~~
@@ -49,9 +69,11 @@ Cloud Service:
 - ~~데이터베이스 연결~~ WAS 서버를 통해 접근 가능
 - 데이터베이스 구성 
 ### AGENT
-- Gemini API 프롬프트 전달하고 응답 받기
+- ~~프롬프트 전달 받고 응답 하기~~
+- ~~Text To Speech~~
+- Speech To Text
+- 전달 받은 프롬프트 요약
 - 파인튜닝을 위한 학습/검증/테스트 데이터셋 구성
-- 
 
 
 # 백엔드 서비스 구현에 사용되는 프레임워크/ 클라우드 서비스
@@ -59,6 +81,6 @@ Cloud Service:
 - Gemini Cloud - Google Cloud
 - Database Cloud - MongoDB Atlas
 - Deployment - Docker
-- CI/CD - Github Actions
+- CI/CD - GitHub Actions
   
 ![image](https://github.com/user-attachments/assets/6343e187-213b-47cc-8cf1-872098406a8c)
