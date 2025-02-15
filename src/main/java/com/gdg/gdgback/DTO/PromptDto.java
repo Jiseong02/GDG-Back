@@ -1,6 +1,6 @@
 package com.gdg.gdgback.DTO;
 
-import com.gdg.gdgback.Domain.Chat;
+import com.gdg.gdgback.Domain.Prompt;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class AgentChatRequestDto implements Chat {
-    private String text;
+public class PromptDto implements Prompt {
+    private String content;
 }

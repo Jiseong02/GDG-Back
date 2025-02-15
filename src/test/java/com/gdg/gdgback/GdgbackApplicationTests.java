@@ -1,12 +1,11 @@
 package com.gdg.gdgback;
 
-import com.gdg.gdgback.DTO.AgentChatRequestDto;
+import com.gdg.gdgback.DTO.PromptDto;
 import com.gdg.gdgback.DTO.UserCreationDto;
 import com.gdg.gdgback.Document.UserDocument;
 import com.gdg.gdgback.Repository.UserRepository;
-import com.gdg.gdgback.Service.AgentService;
+import com.gdg.gdgback.Service.CounselingService;
 import com.gdg.gdgback.Service.UserService;
-import com.google.protobuf.ByteString;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,7 @@ class GdgbackApplicationTests {
 	@Autowired
 	UserService userService;
 	@Autowired
-	AgentService agentService;
+	CounselingService counselingService;
 
 	@MockitoBean
 	UserRepository mockedRepository = mock(UserRepository.class);
@@ -58,23 +57,19 @@ class GdgbackApplicationTests {
 		String id = "notExist";
 		assertThrows(IllegalArgumentException.class, () -> userService.getUserById(id));
 	}
-	// 아래 두 개의 테스트는 토큰을 소모함!!! 자주 실행하지 말 것!!!
-	/*
-	@Test
-	void AgentRestRequest() {
-		AgentChatRequestDto agentChatRequestDto = new AgentChatRequestDto("hi there!");
-		assertDoesNotThrow(() -> System.out.println(agentService.invoke(agentChatRequestDto)));
-	}
-	@Test
-	void AgentSpeechRequest() {
-		AgentChatRequestDto agentChatRequestDto = new AgentChatRequestDto("안녕하세요! 만나서 반갑습니다!");
 
+	// 아래의 테스트는 토큰을 소모함!!! 자주 실행하지 말 것!!!
+	@Test
+	void CounselingRequest() {
+		PromptDto promptDto = new PromptDto("안녕하세요!");
 		assertDoesNotThrow(() -> {
-			ByteString byteString = agentService.speech(agentChatRequestDto);
-			FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\USER\\IdeaProjects\\GDG-Back\\src\\main\\resources\\testing.mp3");
-			fileOutputStream.write(byteString.toByteArray());
-			System.out.println();
+			String textReply = counselingService.respondByText(promptDto);
+			System.out.println(textReply);
+
+			byte[] voiceReply = counselingService.respondByVoice(promptDto);
+			FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\pupaj\\IdeaProjects\\GDG-Back\\src\\main\\resources\\test.mp3");
+			fileOutputStream.write(voiceReply);
+			fileOutputStream.close();
 		});
 	}
-	*/
 }

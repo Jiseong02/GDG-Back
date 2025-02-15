@@ -1,9 +1,7 @@
 package com.gdg.gdgback.Controller;
 
-import com.gdg.gdgback.DTO.AgentChatRequestDto;
-import com.gdg.gdgback.Service.AgentService;
-import com.google.api.Http;
-import com.google.protobuf.ByteString;
+import com.gdg.gdgback.DTO.PromptDto;
+import com.gdg.gdgback.Service.CounselingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -13,22 +11,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.util.Base64;
 
 @RestController
 @RequestMapping("/agent")
-public class AgentController {
+public class CounselingController {
     @Autowired
-    AgentService agentService;
+    CounselingService counselingService;
 
     @PostMapping("/text")
-    ResponseEntity<String> getTextReply(@RequestBody AgentChatRequestDto agentChatRequestDto) throws IOException {
-        return ResponseEntity.ok().body(agentService.getTextReply(agentChatRequestDto));
+    ResponseEntity<String> getTextReply(@RequestBody PromptDto promptDto) throws IOException {
+        return ResponseEntity.ok().body(counselingService.respondByText(promptDto));
     }
     @PostMapping("/voice")
-    ResponseEntity<byte[]> getVoiceReply(@RequestBody AgentChatRequestDto agentChatRequestDto) throws IOException {
+    ResponseEntity<byte[]> getVoiceReply(@RequestBody PromptDto promptDto) throws IOException {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_TYPE, "audio/mpeg")
-                .body(Base64.getEncoder().encode(agentService.getVoiceReply(agentChatRequestDto).toByteArray()));
+                .body(counselingService.respondByVoice(promptDto));
     }
 }
