@@ -75,7 +75,6 @@ Cloud Service:
 - 전달 받은 프롬프트 요약
 - 파인튜닝을 위한 학습/검증/테스트 데이터셋 구성
 
-
 # 백엔드 서비스 구현에 사용되는 프레임워크/ 클라우드 서비스
 - REST API - Spring Boot
 - Gemini Cloud - Google Cloud

@@ -1,7 +1,7 @@
 package com.gdg.gdgback.Controller;
 
-import com.gdg.gdgback.DTO.PromptDto;
-import com.gdg.gdgback.Service.CounselingService;
+import com.gdg.gdgback.DTO.TextMessageDto;
+import com.gdg.gdgback.Service.AgentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpHeaders;
@@ -16,22 +16,22 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/agent")
 @Profile("!test")
-public class CounselingController {
-    private final CounselingService counselingService;
+public class CounselController {
+    private final AgentService agentService;
 
     @Autowired
-    CounselingController(CounselingService counselingService) {
-        this.counselingService = counselingService;
+    CounselController(AgentService agentService) {
+        this.agentService = agentService;
     }
 
     @PostMapping("/text")
-    ResponseEntity<String> getTextReply(@RequestBody PromptDto promptDto) throws IOException {
-        return ResponseEntity.ok().body(counselingService.respondByText(promptDto));
+    ResponseEntity<TextMessageDto> getTextReply(@RequestBody TextMessageDto message) throws IOException {
+        return ResponseEntity.ok().body(agentService.getTextResponse(message));
     }
     @PostMapping("/voice")
-    ResponseEntity<byte[]> getVoiceReply(@RequestBody PromptDto promptDto) throws IOException {
+    ResponseEntity<byte[]> getVoiceReply(@RequestBody TextMessageDto prompt) throws IOException {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_TYPE, "audio/mpeg")
-                .body(counselingService.respondByVoice(promptDto));
+                .body(agentService.getVoiceResponse(prompt));
     }
 }

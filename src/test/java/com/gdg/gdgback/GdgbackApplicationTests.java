@@ -1,10 +1,8 @@
 package com.gdg.gdgback;
 
-import com.gdg.gdgback.DTO.PromptDto;
 import com.gdg.gdgback.DTO.UserCreationDto;
 import com.gdg.gdgback.Document.UserDocument;
 import com.gdg.gdgback.Repository.UserRepository;
-import com.gdg.gdgback.Service.CounselingService;
 import com.gdg.gdgback.Service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

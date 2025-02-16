@@ -1,7 +1,7 @@
 package com.gdg.gdgback.Service;
 
-import com.gdg.gdgback.Domain.Message;
+import com.gdg.gdgback.Domain.TextMessage;
 
 public interface MessageService {
-    void saveMessage(Message message);
+    void saveMessage(TextMessage textMessage);
 }

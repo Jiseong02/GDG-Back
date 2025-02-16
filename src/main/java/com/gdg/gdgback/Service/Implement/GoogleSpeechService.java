@@ -1,7 +1,10 @@
 package com.gdg.gdgback.Service.Implement;
 
+import com.gdg.gdgback.Api.SpeechToTextApi;
+import com.gdg.gdgback.Api.TextToSpeechApi;
+import com.gdg.gdgback.Domain.AudioMessage;
+import com.gdg.gdgback.Domain.TextMessage;
 import com.gdg.gdgback.Service.SpeechService;
-import com.google.cloud.texttospeech.v1.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -9,21 +12,22 @@ import org.springframework.stereotype.Service;
 @Service
 @Profile("!test")
 public class GoogleSpeechService implements SpeechService {
-    private final TextToSpeechClient textToSpeechClient;
-
-    private final VoiceSelectionParams voice;
-    private final AudioConfig audioConfig;
+    private final TextToSpeechApi textToSpeechApi;
+    private final SpeechToTextApi speechToTextApi;
 
     @Autowired
-    GoogleSpeechService(TextToSpeechClient textToSpeechClient) {
-        this.voice = VoiceSelectionParams.newBuilder().setLanguageCode("ko-KR").setSsmlGender(SsmlVoiceGender.FEMALE).build();
-        this.audioConfig = AudioConfig.newBuilder().setAudioEncoding(AudioEncoding.MP3).build();
-        this.textToSpeechClient = textToSpeechClient;
+    GoogleSpeechService(TextToSpeechApi textToSpeechApi, SpeechToTextApi speechToTextApi) {
+        this.textToSpeechApi = textToSpeechApi;
+        this.speechToTextApi = speechToTextApi;
     }
 
     @Override
-    public byte[] TextToSpeech(String text) {
-        SynthesisInput input = SynthesisInput.newBuilder().setText(text).build();
-        return textToSpeechClient.synthesizeSpeech(input, voice, audioConfig).toByteArray();
+    public AudioMessage textToSpeech(TextMessage message) {
+        return textToSpeechApi.textToSpeech(message);
+    }
+
+    @Override
+    public TextMessage speechToText(AudioMessage message) {
+        return speechToTextApi.speechToText(message);
     }
 }
