@@ -81,5 +81,7 @@ Cloud Service:
 - Database Cloud - MongoDB Atlas
 - Deployment - Docker
 - CI/CD - GitHub Actions
-  
-![image](https://github.com/user-attachments/assets/6343e187-213b-47cc-8cf1-872098406a8c)
+
+![image](https://github.com/user-attachments/assets/4cb42b8e-ed02-4800-92eb-e64577ffc187)
+![image](https://github.com/user-attachments/assets/35d6ee58-d1b0-4b1d-bb79-60473eaf83b7)
+
