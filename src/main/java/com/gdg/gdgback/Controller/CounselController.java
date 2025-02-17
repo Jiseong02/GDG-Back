@@ -25,13 +25,13 @@ public class CounselController {
     }
 
     @PostMapping("/text")
-    ResponseEntity<TextMessageDto> getTextReply(@RequestBody TextMessageDto message) throws IOException {
-        return ResponseEntity.ok().body(agentService.getTextResponse(message));
+    ResponseEntity<String> getTextReply(@RequestBody TextMessageDto message) throws IOException {
+        return ResponseEntity.ok().body(agentService.getTextResponse(message).getContent());
     }
     @PostMapping("/voice")
-    ResponseEntity<byte[]> getVoiceReply(@RequestBody TextMessageDto prompt) throws IOException {
+    ResponseEntity<byte[]> getVoiceReply(@RequestBody TextMessageDto message) throws IOException {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_TYPE, "audio/mpeg")
-                .body(agentService.getVoiceResponse(prompt));
+                .body(agentService.getAudioResponse(message).getContent());
     }
 }

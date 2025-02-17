@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-@Profile("default")
+@Profile("!test")
 public class SpeechToTextApi {
     static final private String recognizer = "gdg-recognizer";
     static private SpeechClient speechClient;

@@ -1,9 +1,5 @@
 package com.gdg.gdgback.Api;
 
-import com.gdg.gdgback.DTO.AudioMessageDto;
-import com.gdg.gdgback.DTO.TextMessageDto;
-import com.gdg.gdgback.Domain.AudioMessage;
-import com.gdg.gdgback.Domain.TextMessage;
 import com.google.cloud.texttospeech.v1.*;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -23,13 +19,8 @@ public class TextToSpeechApi {
         this.textToSpeechClient = TextToSpeechClient.create();
     }
 
-    public AudioMessage textToSpeech(TextMessage message) {
-        SynthesisInput input = SynthesisInput.newBuilder().setText(message.getContent()).build();
-        byte[] audio = textToSpeechClient.synthesizeSpeech(input, voice, audioConfig).toByteArray();
-        return AudioMessageDto.builder()
-                .counselId(message.getCounselId())
-                .role(message.getRole())
-                .content(audio)
-                .build();
+    public byte[] textToSpeech(String text) {
+        SynthesisInput input = SynthesisInput.newBuilder().setText(text).build();
+        return textToSpeechClient.synthesizeSpeech(input, voice, audioConfig).toByteArray();
     }
 }

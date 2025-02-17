@@ -3,6 +3,8 @@ package com.gdg.gdgback.DTO;
 import com.gdg.gdgback.Domain.AudioMessage;
 import lombok.*;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Builder
 public class AudioMessageDto implements AudioMessage {

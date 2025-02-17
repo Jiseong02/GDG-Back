@@ -2,6 +2,8 @@ package com.gdg.gdgback.Service.Implement;
 
 import com.gdg.gdgback.Api.SpeechToTextApi;
 import com.gdg.gdgback.Api.TextToSpeechApi;
+import com.gdg.gdgback.DTO.AudioMessageDto;
+import com.gdg.gdgback.DTO.TextMessageDto;
 import com.gdg.gdgback.Domain.AudioMessage;
 import com.gdg.gdgback.Domain.TextMessage;
 import com.gdg.gdgback.Service.SpeechService;
@@ -23,11 +25,23 @@ public class GoogleSpeechService implements SpeechService {
 
     @Override
     public AudioMessage textToSpeech(TextMessage message) {
-        return textToSpeechApi.textToSpeech(message);
+        String text = message.getContent();
+        byte[] speech = textToSpeechApi.textToSpeech(text);
+        return AudioMessageDto.builder()
+                .counselId(message.getCounselId())
+                .role(message.getRole())
+                .content(speech)
+                .build();
     }
 
     @Override
     public TextMessage speechToText(AudioMessage message) {
-        return speechToTextApi.speechToText(message);
+        byte[] speech = message.getContent();
+        String text = speechToTextApi.speechToText(speech);
+        return TextMessageDto.builder()
+                .counselId(message.getCounselId())
+                .role(message.getRole())
+                .content(text)
+                .build();
     }
 }
