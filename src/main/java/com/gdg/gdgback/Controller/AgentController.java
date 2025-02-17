@@ -1,5 +1,6 @@
 package com.gdg.gdgback.Controller;
 
+import com.gdg.gdgback.DTO.Request.AudioRequestDto;
 import com.gdg.gdgback.DTO.Request.TextRequestDto;
 import com.gdg.gdgback.Service.AgentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +26,19 @@ public class AgentController {
     }
 
     @PostMapping("/text")
-    ResponseEntity<String> getTextResponse(@RequestBody TextRequestDto message) throws IOException {
-        return ResponseEntity.ok().body(agentService.getTextResponse(message));
+    ResponseEntity<String> getTextResponse(@RequestBody TextRequestDto textRequestDto) throws IOException {
+        return ResponseEntity.ok().body(agentService.getTextResponse(textRequestDto));
     }
     @PostMapping("/voice")
-    ResponseEntity<byte[]> getVoiceResponse(@RequestBody TextRequestDto message) throws IOException {
+    ResponseEntity<byte[]> getVoiceResponse(@RequestBody TextRequestDto textRequestDto) throws IOException {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_TYPE, "audio/mpeg")
-                .body(agentService.getAudioResponse(message));
+                .body(agentService.getAudioResponse(textRequestDto));
+    }
+    @PostMapping("/call")
+    ResponseEntity<byte[]> getVoiceResponse(@RequestBody AudioRequestDto audioRequestDto) throws IOException {
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_TYPE, "audio/mpeg")
+                .body(agentService.getAudioResponse(audioRequestDto));
     }
 }
