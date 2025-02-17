@@ -1,7 +1,6 @@
 package com.gdg.gdgback.Controller;
 
 import com.gdg.gdgback.DTO.Request.Counsel.CounselCreateRequestDto;
-import com.gdg.gdgback.DTO.Request.Counsel.CounselReadRequestDto;
 import com.gdg.gdgback.DTO.Response.Counsel.CounselReadResponseDto;
 import com.gdg.gdgback.Service.CounselService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ public class CounselController {
         return ResponseEntity.ok().body(counselService.createCounsel(createRequestDto));
     }
     @GetMapping
-    ResponseEntity<CounselReadResponseDto> readCounsel(@RequestBody CounselReadRequestDto readRequestDto) {
-        return ResponseEntity.ok().body(counselService.readCounsel(readRequestDto));
+    ResponseEntity<CounselReadResponseDto> readCounsel(@RequestParam String id) {
+        return ResponseEntity.ok().body(counselService.readCounsel(id));
     }
 }

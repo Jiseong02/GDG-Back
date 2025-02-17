@@ -1,7 +1,6 @@
 package com.gdg.gdgback;
 
 import com.gdg.gdgback.DTO.Request.User.UserCreateRequestDto;
-import com.gdg.gdgback.DTO.Request.User.UserReadRequestDto;
 import com.gdg.gdgback.Document.UserDocument;
 import com.gdg.gdgback.Repository.UserRepository;
 import com.gdg.gdgback.Service.UserService;
@@ -56,17 +55,13 @@ class GdgbackApplicationTests {
 	}
 	@Test
 	void readUser() {
-		UserReadRequestDto readRequestDto = UserReadRequestDto.builder()
-				.id("exist")
-				.build();
-		userService.readUser(readRequestDto);
+		String id = "exist";
+		userService.readUser(id);
 	}
 	@Test
 	void readNotExistingUser() {
-		UserReadRequestDto readRequestDto = UserReadRequestDto.builder()
-				.id("notExist")
-				.build();
-		assertThrows(IllegalArgumentException.class, () -> userService.readUser(readRequestDto));
+		String id = "notExist";
+		assertThrows(IllegalArgumentException.class, () -> userService.readUser(id));
 	}
 
 	/*

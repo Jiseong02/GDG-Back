@@ -1,7 +1,6 @@
 package com.gdg.gdgback.Service.Implement;
 
 import com.gdg.gdgback.DTO.Request.User.UserCreateRequestDto;
-import com.gdg.gdgback.DTO.Request.User.UserReadRequestDto;
 import com.gdg.gdgback.DTO.Response.User.UserReadListResponseDto;
 import com.gdg.gdgback.DTO.Response.User.UserReadResponseDto;
 import com.gdg.gdgback.Document.UserDocument;
@@ -30,8 +29,8 @@ public class UserServiceImpl implements UserService {
         );
     }
 
-    public UserReadResponseDto readUser(UserReadRequestDto readRequestDto) {
-        UserDocument userDocument = userRepository.findById(readRequestDto.getId())
+    public UserReadResponseDto readUser(String id) {
+        UserDocument userDocument = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
         return UserReadResponseDto.builder()
                 .id(userDocument.getId())

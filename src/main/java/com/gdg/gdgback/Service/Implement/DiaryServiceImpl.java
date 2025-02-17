@@ -1,7 +1,6 @@
 package com.gdg.gdgback.Service.Implement;
 
 import com.gdg.gdgback.DTO.Request.Diary.DiaryCreateRequestDto;
-import com.gdg.gdgback.DTO.Request.Diary.DiaryReadRequestDto;
 import com.gdg.gdgback.DTO.Response.DiaryReadResponseDto;
 import com.gdg.gdgback.Document.DiaryDocument;
 import com.gdg.gdgback.Repository.DiaryRepository;
@@ -32,8 +31,8 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     @Override
-    public DiaryReadResponseDto readDiary(DiaryReadRequestDto readRequestDto) {
-        DiaryDocument diaryDocument = diaryRepository.findById(readRequestDto.getId())
+    public DiaryReadResponseDto readDiary(String id) {
+        DiaryDocument diaryDocument = diaryRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 일지입니다."));
 
         return DiaryReadResponseDto.builder()

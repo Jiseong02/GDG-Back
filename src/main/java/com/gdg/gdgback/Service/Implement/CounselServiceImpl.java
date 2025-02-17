@@ -1,7 +1,6 @@
 package com.gdg.gdgback.Service.Implement;
 
 import com.gdg.gdgback.DTO.Request.Counsel.CounselCreateRequestDto;
-import com.gdg.gdgback.DTO.Request.Counsel.CounselReadRequestDto;
 import com.gdg.gdgback.DTO.Response.Counsel.CounselReadResponseDto;
 import com.gdg.gdgback.Document.CounselDocument;
 import com.gdg.gdgback.Repository.CounselRepository;
@@ -27,8 +26,8 @@ public class CounselServiceImpl implements CounselService {
     }
 
     @Override
-    public CounselReadResponseDto readCounsel(CounselReadRequestDto readRequestDto) {
-        CounselDocument counselDocument = counselRepository.findById(readRequestDto.getId())
+    public CounselReadResponseDto readCounsel(String id) {
+        CounselDocument counselDocument = counselRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 기록입니다."));
 
         return CounselReadResponseDto.builder()
