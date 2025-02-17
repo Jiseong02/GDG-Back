@@ -1,12 +1,11 @@
 package com.gdg.gdgback.DTO;
 
 import com.gdg.gdgback.Domain.TextMessage;
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
 @Builder
+@Data
 public class TextMessageDto implements TextMessage {
     private String id;
     private String counselId;

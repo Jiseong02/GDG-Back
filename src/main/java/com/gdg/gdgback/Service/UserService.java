@@ -1,13 +1,11 @@
 package com.gdg.gdgback.Service;
 
-import com.gdg.gdgback.Domain.User;
-import org.springframework.stereotype.Service;
-
-import java.util.Date;
+import com.gdg.gdgback.DTO.Request.UserCreateRequestDto;
+import com.gdg.gdgback.DTO.Response.UserReadListResponseDto;
+import com.gdg.gdgback.DTO.Response.UserReadResponseDto;
 
 public interface UserService {
-     void addUser(User user) throws IllegalArgumentException;
-     Object getUserById(String id) throws IllegalArgumentException;
-     Object[] getUserList();
-     Object[] getUserChatByIdAndDate(String id, Date date);
+     void addUser(UserCreateRequestDto userCreateRequestDto) throws IllegalArgumentException;
+     UserReadResponseDto getUserById(String id) throws IllegalArgumentException;
+     UserReadListResponseDto getUserList();
 }

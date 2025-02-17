@@ -1,37 +1,26 @@
 package com.gdg.gdgback.Controller;
 
-import com.gdg.gdgback.DTO.TextMessageDto;
-import com.gdg.gdgback.Service.AgentService;
+import com.gdg.gdgback.DTO.Request.CounselCreateRequestDto;
+import com.gdg.gdgback.Service.CounselService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
-
 @RestController
-@RequestMapping("/agent")
-@Profile("!test")
+@RequestMapping("/counsel")
 public class CounselController {
-    private final AgentService agentService;
+    CounselService counselService;
 
     @Autowired
-    CounselController(AgentService agentService) {
-        this.agentService = agentService;
+    CounselController(CounselService counselService) {
+        this.counselService = counselService;
     }
 
-    @PostMapping("/text")
-    ResponseEntity<String> getTextReply(@RequestBody TextMessageDto message) throws IOException {
-        return ResponseEntity.ok().body(agentService.getTextResponse(message).getContent());
-    }
-    @PostMapping("/voice")
-    ResponseEntity<byte[]> getVoiceReply(@RequestBody TextMessageDto message) throws IOException {
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_TYPE, "audio/mpeg")
-                .body(agentService.getAudioResponse(message).getContent());
+    @PostMapping
+    ResponseEntity<String> createCounsel(@RequestBody CounselCreateRequestDto createRequestDto) {
+        return ResponseEntity.ok().body(counselService.generateCounsel(createRequestDto));
     }
 }

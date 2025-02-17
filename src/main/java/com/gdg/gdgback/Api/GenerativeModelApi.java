@@ -1,7 +1,5 @@
 package com.gdg.gdgback.Api;
 
-import com.gdg.gdgback.DTO.TextMessageDto;
-import com.gdg.gdgback.Domain.TextMessage;
 import com.google.cloud.vertexai.VertexAI;
 import com.google.cloud.vertexai.generativeai.GenerativeModel;
 import com.google.cloud.vertexai.generativeai.ResponseHandler;
@@ -23,12 +21,7 @@ public class GenerativeModelApi {
         this.generativeModel = new GenerativeModel(modelName, vertexAI);
     }
 
-    public TextMessage generateMessage(TextMessage message) throws IOException {
-        String content = ResponseHandler.getText(generativeModel.generateContent(message.getContent()));
-        return TextMessageDto.builder()
-                .counselId(message.getCounselId())
-                .role("model")
-                .content(content)
-                .build();
+    public String generateResponse(String prompt) throws IOException {
+        return ResponseHandler.getText(generativeModel.generateContent(prompt));
     }
 }

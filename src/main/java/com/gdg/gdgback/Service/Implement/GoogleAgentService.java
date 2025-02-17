@@ -1,12 +1,9 @@
 package com.gdg.gdgback.Service.Implement;
 
 import com.gdg.gdgback.Api.GenerativeModelApi;
-import com.gdg.gdgback.Document.CounselDocument;
+import com.gdg.gdgback.DTO.Request.AudioRequestDto;
+import com.gdg.gdgback.DTO.Request.TextRequestDto;
 import com.gdg.gdgback.Document.MessageDocument;
-import com.gdg.gdgback.Domain.AudioMessage;
-import com.gdg.gdgback.Domain.Counsel;
-import com.gdg.gdgback.Domain.TextMessage;
-import com.gdg.gdgback.Repository.CounselRepository;
 import com.gdg.gdgback.Repository.MessageRepository;
 import com.gdg.gdgback.Service.AgentService;
 import com.gdg.gdgback.Service.SpeechService;
@@ -22,46 +19,54 @@ public class GoogleAgentService implements AgentService {
     private final GenerativeModelApi model;
     private final SpeechService speechService;
 
-    private final CounselRepository counselRepository;
     private final MessageRepository messageRepository;
 
     @Autowired
-    GoogleAgentService(GenerativeModelApi model, SpeechService speechService, CounselRepository counselRepository, MessageRepository messageRepository) {
+    GoogleAgentService(GenerativeModelApi model, SpeechService speechService, MessageRepository messageRepository) {
         this.model = model;
         this.speechService = speechService;
 
-        this.counselRepository = counselRepository;
         this.messageRepository = messageRepository;
     }
 
     @Override
-    public TextMessage getTextResponse(TextMessage message) throws IOException {
-        messageRepository.save(MessageDocument.of(message));
+    public String getTextResponse(TextRequestDto textRequestDto) throws IOException {
+        messageRepository.save(
+                MessageDocument.builder()
+                        .counselId(textRequestDto.getCounselId())
+                        .role("user")
+                        .content(textRequestDto.getContent())
+                        .build()
+        );
 
-        TextMessage responseMessage = model.generateMessage(message);
-        messageRepository.save(MessageDocument.of(responseMessage));
+        String response = model.generateResponse(textRequestDto.getContent());
+        messageRepository.save(
+                MessageDocument.builder()
+                        .counselId(textRequestDto.getCounselId())
+                        .role("model")
+                        .content(response)
+                        .build()
+        );
 
-        return responseMessage;
+        return response;
     }
+
     @Override
-    public AudioMessage getAudioResponse(TextMessage message) throws IOException {
-        TextMessage response = getTextResponse(message);
-        return speechService.textToSpeech(response);
+    public byte[] getAudioResponse(TextRequestDto textRequestDto) throws IOException {
+        String textResponse = getTextResponse(textRequestDto);
+
+        return speechService.textToSpeech(textResponse);
     }
 
     @Override
-    public AudioMessage getAudioResponse(AudioMessage message) throws IOException {
-        TextMessage text = speechService.speechToText(message);
-        TextMessage response = getTextResponse(text);
-        return speechService.textToSpeech(response);
-    }
-
-    @Override
-    public String generateCounsel(Counsel counsel) {
-        CounselDocument counselDocument = CounselDocument.builder()
-                .userId(counsel.getUserId())
-                .date(counsel.getDate())
+    public byte[] getAudioResponse(AudioRequestDto audioRequestDto) throws IOException {
+        TextRequestDto textRequestDto = TextRequestDto.builder()
+                .counselId(audioRequestDto.getCounselId())
+                .content(speechService.speechToText(audioRequestDto.getContent()))
                 .build();
-        return counselRepository.save(counselDocument).getId();
+
+        String textResponse = getTextResponse(textRequestDto);
+
+        return speechService.textToSpeech(textResponse);
     }
 }

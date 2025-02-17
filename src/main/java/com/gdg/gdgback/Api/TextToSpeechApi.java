@@ -20,7 +20,9 @@ public class TextToSpeechApi {
     }
 
     public byte[] textToSpeech(String text) {
-        SynthesisInput input = SynthesisInput.newBuilder().setText(text).build();
+        SynthesisInput input = SynthesisInput.newBuilder()
+                .setText(text)
+                .build();
         return textToSpeechClient.synthesizeSpeech(input, voice, audioConfig).toByteArray();
     }
 }

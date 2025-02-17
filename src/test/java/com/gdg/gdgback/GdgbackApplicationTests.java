@@ -1,6 +1,6 @@
 package com.gdg.gdgback;
 
-import com.gdg.gdgback.DTO.UserCreationDto;
+import com.gdg.gdgback.DTO.Request.UserCreateRequestDto;
 import com.gdg.gdgback.Document.UserDocument;
 import com.gdg.gdgback.Repository.UserRepository;
 import com.gdg.gdgback.Service.UserService;
@@ -38,13 +38,19 @@ class GdgbackApplicationTests {
 	}
 	@Test
 	void addUser() {
-		UserCreationDto userCreationDto = new UserCreationDto("notExist", "빵빵이");
-		userService.addUser(userCreationDto);
+		UserCreateRequestDto userCreateRequestDto = UserCreateRequestDto.builder()
+				.id("notExist")
+				.name("빵빵이")
+				.build();
+		userService.addUser(userCreateRequestDto);
 	}
 	@Test
 	void addExistingUser() {
-		UserCreationDto userCreationDto = new UserCreationDto("exist", "옥찌");
-		assertThrows(IllegalArgumentException.class, () -> userService.addUser(userCreationDto));
+		UserCreateRequestDto userCreateRequestDto = UserCreateRequestDto.builder()
+				.id("exist")
+				.name("옥찌")
+				.build();
+		assertThrows(IllegalArgumentException.class, () -> userService.addUser(userCreateRequestDto));
 	}
 	@Test
 	void getUser() {

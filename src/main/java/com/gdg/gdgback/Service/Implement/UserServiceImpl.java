@@ -1,49 +1,37 @@
 package com.gdg.gdgback.Service.Implement;
 
+import com.gdg.gdgback.DTO.Request.UserCreateRequestDto;
+import com.gdg.gdgback.DTO.Response.UserReadListResponseDto;
+import com.gdg.gdgback.DTO.Response.UserReadResponseDto;
 import com.gdg.gdgback.Document.UserDocument;
+import com.gdg.gdgback.Mapper.UserMapper;
 import com.gdg.gdgback.Repository.UserRepository;
-import com.gdg.gdgback.Domain.User;
 import com.gdg.gdgback.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public void addUser(User user) {
-        ExceptUserExists(user);
-        userRepository.save(UserDocument.of(user));
-    }
-
-    public Object getUserById(String id) {
-        ExceptUserNotExists(id);
-        return userRepository.findById(id);
-    }
-
-    public Object[] getUserList() {
-        return userRepository.findAll().toArray();
-    }
-
-    public Object[] getUserChatByIdAndDate(String id, Date date) {
-
-        // userRepository.findChatByIdAndDate(id, date)
-        return new Object[0];
-    }
-
-    // exceptions
-    private void ExceptUserExists(User user) throws IllegalArgumentException {
-        if(userRepository.findById(user.getId()).isPresent()) {
+    public void addUser(UserCreateRequestDto userCreateRequestDto) {
+        if(userRepository.findById(userCreateRequestDto.getId()).isPresent()) {
             throw new IllegalArgumentException("이미 존재하는 사용자입니다.");
         }
+        userRepository.save(UserMapper.toUserDocument(userCreateRequestDto));
     }
 
-    private void ExceptUserNotExists(String id) throws IllegalArgumentException {
-        if(userRepository.findById(id).isEmpty()) {
-            throw new IllegalArgumentException("존재하지 않는 사용자입니다.");
-        }
+    public UserReadResponseDto getUserById(String id) {
+        UserDocument userDocument = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+        return UserMapper.toUserReadResponseDto(userDocument);
+    }
+
+    public UserReadListResponseDto getUserList() {
+        List<UserDocument> userDocumentList = userRepository.findAll();
+        return UserMapper.toUserReadListResponseDto(userDocumentList);
     }
 }
