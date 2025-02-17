@@ -19,7 +19,7 @@ public class UserController {
     public ResponseEntity<UserReadListResponseDto> getUserList() {
         return ResponseEntity.ok(userService.readUserList());
     }
-    @GetMapping("/{id}")
+    @GetMapping
     public ResponseEntity<UserReadResponseDto> readUser(UserReadRequestDto readRequestDto) throws IllegalArgumentException {
         return ResponseEntity.ok(userService.readUser(readRequestDto));
     }
