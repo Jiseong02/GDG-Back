@@ -1,6 +1,8 @@
 package com.gdg.gdgback.Service.Implement;
 
-import com.gdg.gdgback.DTO.Request.CounselCreateRequestDto;
+import com.gdg.gdgback.DTO.Request.Counsel.CounselCreateRequestDto;
+import com.gdg.gdgback.DTO.Request.Counsel.CounselReadRequestDto;
+import com.gdg.gdgback.DTO.Response.Counsel.CounselReadResponseDto;
 import com.gdg.gdgback.Document.CounselDocument;
 import com.gdg.gdgback.Repository.CounselRepository;
 import com.gdg.gdgback.Service.CounselService;
@@ -17,10 +19,24 @@ public class CounselServiceImpl implements CounselService {
     }
 
     @Override
-    public String generateCounsel(CounselCreateRequestDto createRequestDto) {
+    public String createCounsel(CounselCreateRequestDto createRequestDto) {
         CounselDocument counselDocument = CounselDocument.builder()
                 .userId(createRequestDto.getUserId())
                 .build();
         return counselRepository.save(counselDocument).getId();
+    }
+
+    @Override
+    public CounselReadResponseDto readCounsel(CounselReadRequestDto readRequestDto) {
+        CounselDocument counselDocument = counselRepository.findById(readRequestDto.getId())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 기록입니다."));
+
+        return CounselReadResponseDto.builder()
+                .id(counselDocument.getId())
+                .userId(counselDocument.getUserId())
+                .date(counselDocument.getDate())
+                .seconds(counselDocument.getSeconds())
+                .summation(counselDocument.getSummation())
+                .build();
     }
 }

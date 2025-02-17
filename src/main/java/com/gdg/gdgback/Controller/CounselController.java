@@ -1,6 +1,6 @@
 package com.gdg.gdgback.Controller;
 
-import com.gdg.gdgback.DTO.Request.CounselCreateRequestDto;
+import com.gdg.gdgback.DTO.Request.Counsel.CounselCreateRequestDto;
 import com.gdg.gdgback.Service.CounselService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +21,6 @@ public class CounselController {
 
     @PostMapping
     ResponseEntity<String> createCounsel(@RequestBody CounselCreateRequestDto createRequestDto) {
-        return ResponseEntity.ok().body(counselService.generateCounsel(createRequestDto));
+        return ResponseEntity.ok().body(counselService.createCounsel(createRequestDto));
     }
 }

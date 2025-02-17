@@ -1,8 +1,8 @@
 package com.gdg.gdgback.Mapper;
 
-import com.gdg.gdgback.DTO.Request.UserCreateRequestDto;
-import com.gdg.gdgback.DTO.Response.UserReadListResponseDto;
-import com.gdg.gdgback.DTO.Response.UserReadResponseDto;
+import com.gdg.gdgback.DTO.Request.User.UserCreateRequestDto;
+import com.gdg.gdgback.DTO.Response.User.UserReadListResponseDto;
+import com.gdg.gdgback.DTO.Response.User.UserReadResponseDto;
 import com.gdg.gdgback.Document.UserDocument;
 
 import java.util.ArrayList;

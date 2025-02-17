@@ -2,9 +2,12 @@ package com.gdg.gdgback.Document;
 
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.Date;
 
 @Builder
 @Getter
@@ -14,10 +17,13 @@ public class DiaryDocument {
     String id;
     @Indexed
     String userId;
+    String counselId;
 
+    @CreatedDate
+    Date date;
     byte[] picture;
+    String[] category;
     int score;
-    String location;
-    String situation;
+    String title;
     String content;
 }

@@ -1,4 +1,4 @@
-package com.gdg.gdgback.DTO.Request;
+package com.gdg.gdgback.DTO.Request.User;
 
 import lombok.*;
 

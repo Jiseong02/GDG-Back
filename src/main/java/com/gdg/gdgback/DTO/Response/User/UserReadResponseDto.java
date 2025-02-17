@@ -1,4 +1,4 @@
-package com.gdg.gdgback.DTO.Response;
+package com.gdg.gdgback.DTO.Response.User;
 
 import lombok.Builder;
 import lombok.Data;

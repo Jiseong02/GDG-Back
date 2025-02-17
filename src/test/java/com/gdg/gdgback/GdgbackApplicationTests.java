@@ -1,6 +1,7 @@
 package com.gdg.gdgback;
 
-import com.gdg.gdgback.DTO.Request.UserCreateRequestDto;
+import com.gdg.gdgback.DTO.Request.User.UserCreateRequestDto;
+import com.gdg.gdgback.DTO.Request.User.UserReadRequestDto;
 import com.gdg.gdgback.Document.UserDocument;
 import com.gdg.gdgback.Repository.UserRepository;
 import com.gdg.gdgback.Service.UserService;
@@ -31,36 +32,41 @@ class GdgbackApplicationTests {
 	@BeforeEach
 	void setMockedRepository() {
 		// 모조 리포지토리에 "exist"라는 아이디를 가진 유저가 저장되어 있다고 가정한다.
-		UserDocument mockedUser = new UserDocument("exist", "홍길동");
+		UserDocument mockedUser = UserDocument.builder()
+				.id("exist").name("옥찌").build();
 
 		when(mockedRepository.findById(anyString())).thenReturn(Optional.empty());
 		when(mockedRepository.findById("exist")).thenReturn(Optional.of(mockedUser));
 	}
 	@Test
-	void addUser() {
+	void createUser() {
 		UserCreateRequestDto userCreateRequestDto = UserCreateRequestDto.builder()
 				.id("notExist")
 				.name("빵빵이")
 				.build();
-		userService.addUser(userCreateRequestDto);
+		userService.createUser(userCreateRequestDto);
 	}
 	@Test
-	void addExistingUser() {
+	void createExistingUser() {
 		UserCreateRequestDto userCreateRequestDto = UserCreateRequestDto.builder()
 				.id("exist")
 				.name("옥찌")
 				.build();
-		assertThrows(IllegalArgumentException.class, () -> userService.addUser(userCreateRequestDto));
+		assertThrows(IllegalArgumentException.class, () -> userService.createUser(userCreateRequestDto));
 	}
 	@Test
-	void getUser() {
-		String id = "exist";
-		userService.getUserById(id);
+	void readUser() {
+		UserReadRequestDto readRequestDto = UserReadRequestDto.builder()
+				.id("exist")
+				.build();
+		userService.readUser(readRequestDto);
 	}
 	@Test
-	void GetNotExistingUser() {
-		String id = "notExist";
-		assertThrows(IllegalArgumentException.class, () -> userService.getUserById(id));
+	void readNotExistingUser() {
+		UserReadRequestDto readRequestDto = UserReadRequestDto.builder()
+				.id("notExist")
+				.build();
+		assertThrows(IllegalArgumentException.class, () -> userService.readUser(readRequestDto));
 	}
 
 	/*
