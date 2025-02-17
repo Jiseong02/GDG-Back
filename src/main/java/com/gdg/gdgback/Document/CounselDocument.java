@@ -7,7 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Builder
 @Getter
@@ -19,7 +19,7 @@ public class CounselDocument {
     String userId;
 
     @CreatedDate
-    Date date;
+    LocalDateTime date;
     int seconds;
     String summation;
 }

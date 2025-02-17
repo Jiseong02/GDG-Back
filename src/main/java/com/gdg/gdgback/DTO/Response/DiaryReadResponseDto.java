@@ -2,8 +2,9 @@ package com.gdg.gdgback.DTO.Response;
 
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Builder
 @Data
@@ -12,7 +13,8 @@ public class DiaryReadResponseDto {
     String userId;
     String counselId;
 
-    Date date;
+    @CreatedDate
+    LocalDateTime date;
     byte[] picture;
     String[] category;
     int score;

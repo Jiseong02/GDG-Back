@@ -3,7 +3,7 @@ package com.gdg.gdgback.DTO.Response.Counsel;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Builder
 @Data
@@ -11,7 +11,7 @@ public class CounselReadResponseDto {
     String id;
     String userId;
 
-    Date date;
+    LocalDateTime date;
     int seconds;
     String summation;
 }
