@@ -14,19 +14,24 @@ import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
+    private final UserRepository userRepository;
+
     @Autowired
-    private UserRepository userRepository;
+    UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public void createUser(UserCreateRequestDto userCreateRequestDto) {
         if(userRepository.findById(userCreateRequestDto.getId()).isPresent()) {
             throw new IllegalArgumentException("이미 존재하는 사용자입니다.");
         }
-        userRepository.save(
-                UserDocument.builder()
-                        .id(userCreateRequestDto.getId())
-                        .name(userCreateRequestDto.getName())
-                        .build()
-        );
+
+        UserDocument userDocument = UserDocument.builder()
+                .id(userCreateRequestDto.getId())
+                .name(userCreateRequestDto.getName())
+                .build();
+
+        userRepository.save(userDocument);
     }
 
     public UserReadResponseDto readUser(String id) {
