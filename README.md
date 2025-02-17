@@ -83,5 +83,6 @@ Cloud Service:
 - CI/CD - GitHub Actions
 
 ![image](https://github.com/user-attachments/assets/4cb42b8e-ed02-4800-92eb-e64577ffc187)
-![image](https://github.com/user-attachments/assets/35d6ee58-d1b0-4b1d-bb79-60473eaf83b7)
+![image](https://github.com/user-attachments/assets/db397566-7047-4504-84b1-6c5fce24d6cc)
+
 
