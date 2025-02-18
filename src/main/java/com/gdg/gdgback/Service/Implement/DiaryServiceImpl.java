@@ -1,8 +1,10 @@
 package com.gdg.gdgback.Service.Implement;
 
 import com.gdg.gdgback.DTO.Request.Diary.DiaryCreateRequestDto;
+import com.gdg.gdgback.DTO.Request.Diary.DiaryDeleteRequestDto;
 import com.gdg.gdgback.DTO.Response.DiaryReadResponseDto;
 import com.gdg.gdgback.Document.DiaryDocument;
+import com.gdg.gdgback.Exception.DiaryNotFoundException;
 import com.gdg.gdgback.Repository.DiaryRepository;
 import com.gdg.gdgback.Service.DiaryService;
 import org.springframework.stereotype.Service;
@@ -33,7 +35,7 @@ public class DiaryServiceImpl implements DiaryService {
     @Override
     public DiaryReadResponseDto readDiary(String id) {
         DiaryDocument diaryDocument = diaryRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 일지입니다."));
+                .orElseThrow(DiaryNotFoundException::new);
 
         return DiaryReadResponseDto.builder()
                 .id(diaryDocument.getId())
@@ -46,5 +48,13 @@ public class DiaryServiceImpl implements DiaryService {
                 .title(diaryDocument.getTitle())
                 .content(diaryDocument.getContent())
                 .build();
+    }
+
+    @Override
+    public void deleteDiary(DiaryDeleteRequestDto deleteRequestDto) throws DiaryNotFoundException {
+        DiaryDocument diaryDocument = diaryRepository.findById(deleteRequestDto.getId())
+                .orElseThrow(DiaryNotFoundException::new);
+
+        diaryRepository.delete(diaryDocument);
     }
 }

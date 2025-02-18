@@ -1,6 +1,7 @@
 package com.gdg.gdgback.Controller;
 
 import com.gdg.gdgback.DTO.Request.Diary.DiaryCreateRequestDto;
+import com.gdg.gdgback.DTO.Request.Diary.DiaryDeleteRequestDto;
 import com.gdg.gdgback.DTO.Response.DiaryReadResponseDto;
 import com.gdg.gdgback.Service.DiaryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +25,10 @@ public class DiaryController {
     @GetMapping
     ResponseEntity<DiaryReadResponseDto> readDiary(@RequestParam String id) {
         return ResponseEntity.ok().body(diaryService.readDiary(id));
+    }
+    @PostMapping
+    ResponseEntity<String> deleteDiary(DiaryDeleteRequestDto deleteRequestDto) {
+        this.diaryService.deleteDiary(deleteRequestDto);
+        return ResponseEntity.ok().body("정상적으로 일지가 삭제되었습니다.");
     }
 }
