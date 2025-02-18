@@ -10,10 +10,10 @@ import java.io.IOException;
 public class ExceptionController {
     @ExceptionHandler
     public ResponseEntity<String> handleIllegalArgument(IllegalArgumentException e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
+        return ResponseEntity.badRequest().body("파라미터 오류 발생: " + e.getMessage());
     }
     @ExceptionHandler
     public ResponseEntity<String> handleIOException(IOException e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
+        return ResponseEntity.badRequest().body("입력 오류 발생: " + e.getMessage());
     }
 }
