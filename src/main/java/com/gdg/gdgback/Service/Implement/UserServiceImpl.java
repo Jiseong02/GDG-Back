@@ -5,6 +5,8 @@ import com.gdg.gdgback.DTO.Request.User.UserDeleteRequestDto;
 import com.gdg.gdgback.DTO.Response.User.UserReadListResponseDto;
 import com.gdg.gdgback.DTO.Response.User.UserReadResponseDto;
 import com.gdg.gdgback.Document.UserDocument;
+import com.gdg.gdgback.Exception.UserAlreadyExistsException;
+import com.gdg.gdgback.Exception.UserNotFoundException;
 import com.gdg.gdgback.Repository.UserRepository;
 import com.gdg.gdgback.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +24,9 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
-    public void createUser(UserCreateRequestDto userCreateRequestDto) {
-        if(userRepository.findById(userCreateRequestDto.getId()).isPresent()) {
-            throw new IllegalArgumentException("이미 존재하는 사용자입니다.");
+    public void createUser(UserCreateRequestDto userCreateRequestDto) throws UserAlreadyExistsException {
+        if(userRepository.existsById(userCreateRequestDto.getId())) {
+            throw new UserAlreadyExistsException();
         }
 
         UserDocument userDocument = UserDocument.builder()
@@ -35,9 +37,9 @@ public class UserServiceImpl implements UserService {
         userRepository.save(userDocument);
     }
 
-    public UserReadResponseDto readUser(String id) {
+    public UserReadResponseDto readUser(String id) throws UserNotFoundException{
         UserDocument userDocument = userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+                .orElseThrow(UserNotFoundException::new);
 
         return UserReadResponseDto.builder()
                 .id(userDocument.getId())
@@ -48,6 +50,7 @@ public class UserServiceImpl implements UserService {
 
     public UserReadListResponseDto readUserList() {
         List<UserDocument> userDocumentList = userRepository.findAll();
+
         ArrayList<UserReadResponseDto> users = new ArrayList<>();
         for(UserDocument userDocument : userDocumentList) {
             users.add(
@@ -58,13 +61,16 @@ public class UserServiceImpl implements UserService {
                             .build()
             );
         }
-        return UserReadListResponseDto.builder().users(users).build();
+
+        return UserReadListResponseDto.builder()
+                .users(users)
+                .build();
     }
 
     @Override
-    public void deleteUser(UserDeleteRequestDto deleteRequestDto) throws IllegalArgumentException {
+    public void deleteUser(UserDeleteRequestDto deleteRequestDto) throws UserNotFoundException {
         UserDocument userDocument = userRepository.findById(deleteRequestDto.getId())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+                .orElseThrow(UserNotFoundException::new);
 
         userRepository.delete(userDocument);
     }
