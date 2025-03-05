@@ -10,12 +10,12 @@ import java.time.LocalDateTime;
 
 @Builder
 @Getter
-@Document(collection = "user")
+@Document("user")
 public class UserDocument {
     @Id
-    private String id;
-    private String name;
+    String id;
+    String name;
 
     @CreatedDate
-    private LocalDateTime date;
+    LocalDateTime date;
 }

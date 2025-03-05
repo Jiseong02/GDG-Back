@@ -2,6 +2,8 @@ package com.gdg.gdgback;
 
 import com.gdg.gdgback.DTO.Request.User.UserCreateRequestDto;
 import com.gdg.gdgback.Document.UserDocument;
+import com.gdg.gdgback.Exception.UserAlreadyExistsException;
+import com.gdg.gdgback.Exception.UserNotFoundException;
 import com.gdg.gdgback.Repository.UserRepository;
 import com.gdg.gdgback.Service.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,20 +24,25 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 @ActiveProfiles("test")
 class GdgbackApplicationTests {
+	@MockitoBean
+	UserRepository mockedRepository = mock(UserRepository.class);
+
 	@Autowired
 	UserService userService;
 
-	@MockitoBean
-	UserRepository mockedRepository = mock(UserRepository.class);
 
 	@BeforeEach
 	void setMockedRepository() {
 		// 모조 리포지토리에 "exist"라는 아이디를 가진 유저가 저장되어 있다고 가정한다.
 		UserDocument mockedUser = UserDocument.builder()
-				.id("exist").name("옥찌").build();
+				.id("exist")
+				.name("옥찌")
+				.build();
 
 		when(mockedRepository.findById(anyString())).thenReturn(Optional.empty());
+		when(mockedRepository.existsById(anyString())).thenReturn(false);
 		when(mockedRepository.findById("exist")).thenReturn(Optional.of(mockedUser));
+		when(mockedRepository.existsById("exist")).thenReturn(true);
 	}
 	@Test
 	void createUser() {
@@ -51,7 +58,7 @@ class GdgbackApplicationTests {
 				.id("exist")
 				.name("옥찌")
 				.build();
-		assertThrows(IllegalArgumentException.class, () -> userService.createUser(userCreateRequestDto));
+		assertThrows(UserAlreadyExistsException.class, () -> userService.createUser(userCreateRequestDto));
 	}
 	@Test
 	void readUser() {
@@ -61,7 +68,7 @@ class GdgbackApplicationTests {
 	@Test
 	void readNotExistingUser() {
 		String id = "notExist";
-		assertThrows(IllegalArgumentException.class, () -> userService.readUser(id));
+		assertThrows(UserNotFoundException.class, () -> userService.readUser(id));
 	}
 
 	/*

@@ -2,6 +2,7 @@ package com.gdg.gdgback.Controller;
 
 import com.gdg.gdgback.DTO.Request.Counsel.CounselCreateRequestDto;
 import com.gdg.gdgback.DTO.Request.Counsel.CounselDeleteRequestDto;
+import com.gdg.gdgback.DTO.Response.Counsel.CounselReadByUserIdResponseDto;
 import com.gdg.gdgback.DTO.Response.Counsel.CounselReadResponseDto;
 import com.gdg.gdgback.Service.CounselService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,11 @@ public class CounselController {
     ResponseEntity<CounselReadResponseDto> readCounsel(@RequestParam String id) {
         return ResponseEntity.ok().body(counselService.readCounsel(id));
     }
-    @PostMapping
+    @GetMapping("/user")
+    ResponseEntity<CounselReadByUserIdResponseDto> readCounselByUserId(@RequestParam String id) {
+        return ResponseEntity.ok().body(counselService.readCounselByUserId(id));
+    }
+    @PostMapping("/delete")
     ResponseEntity<String> deleteCounsel(@RequestBody CounselDeleteRequestDto deleteRequestDto) {
         counselService.deleteCounsel(deleteRequestDto);
         return ResponseEntity.ok().body("정상적으로 삭제되었습니다.");

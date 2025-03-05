@@ -2,6 +2,7 @@ package com.gdg.gdgback.Service.Implement;
 
 import com.gdg.gdgback.DTO.Request.Counsel.CounselCreateRequestDto;
 import com.gdg.gdgback.DTO.Request.Counsel.CounselDeleteRequestDto;
+import com.gdg.gdgback.DTO.Response.Counsel.CounselReadByUserIdResponseDto;
 import com.gdg.gdgback.DTO.Response.Counsel.CounselReadResponseDto;
 import com.gdg.gdgback.Document.CounselDocument;
 import com.gdg.gdgback.Exception.CounselNotFoundException;
@@ -11,6 +12,9 @@ import com.gdg.gdgback.Repository.UserRepository;
 import com.gdg.gdgback.Service.CounselService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CounselServiceImpl implements CounselService {
@@ -47,6 +51,30 @@ public class CounselServiceImpl implements CounselService {
                 .date(counselDocument.getDate())
                 .seconds(counselDocument.getSeconds())
                 .summation(counselDocument.getSummation())
+                .build();
+    }
+
+    @Override
+    public CounselReadByUserIdResponseDto readCounselByUserId(String id) throws UserNotFoundException {
+        if(!userRepository.existsById(id)) {
+            throw new UserNotFoundException();
+        }
+
+        ArrayList<CounselReadResponseDto> counsels = new ArrayList<>();
+        List<CounselDocument> counselDocuments = counselRepository.findAllByUserId(id);
+        for(CounselDocument counselDocument : counselDocuments) {
+            CounselReadResponseDto counsel = CounselReadResponseDto.builder()
+                    .id(counselDocument.getId())
+                    .userId(counselDocument.getUserId())
+                    .date(counselDocument.getDate())
+                    .seconds(counselDocument.getSeconds())
+                    .summation(counselDocument.getSummation())
+                    .build();
+            counsels.add(counsel);
+        }
+
+        return CounselReadByUserIdResponseDto.builder()
+                .counsels(counsels)
                 .build();
     }
 

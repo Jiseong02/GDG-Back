@@ -26,7 +26,7 @@ public class DiaryController {
     ResponseEntity<DiaryReadResponseDto> readDiary(@RequestParam String id) {
         return ResponseEntity.ok().body(diaryService.readDiary(id));
     }
-    @PostMapping
+    @PostMapping("/delete")
     ResponseEntity<String> deleteDiary(DiaryDeleteRequestDto deleteRequestDto) {
         this.diaryService.deleteDiary(deleteRequestDto);
         return ResponseEntity.ok().body("정상적으로 일지가 삭제되었습니다.");
