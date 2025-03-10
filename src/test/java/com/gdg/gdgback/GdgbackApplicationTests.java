@@ -1,11 +1,11 @@
 package com.gdg.gdgback;
 
-import com.gdg.gdgback.DTO.Request.User.UserCreateRequestDto;
-import com.gdg.gdgback.Document.UserDocument;
-import com.gdg.gdgback.Exception.UserAlreadyExistsException;
-import com.gdg.gdgback.Exception.UserNotFoundException;
-import com.gdg.gdgback.Repository.UserRepository;
-import com.gdg.gdgback.Service.UserService;
+import com.gdg.gdgback.User.UserService;
+import com.gdg.gdgback.User.DTO.Request.UserCreateRequestDto;
+import com.gdg.gdgback.User.UserDocument;
+import com.gdg.gdgback.User.Exception.UserAlreadyExistsException;
+import com.gdg.gdgback.User.Exception.UserNotFoundException;
+import com.gdg.gdgback.User.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,6 @@ class GdgbackApplicationTests {
 
 	@Autowired
 	UserService userService;
-
 
 	@BeforeEach
 	void setMockedRepository() {
