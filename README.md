@@ -82,8 +82,5 @@ Cloud Service:
 - Deployment - Docker
 - CI/CD - GitHub Actions
 
-![image](https://github.com/user-attachments/assets/5900cf6f-cfca-44d7-957d-bd4c865a164f)
+![image](https://github.com/user-attachments/assets/f066a76a-89b7-49b8-afdb-0289200f16c8)
 ![image](https://github.com/user-attachments/assets/25173ef2-dcd5-4c7d-87fc-c5b229822cea)
-
-
-
