@@ -5,7 +5,7 @@ import com.gdg.gdgback.User.DTO.Request.UserDeleteRequestDto;
 import com.gdg.gdgback.User.DTO.Response.UserReadListResponseDto;
 import com.gdg.gdgback.User.DTO.Response.UserReadResponseDto;
 import com.gdg.gdgback.User.Exception.UserAlreadyExistsException;
-import com.gdg.gdgback.User.Exception.UserNotFoundException;
+import com.gdg.gdgback.User.Exception.UserNotExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,9 +34,9 @@ public class UserService {
         userRepository.save(userDocument);
     }
 
-    public UserReadResponseDto readUser(String id) throws UserNotFoundException{
+    public UserReadResponseDto readUser(String id) throws UserNotExistsException {
         UserDocument userDocument = userRepository.findById(id)
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(UserNotExistsException::new);
 
         return UserReadResponseDto.builder()
                 .id(userDocument.getId())
@@ -64,9 +64,9 @@ public class UserService {
                 .build();
     }
 
-    public void deleteUser(UserDeleteRequestDto deleteRequestDto) throws UserNotFoundException {
+    public void deleteUser(UserDeleteRequestDto deleteRequestDto) throws UserNotExistsException {
         UserDocument userDocument = userRepository.findById(deleteRequestDto.getId())
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(UserNotExistsException::new);
 
         userRepository.delete(userDocument);
     }

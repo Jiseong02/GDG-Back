@@ -4,7 +4,7 @@ import com.gdg.gdgback.User.UserService;
 import com.gdg.gdgback.User.DTO.Request.UserCreateRequestDto;
 import com.gdg.gdgback.User.UserDocument;
 import com.gdg.gdgback.User.Exception.UserAlreadyExistsException;
-import com.gdg.gdgback.User.Exception.UserNotFoundException;
+import com.gdg.gdgback.User.Exception.UserNotExistsException;
 import com.gdg.gdgback.User.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -67,7 +67,7 @@ class GdgbackApplicationTests {
 	@Test
 	void readNotExistingUser() {
 		String id = "notExist";
-		assertThrows(UserNotFoundException.class, () -> userService.readUser(id));
+		assertThrows(UserNotExistsException.class, () -> userService.readUser(id));
 	}
 
 	/*

@@ -1,12 +1,15 @@
 package com.gdg.gdgback.Diary;
 
-import com.gdg.gdgback.Counsel.CounselNotFoundException;
+import com.gdg.gdgback.Counsel.CounselNotExistsException;
 import com.gdg.gdgback.Counsel.CounselService;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadResponseDto;
 import com.gdg.gdgback.Diary.DTO.Request.DiaryCreateRequestDto;
 import com.gdg.gdgback.Diary.DTO.Request.DiaryDeleteRequestDto;
-import com.gdg.gdgback.Diary.DTO.DiaryReadResponseDto;
+import com.gdg.gdgback.Diary.DTO.Response.DiaryReadListResponseDto;
+import com.gdg.gdgback.Diary.DTO.Response.DiaryReadResponseDto;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 @Service
 public class DiaryService{
@@ -19,41 +22,15 @@ public class DiaryService{
     }
 
     public String createDiary(DiaryCreateRequestDto createRequestDto) {
-        return diaryRepository.save(
-                DiaryDocument.builder()
-                        .userId(createRequestDto.getUserId())
-                        .counselId(createRequestDto.getCounselId())
-                        .picture(createRequestDto.getPicture())
-                        .category(createRequestDto.getCategory())
-                        .score(createRequestDto.getScore())
-                        .title(createRequestDto.getTitle())
-                        .content(createRequestDto.getContent())
-                        .build()
-        ).getId();
+        return diaryRepository.save(DiaryMapper.dtoToDocument(createRequestDto)).getId();
     }
 
     public DiaryReadResponseDto readDiary(String id) {
         DiaryDocument diaryDocument = diaryRepository.findById(id)
                 .orElseThrow(DiaryNotFoundException::new);
 
-        CounselReadResponseDto counsel;
-        try {
-            counsel = counselService.readCounsel(diaryDocument.getCounselId());
-        } catch (CounselNotFoundException e) {
-            counsel = null;
-        }
-
-        return DiaryReadResponseDto.builder()
-                .id(diaryDocument.getId())
-                .userId(diaryDocument.getUserId())
-                .counsel(counsel)
-                .date(diaryDocument.getDate())
-                .picture(diaryDocument.getPicture())
-                .category(diaryDocument.getCategory())
-                .score(diaryDocument.getScore())
-                .title(diaryDocument.getTitle())
-                .content(diaryDocument.getContent())
-                .build();
+        CounselReadResponseDto counsel = readCounselOrNull(diaryDocument);
+        return DiaryMapper.documentToReadResponseDto(diaryDocument, counsel);
     }
 
     public void deleteDiary(DiaryDeleteRequestDto deleteRequestDto) throws DiaryNotFoundException {
@@ -61,5 +38,26 @@ public class DiaryService{
                 .orElseThrow(DiaryNotFoundException::new);
 
         diaryRepository.delete(diaryDocument);
+    }
+
+    public DiaryReadListResponseDto readDiaryList() {
+        ArrayList<DiaryReadResponseDto> diaryList = new ArrayList<>();
+
+        for(DiaryDocument diaryDocument : diaryRepository.findAll()) {
+            CounselReadResponseDto counsel = readCounselOrNull(diaryDocument);
+            DiaryReadResponseDto diary= DiaryMapper.documentToReadResponseDto(diaryDocument, counsel);
+
+            diaryList.add(diary);
+        }
+
+        return DiaryReadListResponseDto.builder().diaries(diaryList).build();
+    }
+
+    private CounselReadResponseDto readCounselOrNull(DiaryDocument diaryDocument) {
+        try {
+            return counselService.readCounsel(diaryDocument.getCounselId());
+        } catch (CounselNotExistsException e) {
+            return null;
+        }
     }
 }

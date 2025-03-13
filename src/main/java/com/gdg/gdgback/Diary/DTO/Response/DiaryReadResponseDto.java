@@ -1,4 +1,4 @@
-package com.gdg.gdgback.Diary.DTO;
+package com.gdg.gdgback.Diary.DTO.Response;
 
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadResponseDto;
 import lombok.Builder;

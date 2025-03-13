@@ -3,14 +3,12 @@ package com.gdg.gdgback.Counsel;
 import com.gdg.gdgback.Counsel.DTO.Request.CounselCreateRequestDto;
 import com.gdg.gdgback.Counsel.DTO.Request.CounselDeleteRequestDto;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadByUserIdResponseDto;
+import com.gdg.gdgback.Counsel.DTO.Response.CounselReadListResponseDto;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadResponseDto;
-import com.gdg.gdgback.User.Exception.UserNotFoundException;
+import com.gdg.gdgback.User.Exception.UserNotExistsException;
 import com.gdg.gdgback.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class CounselService {
@@ -23,9 +21,9 @@ public class CounselService {
         this.userRepository = userRepository;
     }
 
-    public String createCounsel(CounselCreateRequestDto createRequestDto) throws UserNotFoundException {
+    public String createCounsel(CounselCreateRequestDto createRequestDto) throws UserNotExistsException {
         if(!userRepository.existsById(createRequestDto.getUserId())) {
-            throw new UserNotFoundException();
+            throw new UserNotExistsException();
         }
 
         CounselDocument counselDocument = CounselDocument.builder()
@@ -35,45 +33,28 @@ public class CounselService {
         return counselRepository.save(counselDocument).getId();
     }
 
-    public CounselReadResponseDto readCounsel(String id) throws CounselNotFoundException {
+    public CounselReadResponseDto readCounsel(String id) throws CounselNotExistsException {
         CounselDocument counselDocument = counselRepository.findById(id)
-                .orElseThrow(CounselNotFoundException::new);
+                .orElseThrow(CounselNotExistsException::new);
 
-        return CounselReadResponseDto.builder()
-                .id(counselDocument.getId())
-                .userId(counselDocument.getUserId())
-                .date(counselDocument.getDate())
-                .seconds(counselDocument.getSeconds())
-                .summation(counselDocument.getSummation())
-                .build();
+        return CounselMapper.documentToDto(counselDocument);
     }
 
-    public CounselReadByUserIdResponseDto readCounselByUserId(String id) throws UserNotFoundException {
+    public CounselReadListResponseDto readCounselList() {
+        return CounselMapper.documentToReadListDto(counselRepository.findAll());
+    }
+
+    public CounselReadByUserIdResponseDto readCounselByUserId(String id) throws UserNotExistsException {
         if(!userRepository.existsById(id)) {
-            throw new UserNotFoundException();
+            throw new UserNotExistsException();
         }
 
-        ArrayList<CounselReadResponseDto> counsels = new ArrayList<>();
-        List<CounselDocument> counselDocuments = counselRepository.findAllByUserId(id);
-        for(CounselDocument counselDocument : counselDocuments) {
-            CounselReadResponseDto counsel = CounselReadResponseDto.builder()
-                    .id(counselDocument.getId())
-                    .userId(counselDocument.getUserId())
-                    .date(counselDocument.getDate())
-                    .seconds(counselDocument.getSeconds())
-                    .summation(counselDocument.getSummation())
-                    .build();
-            counsels.add(counsel);
-        }
-
-        return CounselReadByUserIdResponseDto.builder()
-                .counsels(counsels)
-                .build();
+        return CounselMapper.documentToReadByUserIdDto(counselRepository.findAllByUserId(id));
     }
 
-    public void deleteCounsel(CounselDeleteRequestDto deleteRequestDto) throws CounselNotFoundException {
+    public void deleteCounsel(CounselDeleteRequestDto deleteRequestDto) throws CounselNotExistsException {
         CounselDocument counselDocument = counselRepository.findById(deleteRequestDto.getId())
-                .orElseThrow(CounselNotFoundException::new);
+                .orElseThrow(CounselNotExistsException::new);
 
         counselRepository.delete(counselDocument);
     }
