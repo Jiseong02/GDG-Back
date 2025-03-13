@@ -23,7 +23,7 @@ public class CounselService {
         this.userRepository = userRepository;
     }
 
-    public String createCounsel(CounselCreateRequestDto createRequestDto) throws IllegalArgumentException {
+    public String createCounsel(CounselCreateRequestDto createRequestDto) throws UserNotFoundException {
         if(!userRepository.existsById(createRequestDto.getUserId())) {
             throw new UserNotFoundException();
         }
@@ -35,7 +35,7 @@ public class CounselService {
         return counselRepository.save(counselDocument).getId();
     }
 
-    public CounselReadResponseDto readCounsel(String id) throws IllegalArgumentException {
+    public CounselReadResponseDto readCounsel(String id) throws CounselNotFoundException {
         CounselDocument counselDocument = counselRepository.findById(id)
                 .orElseThrow(CounselNotFoundException::new);
 
@@ -71,7 +71,7 @@ public class CounselService {
                 .build();
     }
 
-    public void deleteCounsel(CounselDeleteRequestDto deleteRequestDto) throws IllegalArgumentException {
+    public void deleteCounsel(CounselDeleteRequestDto deleteRequestDto) throws CounselNotFoundException {
         CounselDocument counselDocument = counselRepository.findById(deleteRequestDto.getId())
                 .orElseThrow(CounselNotFoundException::new);
 

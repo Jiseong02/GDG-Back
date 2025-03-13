@@ -1,5 +1,8 @@
 package com.gdg.gdgback.Diary;
 
+import com.gdg.gdgback.Counsel.CounselNotFoundException;
+import com.gdg.gdgback.Counsel.CounselService;
+import com.gdg.gdgback.Counsel.DTO.Response.CounselReadResponseDto;
 import com.gdg.gdgback.Diary.DTO.Request.DiaryCreateRequestDto;
 import com.gdg.gdgback.Diary.DTO.Request.DiaryDeleteRequestDto;
 import com.gdg.gdgback.Diary.DTO.DiaryReadResponseDto;
@@ -7,9 +10,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class DiaryService{
+    private final CounselService counselService;
     private final DiaryRepository diaryRepository;
 
-    DiaryService(DiaryRepository diaryRepository) {
+    DiaryService(CounselService counselService, DiaryRepository diaryRepository) {
+        this.counselService = counselService;
         this.diaryRepository = diaryRepository;
     }
 
@@ -31,10 +36,17 @@ public class DiaryService{
         DiaryDocument diaryDocument = diaryRepository.findById(id)
                 .orElseThrow(DiaryNotFoundException::new);
 
+        CounselReadResponseDto counsel;
+        try {
+            counsel = counselService.readCounsel(diaryDocument.getCounselId());
+        } catch (CounselNotFoundException e) {
+            counsel = null;
+        }
+
         return DiaryReadResponseDto.builder()
                 .id(diaryDocument.getId())
                 .userId(diaryDocument.getUserId())
-                .counselId(diaryDocument.getCounselId())
+                .counsel(counsel)
                 .date(diaryDocument.getDate())
                 .picture(diaryDocument.getPicture())
                 .category(diaryDocument.getCategory())

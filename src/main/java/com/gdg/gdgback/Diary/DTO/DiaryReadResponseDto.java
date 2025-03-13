@@ -1,5 +1,6 @@
 package com.gdg.gdgback.Diary.DTO;
 
+import com.gdg.gdgback.Counsel.DTO.Response.CounselReadResponseDto;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
@@ -11,7 +12,8 @@ import java.time.LocalDateTime;
 public class DiaryReadResponseDto {
     String id;
     String userId;
-    String counselId;
+
+    CounselReadResponseDto counsel;
 
     @CreatedDate
     LocalDateTime date;
