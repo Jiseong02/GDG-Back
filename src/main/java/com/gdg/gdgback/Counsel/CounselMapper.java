@@ -4,16 +4,25 @@ import com.gdg.gdgback.Counsel.DTO.Response.CounselReadByUserIdResponseDto;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadListResponseDto;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadResponseDto;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CounselMapper {
     public static CounselReadResponseDto documentToDto(CounselDocument counselDocument) {
+        LocalDateTime startTime = counselDocument.getStartTime();
+        LocalDateTime endTime = counselDocument.getEndTime();
+        if(endTime == null) {
+            endTime = LocalDateTime.now();
+        }
+
         return CounselReadResponseDto.builder()
                 .id(counselDocument.getId())
                 .userId(counselDocument.getUserId())
-                .date(counselDocument.getDate())
-                .seconds(counselDocument.getSeconds())
+                .startTime(startTime)
+                .endTime(endTime)
+                .seconds(Duration.between(startTime, endTime).toSeconds())
                 .summation(counselDocument.getSummation())
                 .build();
     }

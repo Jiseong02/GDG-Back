@@ -11,7 +11,8 @@ public class CounselReadResponseDto {
     String id;
     String userId;
 
-    LocalDateTime date;
-    int seconds;
+    LocalDateTime startTime;
+    LocalDateTime endTime;
+    long seconds;
     String summation;
 }

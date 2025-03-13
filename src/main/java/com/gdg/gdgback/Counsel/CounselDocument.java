@@ -19,7 +19,7 @@ public class CounselDocument {
     String userId;
 
     @CreatedDate
-    LocalDateTime date;
-    int seconds;
+    LocalDateTime startTime;
+    LocalDateTime endTime;
     String summation;
 }

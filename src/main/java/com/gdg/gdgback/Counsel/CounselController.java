@@ -2,6 +2,7 @@ package com.gdg.gdgback.Counsel;
 
 import com.gdg.gdgback.Counsel.DTO.Request.CounselCreateRequestDto;
 import com.gdg.gdgback.Counsel.DTO.Request.CounselDeleteRequestDto;
+import com.gdg.gdgback.Counsel.DTO.Request.CounselEndRequestDto;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadByUserIdResponseDto;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadListResponseDto;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadResponseDto;
@@ -38,6 +39,12 @@ public class CounselController {
     @PostMapping
     ResponseEntity<String> createCounsel(@Valid @RequestBody CounselCreateRequestDto createRequestDto) {
         return ResponseEntity.ok().body(counselService.createCounsel(createRequestDto));
+    }
+
+    @PostMapping
+    ResponseEntity<String> endCounsel(@Valid @RequestBody CounselEndRequestDto counselEndRequestDto) {
+        counselService.endCounsel(counselEndRequestDto);
+        return ResponseEntity.ok().body("정상적으로 상담이 종료되었습니다.");
     }
 
     @PostMapping("/delete")
