@@ -9,6 +9,7 @@ import com.gdg.gdgback.Counsel.DTO.Response.CounselReadResponseDto;
 import com.gdg.gdgback.User.Exception.UserNotExistsException;
 import com.gdg.gdgback.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+@Profile("!test")
 @Service
 public class CounselService {
     private final CounselRepository counselRepository;
