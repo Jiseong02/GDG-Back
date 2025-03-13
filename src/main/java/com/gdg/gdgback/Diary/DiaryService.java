@@ -7,16 +7,19 @@ import com.gdg.gdgback.Diary.DTO.Request.DiaryCreateRequestDto;
 import com.gdg.gdgback.Diary.DTO.Request.DiaryDeleteRequestDto;
 import com.gdg.gdgback.Diary.DTO.Response.DiaryReadListResponseDto;
 import com.gdg.gdgback.Diary.DTO.Response.DiaryReadResponseDto;
+import com.gdg.gdgback.User.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
 @Service
 public class DiaryService{
+    private final UserService userService;
     private final CounselService counselService;
     private final DiaryRepository diaryRepository;
 
-    DiaryService(CounselService counselService, DiaryRepository diaryRepository) {
+    DiaryService(UserService userService, CounselService counselService, DiaryRepository diaryRepository) {
+        this.userService = userService;
         this.counselService = counselService;
         this.diaryRepository = diaryRepository;
     }
@@ -54,6 +57,10 @@ public class DiaryService{
     }
 
     private CounselReadResponseDto readCounselOrNull(DiaryDocument diaryDocument) {
+        if(diaryDocument.getCounselId() == null) {
+            return null;
+        }
+
         try {
             return counselService.readCounsel(diaryDocument.getCounselId());
         } catch (CounselNotExistsException e) {
