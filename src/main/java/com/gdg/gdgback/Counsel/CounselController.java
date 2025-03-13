@@ -41,7 +41,7 @@ public class CounselController {
         return ResponseEntity.ok().body(counselService.createCounsel(createRequestDto));
     }
 
-    @PostMapping
+    @PostMapping("/end")
     ResponseEntity<String> endCounsel(@Valid @RequestBody CounselEndRequestDto counselEndRequestDto) {
         counselService.endCounsel(counselEndRequestDto);
         return ResponseEntity.ok().body("정상적으로 상담이 종료되었습니다.");

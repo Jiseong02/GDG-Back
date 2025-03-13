@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
-@Profile("!test")
 @Service
 public class CounselService {
     private final CounselRepository counselRepository;
