@@ -5,6 +5,7 @@ import com.gdg.gdgback.Counsel.DTO.Request.CounselDeleteRequestDto;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadByUserIdResponseDto;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadListResponseDto;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadResponseDto;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,12 +36,12 @@ public class CounselController {
     }
 
     @PostMapping
-    ResponseEntity<String> createCounsel(@RequestBody CounselCreateRequestDto createRequestDto) {
+    ResponseEntity<String> createCounsel(@Valid @RequestBody CounselCreateRequestDto createRequestDto) {
         return ResponseEntity.ok().body(counselService.createCounsel(createRequestDto));
     }
 
     @PostMapping("/delete")
-    ResponseEntity<String> deleteCounsel(@RequestBody CounselDeleteRequestDto deleteRequestDto) {
+    ResponseEntity<String> deleteCounsel(@Valid @RequestBody CounselDeleteRequestDto deleteRequestDto) {
         counselService.deleteCounsel(deleteRequestDto);
         return ResponseEntity.ok().body("정상적으로 삭제되었습니다.");
     }
