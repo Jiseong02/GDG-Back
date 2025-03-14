@@ -1,7 +1,6 @@
 package com.gdg.gdgback.Diary;
 
-import com.gdg.gdgback.Counsel.CounselNotExistsException;
-import com.gdg.gdgback.Counsel.CounselService;
+import com.gdg.gdgback.Counsel.*;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadResponseDto;
 import com.gdg.gdgback.Diary.DTO.Request.DiaryCreateRequestDto;
 import com.gdg.gdgback.Diary.DTO.Request.DiaryDeleteRequestDto;
@@ -11,16 +10,17 @@ import com.gdg.gdgback.User.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class DiaryService{
     private final UserService userService;
-    private final CounselService counselService;
+    private final CounselRepository counselRepository;
     private final DiaryRepository diaryRepository;
 
-    DiaryService(UserService userService, CounselService counselService, DiaryRepository diaryRepository) {
+    DiaryService(UserService userService, CounselRepository counselRepository, DiaryRepository diaryRepository) {
         this.userService = userService;
-        this.counselService = counselService;
+        this.counselRepository = counselRepository;
         this.diaryRepository = diaryRepository;
     }
 
@@ -29,11 +29,37 @@ public class DiaryService{
     }
 
     public DiaryReadResponseDto readDiary(String id) {
+        // 일지 조회
         DiaryDocument diaryDocument = diaryRepository.findById(id)
                 .orElseThrow(DiaryNotFoundException::new);
+        DiaryReadResponseDto responseDto = DiaryMapper.documentToReadResponseDto(diaryDocument);
 
-        CounselReadResponseDto counsel = readCounselOrNull(diaryDocument);
-        return DiaryMapper.documentToReadResponseDto(diaryDocument, counsel);
+        // 상담 ID를 통해 조회한 상담 대입
+        responseDto.setCounsel(
+                counselRepository.findById(diaryDocument.getCounselId())
+                        .map(CounselMapper::documentToDto)
+                        .orElse(null)
+        );
+
+        return responseDto;
+    }
+
+    public DiaryReadListResponseDto readDiaryList() {
+        List<DiaryDocument> diaryDocumentList = diaryRepository.findAll();
+
+        ArrayList<DiaryReadResponseDto> diaryReadResponseDtoList = documentListToReadResponseDtoList(diaryDocumentList);
+        return DiaryReadListResponseDto.builder()
+                .diaries(diaryReadResponseDtoList)
+                .build();
+    }
+
+    public DiaryReadListResponseDto readDiaryListByUserId(String id) {
+        List<DiaryDocument> diaryDocumentList = diaryRepository.findAllByUserId(id);
+
+        ArrayList<DiaryReadResponseDto> diaryReadResponseDtoList = documentListToReadResponseDtoList(diaryDocumentList);
+        return DiaryReadListResponseDto.builder()
+                .diaries(diaryReadResponseDtoList)
+                .build();
     }
 
     public void deleteDiary(DiaryDeleteRequestDto deleteRequestDto) throws DiaryNotFoundException {
@@ -43,28 +69,5 @@ public class DiaryService{
         diaryRepository.delete(diaryDocument);
     }
 
-    public DiaryReadListResponseDto readDiaryList() {
-        ArrayList<DiaryReadResponseDto> diaryList = new ArrayList<>();
-
-        for(DiaryDocument diaryDocument : diaryRepository.findAll()) {
-            CounselReadResponseDto counsel = readCounselOrNull(diaryDocument);
-            DiaryReadResponseDto diary= DiaryMapper.documentToReadResponseDto(diaryDocument, counsel);
-
-            diaryList.add(diary);
-        }
-
-        return DiaryReadListResponseDto.builder().diaries(diaryList).build();
-    }
-
-    private CounselReadResponseDto readCounselOrNull(DiaryDocument diaryDocument) {
-        if(diaryDocument.getCounselId() == null) {
-            return null;
-        }
-
-        try {
-            return counselService.readCounsel(diaryDocument.getCounselId());
-        } catch (CounselNotExistsException e) {
-            return null;
-        }
-    }
+    private DiaryReadResponseDto
 }

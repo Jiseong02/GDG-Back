@@ -29,6 +29,11 @@ public class DiaryController {
         return ResponseEntity.ok().body(diaryService.readDiaryList());
     }
 
+    @GetMapping("/user")
+    ResponseEntity<DiaryReadListResponseDto> readDiaryListByUserId(@RequestParam String id) {
+        return ResponseEntity.ok().body(diaryService.readDiaryListByUserId(id));
+    }
+
     @PostMapping
     ResponseEntity<String> createDiary(@Valid @RequestBody DiaryCreateRequestDto createRequestDto) {
         return ResponseEntity.ok().body(diaryService.createDiary(createRequestDto));
