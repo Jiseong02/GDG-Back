@@ -21,7 +21,7 @@ public class DiaryMapper {
         return DiaryReadResponseDto.builder()
                 .id(diaryDocument.getId())
                 .userId(diaryDocument.getUserId())
-                .counsel(null)
+                .counsel(counsel)
                 .date(diaryDocument.getDate())
                 .picture(diaryDocument.getPicture())
                 .category(diaryDocument.getCategory())

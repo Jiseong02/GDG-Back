@@ -49,7 +49,8 @@ class GdgbackApplicationTests {
 				.id("notExist")
 				.name("빵빵이")
 				.build();
-		userService.createUser(userCreateRequestDto);
+
+		assertDoesNotThrow(() -> userService.createUser(userCreateRequestDto));
 	}
 	@Test
 	void createExistingUser() {
@@ -62,7 +63,7 @@ class GdgbackApplicationTests {
 	@Test
 	void readUser() {
 		String id = "exist";
-		userService.readUser(id);
+		assertDoesNotThrow(() -> userService.readUser(id));
 	}
 	@Test
 	void readNotExistingUser() {

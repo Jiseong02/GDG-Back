@@ -6,6 +6,8 @@ import com.gdg.gdgback.Diary.DTO.Request.DiaryCreateRequestDto;
 import com.gdg.gdgback.Diary.DTO.Request.DiaryDeleteRequestDto;
 import com.gdg.gdgback.Diary.DTO.Response.DiaryReadListResponseDto;
 import com.gdg.gdgback.Diary.DTO.Response.DiaryReadResponseDto;
+import com.gdg.gdgback.User.Exception.UserNotExistsException;
+import com.gdg.gdgback.User.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,19 +15,24 @@ import java.util.List;
 
 @Service
 public class DiaryService{
+    private final UserRepository userRepository;
     private final CounselRepository counselRepository;
     private final DiaryRepository diaryRepository;
 
-    DiaryService(CounselRepository counselRepository, DiaryRepository diaryRepository) {
+    DiaryService(UserRepository userRepository, CounselRepository counselRepository, DiaryRepository diaryRepository) {
+        this.userRepository = userRepository;
         this.counselRepository = counselRepository;
         this.diaryRepository = diaryRepository;
     }
 
-    public String createDiary(DiaryCreateRequestDto createRequestDto) {
+    public String createDiary(DiaryCreateRequestDto createRequestDto) throws UserNotExistsException {
+        if(!userRepository.existsById(createRequestDto.getUserId())) {
+            throw new UserNotExistsException();
+        }
         return diaryRepository.save(DiaryMapper.dtoToDocument(createRequestDto)).getId();
     }
 
-    public DiaryReadResponseDto readDiary(String id) {
+    public DiaryReadResponseDto readDiary(String id) throws DiaryNotFoundException{
         DiaryDocument diaryDocument = diaryRepository.findById(id)
                 .orElseThrow(DiaryNotFoundException::new);
         return convertDocumentToDto(diaryDocument);
@@ -36,7 +43,11 @@ public class DiaryService{
         return convertDocumentListToListDto(diaryDocumentList);
     }
 
-    public DiaryReadListResponseDto readDiaryListByUserId(String id) {
+    public DiaryReadListResponseDto readDiaryListByUserId(String id) throws UserNotExistsException {
+        if(!userRepository.existsById(id)) {
+            throw new UserNotExistsException();
+        }
+
         List<DiaryDocument> diaryDocumentList = diaryRepository.findAllByUserId(id);
         return convertDocumentListToListDto(diaryDocumentList);
     }

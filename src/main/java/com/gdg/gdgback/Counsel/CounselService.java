@@ -1,8 +1,11 @@
 package com.gdg.gdgback.Counsel;
 
+import com.gdg.gdgback.Agent.DTO.Request.TextRequestDto;
+import com.gdg.gdgback.Agent.Service.AgentService;
 import com.gdg.gdgback.Counsel.DTO.Request.CounselCreateRequestDto;
 import com.gdg.gdgback.Counsel.DTO.Request.CounselDeleteRequestDto;
 import com.gdg.gdgback.Counsel.DTO.Request.CounselEndRequestDto;
+import com.gdg.gdgback.Counsel.DTO.Response.CounselCreateResponseDto;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadByUserIdResponseDto;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadListResponseDto;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadResponseDto;
@@ -16,23 +19,29 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 
+@Profile("!test")
 @Service
 public class CounselService {
     private final CounselRepository counselRepository;
     private final UserRepository userRepository;
 
+    private final AgentService agentService;
+
     @Autowired
     private MongoTemplate mongoTemplate;
 
     @Autowired
-    CounselService(CounselRepository counselRepository, UserRepository userRepository) {
+    CounselService(CounselRepository counselRepository, UserRepository userRepository, AgentService agentService) {
         this.counselRepository = counselRepository;
         this.userRepository = userRepository;
+
+        this.agentService = agentService;
     }
 
-    public String createCounsel(CounselCreateRequestDto createRequestDto) throws UserNotExistsException {
+    public CounselCreateResponseDto createCounsel(CounselCreateRequestDto createRequestDto) throws UserNotExistsException, IOException {
         if(!userRepository.existsById(createRequestDto.getUserId())) {
             throw new UserNotExistsException();
         }
@@ -41,7 +50,12 @@ public class CounselService {
                 .userId(createRequestDto.getUserId())
                 .build();
 
-        return counselRepository.save(counselDocument).getId();
+        return CounselCreateResponseDto.builder()
+                .id(counselRepository.save(counselDocument).getId())
+                .content(
+                    agentService.getAudioResponse(TextRequestDto.builder().content("저는 지금 공황을 겪고 있어요.").build())
+                )
+                .build();
     }
 
     public CounselReadResponseDto readCounsel(String id) throws CounselNotExistsException {
