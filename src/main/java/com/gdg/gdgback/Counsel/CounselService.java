@@ -53,7 +53,7 @@ public class CounselService {
         return CounselCreateResponseDto.builder()
                 .id(counselRepository.save(counselDocument).getId())
                 .content(
-                    agentService.getAudioResponse(TextRequestDto.builder().content("저는 지금 공황을 겪고 있어요.").build())
+                    agentService.getTextResponse(TextRequestDto.builder().content("저는 지금 공황을 겪고 있어요.").build())
                 )
                 .build();
     }

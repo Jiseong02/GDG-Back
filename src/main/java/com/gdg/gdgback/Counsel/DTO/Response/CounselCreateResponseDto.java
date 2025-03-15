@@ -8,5 +8,5 @@ import lombok.Data;
 @Data
 public class CounselCreateResponseDto {
     String id;
-    byte[] content;
+    String content;
 }
