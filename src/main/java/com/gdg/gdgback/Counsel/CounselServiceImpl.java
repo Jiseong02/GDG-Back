@@ -4,8 +4,8 @@ import com.gdg.gdgback.Agent.DTO.Request.AgentTextRequestDto;
 import com.gdg.gdgback.Agent.Service.AgentService;
 import com.gdg.gdgback.Counsel.DTO.Request.*;
 import com.gdg.gdgback.Counsel.DTO.Response.*;
+import com.gdg.gdgback.Global.Validator;
 import com.gdg.gdgback.User.Exception.UserNotExistsException;
-import com.gdg.gdgback.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -23,22 +23,23 @@ import java.util.List;
 @EnableScheduling
 public class CounselServiceImpl implements CounselService {
     private final CounselRepository counselRepository;
-    private final UserService userService;
     private final AgentService agentService;
+
+    private final Validator validator;
 
     @Autowired
     private MongoTemplate mongoTemplate;
 
     @Autowired
-    CounselServiceImpl(CounselRepository counselRepository, UserService userService, AgentService agentService) {
+    CounselServiceImpl(CounselRepository counselRepository, AgentService agentService, Validator validator) {
         this.counselRepository = counselRepository;
-        this.userService = userService;
         this.agentService = agentService;
+        this.validator = validator;
     }
 
     @Override
     public CounselCreateResponseDto createCounsel(CounselCreateRequestDto createRequestDto) throws UserNotExistsException, IOException {
-        userService.validateUserExists(createRequestDto.getUserId());
+        validator.validateUserExists(createRequestDto.getUserId());
 
         CounselDocument counselDocument = CounselMapper.map(createRequestDto);
 
@@ -67,7 +68,7 @@ public class CounselServiceImpl implements CounselService {
 
     @Override
     public CounselReadListResponseDto readCounselByUserId(String id) throws UserNotExistsException {
-        userService.validateUserExists(id);
+        validator.validateUserExists(id);
 
         List<CounselDocument> counselDocumentList = counselRepository.findAllByUserId(id);
 

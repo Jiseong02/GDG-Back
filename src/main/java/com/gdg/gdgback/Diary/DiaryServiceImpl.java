@@ -3,8 +3,8 @@ package com.gdg.gdgback.Diary;
 import com.gdg.gdgback.Counsel.CounselService;
 import com.gdg.gdgback.Diary.DTO.Request.*;
 import com.gdg.gdgback.Diary.DTO.Response.*;
+import com.gdg.gdgback.Global.Validator;
 import com.gdg.gdgback.User.Exception.UserNotExistsException;
-import com.gdg.gdgback.User.UserService;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadResponseDto;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,20 +17,22 @@ import java.util.stream.Collectors;
 public class DiaryServiceImpl implements DiaryService {
     private final DiaryRepository diaryRepository;
 
-    private final UserService userService;
     private final CounselService counselService;
 
+    private final Validator validator;
+
     @Autowired
-    DiaryServiceImpl(UserService userService, CounselService counselService, DiaryRepository diaryRepository) {
+    DiaryServiceImpl(CounselService counselService, DiaryRepository diaryRepository, Validator validator) {
         this.diaryRepository = diaryRepository;
 
-        this.userService = userService;
         this.counselService = counselService;
+
+        this.validator = validator;
     }
 
     @Override
     public String createDiary(DiaryCreateRequestDto createRequestDto) throws UserNotExistsException {
-        userService.validateUserExists(createRequestDto.getUserId());
+        validator.validateUserExists(createRequestDto.getUserId());
 
         return diaryRepository.save(DiaryMapper.map(createRequestDto)).getId();
     }
@@ -50,7 +52,7 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Override
     public DiaryReadListResponseDto readDiaryListByUserId(String id) throws UserNotExistsException {
-        userService.validateUserExists(id);
+        validator.validateUserExists(id);
 
         List<DiaryDocument> diaryDocumentList = diaryRepository.findAllByUserId(id);
         return convertDocumentListToListDto(diaryDocumentList);

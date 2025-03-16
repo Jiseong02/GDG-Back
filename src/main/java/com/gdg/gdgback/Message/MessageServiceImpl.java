@@ -1,7 +1,7 @@
 package com.gdg.gdgback.Message;
 
 import com.gdg.gdgback.Counsel.CounselNotExistsException;
-import com.gdg.gdgback.Counsel.CounselService;
+import com.gdg.gdgback.Global.Validator;
 import com.gdg.gdgback.Message.DTO.Request.*;
 import com.gdg.gdgback.Message.DTO.Response.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +15,13 @@ import java.util.List;
 @Service
 public class MessageServiceImpl implements MessageService {
     private final MessageRepository messageRepository;
-    private final CounselService counselService;
+
+    private final Validator validator;
 
     @Autowired
-    MessageServiceImpl(MessageRepository messageRepository, CounselService counselService) {
+    MessageServiceImpl(MessageRepository messageRepository, Validator validator) {
         this.messageRepository = messageRepository;
-        this.counselService = counselService;
+        this.validator = validator;
     }
 
     @Async
@@ -33,7 +34,7 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public MessageReadListResponseDto readMessageByCounselId(String id) throws CounselNotExistsException {
-        counselService.validateCounselExists(id);
+        validator.validateCounselExists(id);
 
         List<MessageDocument> messages = messageRepository.findAllByCounselId(id);
 
