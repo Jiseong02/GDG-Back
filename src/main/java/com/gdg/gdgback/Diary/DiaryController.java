@@ -21,7 +21,7 @@ public class DiaryController {
     }
 
     @GetMapping
-    ResponseEntity<DiaryReadResponseDto> readDiary(@RequestParam String id) throws DiaryNotFoundException{
+    ResponseEntity<DiaryReadResponseDto> readDiary(@RequestParam String id) throws DiaryNotFoundException {
         return ResponseEntity.ok().body(diaryService.readDiary(id));
     }
 

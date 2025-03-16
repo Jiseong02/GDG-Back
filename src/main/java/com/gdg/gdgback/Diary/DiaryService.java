@@ -61,6 +61,9 @@ public class DiaryService{
     }
 
     private DiaryReadResponseDto convertDocumentToDto(DiaryDocument document) {
+        if(document.getCounselId() == null) {
+            return DiaryMapper.map(document, null);
+        }
         CounselReadResponseDto counsel = counselRepository.findById(document.getCounselId())
                 .map(CounselMapper::map)
                 .orElse(null);
