@@ -2,14 +2,10 @@ package com.gdg.gdgback.Counsel;
 
 import com.gdg.gdgback.Agent.DTO.Request.AgentTextRequestDto;
 import com.gdg.gdgback.Agent.Service.AgentService;
-import com.gdg.gdgback.Counsel.DTO.Request.CounselCreateRequestDto;
-import com.gdg.gdgback.Counsel.DTO.Request.CounselDeleteRequestDto;
-import com.gdg.gdgback.Counsel.DTO.Request.CounselEndRequestDto;
-import com.gdg.gdgback.Counsel.DTO.Response.CounselCreateResponseDto;
-import com.gdg.gdgback.Counsel.DTO.Response.CounselReadListResponseDto;
-import com.gdg.gdgback.Counsel.DTO.Response.CounselReadResponseDto;
+import com.gdg.gdgback.Counsel.DTO.Request.*;
+import com.gdg.gdgback.Counsel.DTO.Response.*;
 import com.gdg.gdgback.User.Exception.UserNotExistsException;
-import com.gdg.gdgback.User.UserRepository;
+import com.gdg.gdgback.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -30,29 +26,26 @@ import java.util.List;
 @EnableScheduling
 public class CounselService {
     private final CounselRepository counselRepository;
-    private final UserRepository userRepository;
-
+    private final UserService userService;
     private final AgentService agentService;
 
     @Autowired
     private MongoTemplate mongoTemplate;
 
     @Autowired
-    CounselService(CounselRepository counselRepository, UserRepository userRepository, AgentService agentService) {
+    CounselService(CounselRepository counselRepository, UserService userService, AgentService agentService) {
         this.counselRepository = counselRepository;
-        this.userRepository = userRepository;
-
+        this.userService = userService;
         this.agentService = agentService;
     }
 
     public CounselCreateResponseDto createCounsel(CounselCreateRequestDto createRequestDto) throws UserNotExistsException, IOException {
-        if(!userRepository.existsById(createRequestDto.getUserId())) throw new UserNotExistsException(createRequestDto.getUserId());
+        userService.validateUserExists(createRequestDto.getUserId());
 
         CounselDocument counselDocument = CounselMapper.map(createRequestDto);
 
         String id = counselRepository.save(counselDocument).getId();
         String response = agentService.getTextResponse(AgentTextRequestDto.builder().counselId(id).content("지금 공황이 오는 것 같아요. 최대한 짧게 뭐라도 말해주세요.").build());
-
         return CounselCreateResponseDto.builder()
                 .id(id)
                 .content(response)
@@ -73,7 +66,7 @@ public class CounselService {
     }
 
     public CounselReadListResponseDto readCounselByUserId(String id) throws UserNotExistsException {
-        if(!userRepository.existsById(id)) throw new UserNotExistsException(id);
+        userService.validateUserExists(id);
 
         List<CounselDocument> counselDocumentList = counselRepository.findAllByUserId(id);
 
@@ -97,13 +90,17 @@ public class CounselService {
     }
 
     public void endCounsel(CounselEndRequestDto counselEndRequestDto) throws CounselNotExistsException {
-        if(!counselRepository.existsById(counselEndRequestDto.getId())) {
-            throw new CounselNotExistsException(counselEndRequestDto.getId());
-        }
+        validateCounselExists(counselEndRequestDto.getId());
 
         Query query = new Query(Criteria.where("id").is(counselEndRequestDto.getId()));
         Update update = new Update().set("endTime", LocalDateTime.now());
 
         mongoTemplate.updateFirst(query, update, CounselDocument.class);
+    }
+
+    public void validateCounselExists(String id) throws CounselNotExistsException {
+        if(!counselRepository.existsById(id)) {
+            throw new CounselNotExistsException(id);
+        }
     }
 }

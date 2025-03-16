@@ -11,7 +11,7 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class ExceptionController {
-    @ExceptionHandler
+    @ExceptionHandler(IOException.class)
     public ResponseEntity<String> handleIOException(IOException e) {
         return ResponseEntity.badRequest().body("입력 오류 발생: " + e.getMessage());
     }
@@ -25,7 +25,7 @@ public class ExceptionController {
         return ResponseEntity.badRequest().body(errors);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleException(Exception e) {
         return ResponseEntity.badRequest().body("오류 발생: " + e.getMessage());
     }

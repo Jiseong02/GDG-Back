@@ -1,40 +1,40 @@
 package com.gdg.gdgback.Diary;
 
-import com.gdg.gdgback.Counsel.*;
-import com.gdg.gdgback.Counsel.DTO.Response.CounselReadResponseDto;
-import com.gdg.gdgback.Diary.DTO.Request.DiaryCreateRequestDto;
-import com.gdg.gdgback.Diary.DTO.Request.DiaryDeleteRequestDto;
-import com.gdg.gdgback.Diary.DTO.Response.DiaryReadListResponseDto;
-import com.gdg.gdgback.Diary.DTO.Response.DiaryReadResponseDto;
+import com.gdg.gdgback.Diary.DTO.Request.*;
+import com.gdg.gdgback.Diary.DTO.Response.*;
 import com.gdg.gdgback.User.Exception.UserNotExistsException;
-import com.gdg.gdgback.User.UserRepository;
+import com.gdg.gdgback.User.UserService;
+import com.gdg.gdgback.Counsel.CounselService;
+import com.gdg.gdgback.Counsel.DTO.Response.CounselReadResponseDto;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DiaryService{
-    private final UserRepository userRepository;
-    private final CounselRepository counselRepository;
     private final DiaryRepository diaryRepository;
 
+    private final UserService userService;
+    private final CounselService counselService;
+
     @Autowired
-    DiaryService(UserRepository userRepository, CounselRepository counselRepository, DiaryRepository diaryRepository) {
-        this.userRepository = userRepository;
-        this.counselRepository = counselRepository;
+    DiaryService(UserService userService, CounselService counselService, DiaryRepository diaryRepository) {
         this.diaryRepository = diaryRepository;
+
+        this.userService = userService;
+        this.counselService = counselService;
     }
 
     public String createDiary(DiaryCreateRequestDto createRequestDto) throws UserNotExistsException {
-        if(!userRepository.existsById(createRequestDto.getUserId())) {
-            throw new UserNotExistsException(createRequestDto.getUserId());
-        }
+        userService.validateUserExists(createRequestDto.getUserId());
+
         return diaryRepository.save(DiaryMapper.map(createRequestDto)).getId();
     }
 
-    public DiaryReadResponseDto readDiary(String id) throws DiaryNotFoundException{
+    public DiaryReadResponseDto readDiary(String id) throws DiaryNotFoundException {
         DiaryDocument diaryDocument = diaryRepository.findById(id)
                 .orElseThrow(() -> new DiaryNotFoundException(id));
         return convertDocumentToDto(diaryDocument);
@@ -46,9 +46,7 @@ public class DiaryService{
     }
 
     public DiaryReadListResponseDto readDiaryListByUserId(String id) throws UserNotExistsException {
-        if(!userRepository.existsById(id)) {
-            throw new UserNotExistsException(id);
-        }
+        userService.validateUserExists(id);
 
         List<DiaryDocument> diaryDocumentList = diaryRepository.findAllByUserId(id);
         return convertDocumentListToListDto(diaryDocumentList);
@@ -61,21 +59,21 @@ public class DiaryService{
     }
 
     private DiaryReadResponseDto convertDocumentToDto(DiaryDocument document) {
-        if(document.getCounselId() == null) {
+        try {
+            CounselReadResponseDto counsel = counselService.readCounsel(document.getCounselId());
+            return DiaryMapper.map(document, counsel);
+        } catch (Exception e) {
             return DiaryMapper.map(document, null);
         }
-        CounselReadResponseDto counsel = counselRepository.findById(document.getCounselId())
-                .map(CounselMapper::map)
-                .orElse(null);
-        return DiaryMapper.map(document, counsel);
     }
 
     private DiaryReadListResponseDto convertDocumentListToListDto(List<DiaryDocument> documentList) {
-        ArrayList<DiaryReadResponseDto> dtoArrayList = new ArrayList<>();
-        for(DiaryDocument document : documentList) {
-            DiaryReadResponseDto dto = convertDocumentToDto(document);
-            dtoArrayList.add(dto);
-        }
-        return DiaryReadListResponseDto.builder().diaries(dtoArrayList).build();
+        ArrayList<DiaryReadResponseDto> dtoArrayList = documentList.stream()
+                .map(this::convertDocumentToDto)
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        return DiaryReadListResponseDto.builder()
+                .diaries(dtoArrayList)
+                .build();
     }
 }

@@ -1,11 +1,8 @@
 package com.gdg.gdgback.User;
 
-import com.gdg.gdgback.User.DTO.Request.UserCreateRequestDto;
-import com.gdg.gdgback.User.DTO.Request.UserDeleteRequestDto;
-import com.gdg.gdgback.User.DTO.Response.UserReadListResponseDto;
-import com.gdg.gdgback.User.DTO.Response.UserReadResponseDto;
-import com.gdg.gdgback.User.Exception.UserAlreadyExistsException;
-import com.gdg.gdgback.User.Exception.UserNotExistsException;
+import com.gdg.gdgback.User.DTO.Request.*;
+import com.gdg.gdgback.User.DTO.Response.*;
+import com.gdg.gdgback.User.Exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +18,7 @@ public class UserService {
     }
 
     public void createUser(UserCreateRequestDto userCreateRequestDto) throws UserAlreadyExistsException {
-        if(userRepository.existsById(userCreateRequestDto.getId())) throw new UserAlreadyExistsException();
+        validateUserNotExists(userCreateRequestDto.getId());
 
         UserDocument userDocument = UserMapper.map(userCreateRequestDto);
 
@@ -46,5 +43,17 @@ public class UserService {
                 .orElseThrow(() -> new UserNotExistsException(deleteRequestDto.getId()));
 
         userRepository.delete(userDocument);
+    }
+
+    public void validateUserExists(String id) throws UserNotExistsException {
+        if(!userRepository.existsById(id)) {
+            throw new UserNotExistsException(id);
+        }
+    }
+
+    public void validateUserNotExists(String id) throws UserAlreadyExistsException {
+        if(userRepository.existsById(id)) {
+            throw new UserAlreadyExistsException();
+        }
     }
 }

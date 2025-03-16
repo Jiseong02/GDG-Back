@@ -1,10 +1,9 @@
 package com.gdg.gdgback.Message;
 
 import com.gdg.gdgback.Counsel.CounselNotExistsException;
-import com.gdg.gdgback.Counsel.CounselRepository;
-import com.gdg.gdgback.Message.DTO.Request.MessageCreateRequestDto;
-import com.gdg.gdgback.Message.DTO.Response.MessageReadListResponseDto;
-import com.gdg.gdgback.Message.DTO.Response.MessageReadResponseDto;
+import com.gdg.gdgback.Counsel.CounselService;
+import com.gdg.gdgback.Message.DTO.Request.*;
+import com.gdg.gdgback.Message.DTO.Response.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -14,12 +13,12 @@ import java.util.List;
 @Service
 public class MessageService {
     private final MessageRepository messageRepository;
-    private final CounselRepository counselRepository;
+    private final CounselService counselService;
 
     @Autowired
-    MessageService(MessageRepository messageRepository, CounselRepository counselRepository) {
+    MessageService(MessageRepository messageRepository, CounselService counselService) {
         this.messageRepository = messageRepository;
-        this.counselRepository = counselRepository;
+        this.counselService = counselService;
     }
 
     @Async
@@ -30,7 +29,7 @@ public class MessageService {
     }
 
     public MessageReadListResponseDto readMessageByCounselId(String id) throws CounselNotExistsException {
-        if(!counselRepository.existsById(id)) throw new CounselNotExistsException(id);
+        counselService.validateCounselExists(id);
 
         List<MessageDocument> messages = messageRepository.findAllByCounselId(id);
 
