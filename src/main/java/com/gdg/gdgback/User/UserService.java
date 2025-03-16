@@ -30,7 +30,7 @@ public class UserService {
 
     public UserReadResponseDto readUser(String id) throws UserNotExistsException {
         UserDocument userDocument = userRepository.findById(id)
-                .orElseThrow(UserNotExistsException::new);
+                .orElseThrow(() -> new UserNotExistsException(id));
 
         return UserMapper.map(userDocument);
     }
@@ -43,7 +43,7 @@ public class UserService {
 
     public void deleteUser(UserDeleteRequestDto deleteRequestDto) throws UserNotExistsException {
         UserDocument userDocument = userRepository.findById(deleteRequestDto.getId())
-                .orElseThrow(UserNotExistsException::new);
+                .orElseThrow(() -> new UserNotExistsException(deleteRequestDto.getId()));
 
         userRepository.delete(userDocument);
     }
