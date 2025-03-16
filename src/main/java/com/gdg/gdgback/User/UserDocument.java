@@ -2,8 +2,8 @@ package com.gdg.gdgback.User;
 
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
@@ -13,9 +13,9 @@ import java.time.LocalDateTime;
 @Document("user")
 public class UserDocument {
     @Id
+    @Indexed
     String id;
     String name;
 
-    @CreatedDate
     LocalDateTime date;
 }

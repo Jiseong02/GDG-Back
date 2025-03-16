@@ -4,6 +4,7 @@ import com.gdg.gdgback.User.DTO.Request.UserCreateRequestDto;
 import com.gdg.gdgback.User.DTO.Response.UserReadListResponseDto;
 import com.gdg.gdgback.User.DTO.Response.UserReadResponseDto;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,6 +28,7 @@ public class UserMapper {
         return UserDocument.builder()
                 .id(userCreateRequestDto.getId())
                 .name(userCreateRequestDto.getName())
+                .date(LocalDateTime.now())
                 .build();
     }
 }
