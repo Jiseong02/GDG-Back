@@ -1,7 +1,6 @@
 package com.gdg.gdgback.Agent.Service.Implement;
 
-import com.gdg.gdgback.Agent.DTO.Request.AgentAudioRequestDto;
-import com.gdg.gdgback.Agent.DTO.Request.AgentTextRequestDto;
+import com.gdg.gdgback.Agent.DTO.Request.*;
 import com.gdg.gdgback.Agent.Service.AgentService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;

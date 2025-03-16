@@ -24,6 +24,7 @@ public class DiaryDocument {
     byte[] picture;
     String[] category;
     int score;
+    boolean expected;
     String title;
     String content;
 }
