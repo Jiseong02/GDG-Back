@@ -17,6 +17,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -24,6 +26,7 @@ import java.time.LocalDateTime;
 
 @Profile("!test")
 @Service
+@EnableScheduling
 public class CounselService {
     private final CounselRepository counselRepository;
     private final UserRepository userRepository;
@@ -82,6 +85,16 @@ public class CounselService {
                 .orElseThrow(CounselNotExistsException::new);
 
         counselRepository.delete(counselDocument);
+    }
+
+    @Scheduled(cron = "0 0 2 * * ?")
+    private void deleteCounselsOverTimeLimit() {
+        LocalDateTime threshold = LocalDateTime.now().minusMinutes(30);
+
+        Query query = new Query(Criteria.where("endTime").is(null)
+                .and("startTime").lt(threshold));
+
+        mongoTemplate.remove(query, CounselDocument.class);
     }
 
     public void endCounsel(CounselEndRequestDto counselEndRequestDto) throws CounselNotExistsException {
