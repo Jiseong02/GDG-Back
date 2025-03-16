@@ -1,6 +1,6 @@
 package com.gdg.gdgback.Counsel;
 
-import com.gdg.gdgback.Counsel.DTO.Response.CounselReadByUserIdResponseDto;
+import com.gdg.gdgback.Counsel.DTO.Request.CounselCreateRequestDto;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadListResponseDto;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadResponseDto;
 
@@ -8,6 +8,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CounselMapper {
     public static CounselReadResponseDto map(CounselDocument counselDocument) {
@@ -28,22 +29,18 @@ public class CounselMapper {
     }
 
     public static CounselReadListResponseDto map(List<CounselDocument> counselDocumentList) {
-        ArrayList<CounselReadResponseDto> counselDtoList = new ArrayList<>();
-        for(CounselDocument counselDocument : counselDocumentList) {
-            counselDtoList.add(CounselMapper.map(counselDocument));
-        }
+        ArrayList<CounselReadResponseDto> counsels = counselDocumentList.stream()
+                .map(CounselMapper::map)
+                .collect(Collectors.toCollection(ArrayList::new));
+
         return CounselReadListResponseDto.builder()
-                .counsels(counselDtoList)
+                .counsels(counsels)
                 .build();
     }
 
-    public static CounselReadByUserIdResponseDto mapToCounselReadByUserIdResponseDto(List<CounselDocument> counselDocumentList) {
-        ArrayList<CounselReadResponseDto> counselDtoList = new ArrayList<>();
-        for(CounselDocument counselDocument : counselDocumentList) {
-            counselDtoList.add(CounselMapper.map(counselDocument));
-        }
-        return CounselReadByUserIdResponseDto.builder()
-                .counsels(counselDtoList)
+    public static CounselDocument map(CounselCreateRequestDto dto) {
+        return CounselDocument.builder()
+                .userId(dto.getUserId())
                 .build();
     }
 }

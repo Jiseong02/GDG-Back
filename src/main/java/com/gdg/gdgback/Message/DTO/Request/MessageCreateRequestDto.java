@@ -1,4 +1,4 @@
-package com.gdg.gdgback.Message.DTO;
+package com.gdg.gdgback.Message.DTO.Request;
 
 import lombok.Builder;
 import lombok.Data;

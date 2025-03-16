@@ -6,7 +6,6 @@ import com.gdg.gdgback.Counsel.DTO.Request.CounselCreateRequestDto;
 import com.gdg.gdgback.Counsel.DTO.Request.CounselDeleteRequestDto;
 import com.gdg.gdgback.Counsel.DTO.Request.CounselEndRequestDto;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselCreateResponseDto;
-import com.gdg.gdgback.Counsel.DTO.Response.CounselReadByUserIdResponseDto;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadListResponseDto;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadResponseDto;
 import com.gdg.gdgback.User.Exception.UserNotExistsException;
@@ -23,6 +22,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
+
 
 @Profile("!test")
 @Service
@@ -45,19 +46,16 @@ public class CounselService {
     }
 
     public CounselCreateResponseDto createCounsel(CounselCreateRequestDto createRequestDto) throws UserNotExistsException, IOException {
-        if(!userRepository.existsById(createRequestDto.getUserId())) {
-            throw new UserNotExistsException();
-        }
+        if(!userRepository.existsById(createRequestDto.getUserId())) throw new UserNotExistsException();
 
-        CounselDocument counselDocument = CounselDocument.builder()
-                .userId(createRequestDto.getUserId())
-                .build();
+        CounselDocument counselDocument = CounselMapper.map(createRequestDto);
+
+        String id = counselRepository.save(counselDocument).getId();
+        String response = agentService.getTextResponse(AgentTextRequestDto.builder().content("저는 지금 공황을 겪고 있어요.").build());
 
         return CounselCreateResponseDto.builder()
-                .id(counselRepository.save(counselDocument).getId())
-                .content(
-                    agentService.getTextResponse(AgentTextRequestDto.builder().content("저는 지금 공황을 겪고 있어요.").build())
-                )
+                .id(id)
+                .content(response)
                 .build();
     }
 
@@ -69,15 +67,17 @@ public class CounselService {
     }
 
     public CounselReadListResponseDto readCounselList() {
-        return CounselMapper.map(counselRepository.findAll());
+        List<CounselDocument> counselDocumentList = counselRepository.findAll();
+
+        return CounselMapper.map(counselDocumentList);
     }
 
-    public CounselReadByUserIdResponseDto readCounselByUserId(String id) throws UserNotExistsException {
-        if(!userRepository.existsById(id)) {
-            throw new UserNotExistsException();
-        }
+    public CounselReadListResponseDto readCounselByUserId(String id) throws UserNotExistsException {
+        if(!userRepository.existsById(id)) throw new UserNotExistsException();
 
-        return CounselMapper.mapToCounselReadByUserIdResponseDto(counselRepository.findAllByUserId(id));
+        List<CounselDocument> counselDocumentList = counselRepository.findAllByUserId(id);
+
+        return CounselMapper.map(counselDocumentList);
     }
 
     public void deleteCounsel(CounselDeleteRequestDto deleteRequestDto) throws CounselNotExistsException {
@@ -91,8 +91,7 @@ public class CounselService {
     private void deleteCounselsOverTimeLimit() {
         LocalDateTime threshold = LocalDateTime.now().minusMinutes(30);
 
-        Query query = new Query(Criteria.where("endTime").is(null)
-                .and("startTime").lt(threshold));
+        Query query = new Query(Criteria.where("endTime").is(null).and("startTime").lt(threshold));
 
         mongoTemplate.remove(query, CounselDocument.class);
     }

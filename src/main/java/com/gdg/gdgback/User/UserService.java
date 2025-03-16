@@ -9,7 +9,6 @@ import com.gdg.gdgback.User.Exception.UserNotExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,14 +21,9 @@ public class UserService {
     }
 
     public void createUser(UserCreateRequestDto userCreateRequestDto) throws UserAlreadyExistsException {
-        if(userRepository.existsById(userCreateRequestDto.getId())) {
-            throw new UserAlreadyExistsException();
-        }
+        if(userRepository.existsById(userCreateRequestDto.getId())) throw new UserAlreadyExistsException();
 
-        UserDocument userDocument = UserDocument.builder()
-                .id(userCreateRequestDto.getId())
-                .name(userCreateRequestDto.getName())
-                .build();
+        UserDocument userDocument = UserMapper.map(userCreateRequestDto);
 
         userRepository.save(userDocument);
     }
@@ -38,30 +32,13 @@ public class UserService {
         UserDocument userDocument = userRepository.findById(id)
                 .orElseThrow(UserNotExistsException::new);
 
-        return UserReadResponseDto.builder()
-                .id(userDocument.getId())
-                .name(userDocument.getName())
-                .date(userDocument.getDate())
-                .build();
+        return UserMapper.map(userDocument);
     }
 
     public UserReadListResponseDto readUserList() {
         List<UserDocument> userDocumentList = userRepository.findAll();
 
-        ArrayList<UserReadResponseDto> users = new ArrayList<>();
-        for(UserDocument userDocument : userDocumentList) {
-            users.add(
-                    UserReadResponseDto.builder()
-                            .id(userDocument.getId())
-                            .name(userDocument.getName())
-                            .date(userDocument.getDate())
-                            .build()
-            );
-        }
-
-        return UserReadListResponseDto.builder()
-                .users(users)
-                .build();
+        return UserMapper.map(userDocumentList);
     }
 
     public void deleteUser(UserDeleteRequestDto deleteRequestDto) throws UserNotExistsException {

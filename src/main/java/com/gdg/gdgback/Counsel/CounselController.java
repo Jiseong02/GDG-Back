@@ -4,7 +4,6 @@ import com.gdg.gdgback.Counsel.DTO.Request.CounselCreateRequestDto;
 import com.gdg.gdgback.Counsel.DTO.Request.CounselDeleteRequestDto;
 import com.gdg.gdgback.Counsel.DTO.Request.CounselEndRequestDto;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselCreateResponseDto;
-import com.gdg.gdgback.Counsel.DTO.Response.CounselReadByUserIdResponseDto;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadListResponseDto;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadResponseDto;
 import com.gdg.gdgback.User.Exception.UserNotExistsException;
@@ -38,7 +37,7 @@ public class CounselController {
     }
 
     @GetMapping("/user")
-    ResponseEntity<CounselReadByUserIdResponseDto> readCounselByUserId(@RequestParam String id) throws UserNotExistsException {
+    ResponseEntity<CounselReadListResponseDto> readCounselByUserId(@RequestParam String id) throws UserNotExistsException {
         return ResponseEntity.ok().body(counselService.readCounselByUserId(id));
     }
 

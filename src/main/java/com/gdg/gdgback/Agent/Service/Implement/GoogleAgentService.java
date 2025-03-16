@@ -4,7 +4,7 @@ import com.gdg.gdgback.Agent.AgentMapper;
 import com.gdg.gdgback.Agent.Api.GenerativeModelApi;
 import com.gdg.gdgback.Agent.DTO.Request.AgentAudioRequestDto;
 import com.gdg.gdgback.Agent.DTO.Request.AgentTextRequestDto;
-import com.gdg.gdgback.Message.DTO.MessageCreateRequestDto;
+import com.gdg.gdgback.Message.DTO.Request.MessageCreateRequestDto;
 import com.gdg.gdgback.Agent.Service.AgentService;
 import com.gdg.gdgback.Agent.Service.SpeechService;
 import com.gdg.gdgback.Message.MessageService;

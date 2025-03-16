@@ -1,7 +1,7 @@
 package com.gdg.gdgback.Agent;
 
 import com.gdg.gdgback.Agent.DTO.Request.AgentTextRequestDto;
-import com.gdg.gdgback.Message.DTO.MessageCreateRequestDto;
+import com.gdg.gdgback.Message.DTO.Request.MessageCreateRequestDto;
 
 public class AgentMapper {
     public static MessageCreateRequestDto map(AgentTextRequestDto agentTextRequestDto) {
