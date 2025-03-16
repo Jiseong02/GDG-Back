@@ -30,7 +30,7 @@ public class MessageService {
     }
 
     public MessageReadListResponseDto readMessageByCounselId(String id) throws CounselNotExistsException {
-        if(!counselRepository.existsById(id)) throw new CounselNotExistsException();
+        if(!counselRepository.existsById(id)) throw new CounselNotExistsException(id);
 
         List<MessageDocument> messages = messageRepository.findAllByCounselId(id);
 

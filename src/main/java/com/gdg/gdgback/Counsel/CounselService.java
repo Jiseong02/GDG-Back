@@ -46,7 +46,7 @@ public class CounselService {
     }
 
     public CounselCreateResponseDto createCounsel(CounselCreateRequestDto createRequestDto) throws UserNotExistsException, IOException {
-        if(!userRepository.existsById(createRequestDto.getUserId())) throw new UserNotExistsException();
+        if(!userRepository.existsById(createRequestDto.getUserId())) throw new UserNotExistsException(createRequestDto.getUserId());
 
         CounselDocument counselDocument = CounselMapper.map(createRequestDto);
 
@@ -61,7 +61,7 @@ public class CounselService {
 
     public CounselReadResponseDto readCounsel(String id) throws CounselNotExistsException {
         CounselDocument counselDocument = counselRepository.findById(id)
-                .orElseThrow(CounselNotExistsException::new);
+                .orElseThrow(() -> new CounselNotExistsException(id));
 
         return CounselMapper.map(counselDocument);
     }
@@ -73,7 +73,7 @@ public class CounselService {
     }
 
     public CounselReadListResponseDto readCounselByUserId(String id) throws UserNotExistsException {
-        if(!userRepository.existsById(id)) throw new UserNotExistsException();
+        if(!userRepository.existsById(id)) throw new UserNotExistsException(id);
 
         List<CounselDocument> counselDocumentList = counselRepository.findAllByUserId(id);
 
@@ -82,7 +82,7 @@ public class CounselService {
 
     public void deleteCounsel(CounselDeleteRequestDto deleteRequestDto) throws CounselNotExistsException {
         CounselDocument counselDocument = counselRepository.findById(deleteRequestDto.getId())
-                .orElseThrow(CounselNotExistsException::new);
+                .orElseThrow(() -> new CounselNotExistsException(deleteRequestDto.getId()));
 
         counselRepository.delete(counselDocument);
     }
@@ -98,7 +98,7 @@ public class CounselService {
 
     public void endCounsel(CounselEndRequestDto counselEndRequestDto) throws CounselNotExistsException {
         if(!counselRepository.existsById(counselEndRequestDto.getId())) {
-            throw new CounselNotExistsException();
+            throw new CounselNotExistsException(counselEndRequestDto.getId());
         }
 
         Query query = new Query(Criteria.where("id").is(counselEndRequestDto.getId()));

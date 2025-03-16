@@ -29,14 +29,14 @@ public class DiaryService{
 
     public String createDiary(DiaryCreateRequestDto createRequestDto) throws UserNotExistsException {
         if(!userRepository.existsById(createRequestDto.getUserId())) {
-            throw new UserNotExistsException();
+            throw new UserNotExistsException(createRequestDto.getUserId());
         }
         return diaryRepository.save(DiaryMapper.map(createRequestDto)).getId();
     }
 
     public DiaryReadResponseDto readDiary(String id) throws DiaryNotFoundException{
         DiaryDocument diaryDocument = diaryRepository.findById(id)
-                .orElseThrow(DiaryNotFoundException::new);
+                .orElseThrow(() -> new DiaryNotFoundException(id));
         return convertDocumentToDto(diaryDocument);
     }
 
@@ -47,7 +47,7 @@ public class DiaryService{
 
     public DiaryReadListResponseDto readDiaryListByUserId(String id) throws UserNotExistsException {
         if(!userRepository.existsById(id)) {
-            throw new UserNotExistsException();
+            throw new UserNotExistsException(id);
         }
 
         List<DiaryDocument> diaryDocumentList = diaryRepository.findAllByUserId(id);
@@ -56,7 +56,7 @@ public class DiaryService{
 
     public void deleteDiary(DiaryDeleteRequestDto deleteRequestDto) throws DiaryNotFoundException {
         DiaryDocument diaryDocument = diaryRepository.findById(deleteRequestDto.getId())
-                .orElseThrow(DiaryNotFoundException::new);
+                .orElseThrow(() -> new DiaryNotFoundException(deleteRequestDto.getId()));
         diaryRepository.delete(diaryDocument);
     }
 
