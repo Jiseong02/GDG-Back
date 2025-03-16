@@ -6,6 +6,7 @@ import com.gdg.gdgback.User.Exception.UserNotExistsException;
 import com.gdg.gdgback.User.UserService;
 import com.gdg.gdgback.Counsel.CounselService;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadResponseDto;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Lazy
 @Service
 public class DiaryService{
     private final DiaryRepository diaryRepository;
