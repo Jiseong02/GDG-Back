@@ -25,7 +25,7 @@ public class MessageController {
         return ResponseEntity.ok().body(messageService.readMessageByCounselId(counselId));
     }
 
-    @GetMapping
+    @GetMapping("/id")
     public ResponseEntity<MessageReadResponseDto> readMessage(@RequestParam String id) throws MessageNotExistsException{
         return ResponseEntity.ok().body(messageService.readMessage(id));
     }
