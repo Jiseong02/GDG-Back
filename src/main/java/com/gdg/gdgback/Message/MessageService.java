@@ -5,11 +5,13 @@ import com.gdg.gdgback.Counsel.CounselService;
 import com.gdg.gdgback.Message.DTO.Request.*;
 import com.gdg.gdgback.Message.DTO.Response.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Profile("!test")
 @Service
 public class MessageService {
     private final MessageRepository messageRepository;

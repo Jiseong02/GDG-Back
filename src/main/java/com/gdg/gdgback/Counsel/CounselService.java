@@ -7,7 +7,6 @@ import com.gdg.gdgback.Counsel.DTO.Response.*;
 import com.gdg.gdgback.User.Exception.UserNotExistsException;
 import com.gdg.gdgback.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -21,7 +20,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 
-@Profile("!test")
 @Service
 @EnableScheduling
 public class CounselService {
