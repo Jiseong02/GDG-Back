@@ -4,10 +4,12 @@ import com.gdg.gdgback.User.DTO.Request.*;
 import com.gdg.gdgback.User.DTO.Response.*;
 import com.gdg.gdgback.User.Exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Lazy
 @Service
 public class UserService {
     private final UserRepository userRepository;
