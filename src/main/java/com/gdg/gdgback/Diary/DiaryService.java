@@ -9,6 +9,7 @@ import com.gdg.gdgback.Diary.DTO.Response.DiaryReadResponseDto;
 import com.gdg.gdgback.User.Exception.UserNotExistsException;
 import com.gdg.gdgback.User.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ public class DiaryService{
     private final CounselRepository counselRepository;
     private final DiaryRepository diaryRepository;
 
+    @Autowired
     DiaryService(UserRepository userRepository, CounselRepository counselRepository, DiaryRepository diaryRepository) {
         this.userRepository = userRepository;
         this.counselRepository = counselRepository;
