@@ -9,13 +9,11 @@ import com.gdg.gdgback.Agent.Service.AgentService;
 import com.gdg.gdgback.Agent.Service.SpeechService;
 import com.gdg.gdgback.Message.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
-@Lazy
 @Service
 @Profile("!test")
 public class GoogleAgentService implements AgentService {

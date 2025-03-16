@@ -14,9 +14,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    @Autowired
     UserService userService;
 
+    @Autowired
+    UserController(UserService userService) {
+        this.userService = userService;
+    }
     @GetMapping("/list")
     public ResponseEntity<UserReadListResponseDto> readUserList() {
         return ResponseEntity.ok(userService.readUserList());

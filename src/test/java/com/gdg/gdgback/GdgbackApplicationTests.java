@@ -1,6 +1,6 @@
 package com.gdg.gdgback;
 
-import com.gdg.gdgback.User.UserService;
+import com.gdg.gdgback.User.UserServiceImpl;
 import com.gdg.gdgback.User.DTO.Request.UserCreateRequestDto;
 import com.gdg.gdgback.User.UserDocument;
 import com.gdg.gdgback.User.Exception.UserAlreadyExistsException;
@@ -28,7 +28,7 @@ class GdgbackApplicationTests {
 	UserRepository mockedRepository = mock(UserRepository.class);
 
 	@Autowired
-	UserService userService;
+    UserServiceImpl userServiceImpl;
 
 	@BeforeEach
 	void setMockedRepository() {
@@ -50,7 +50,7 @@ class GdgbackApplicationTests {
 				.name("빵빵이")
 				.build();
 
-		assertDoesNotThrow(() -> userService.createUser(userCreateRequestDto));
+		assertDoesNotThrow(() -> userServiceImpl.createUser(userCreateRequestDto));
 	}
 	@Test
 	void createExistingUser() {
@@ -58,17 +58,17 @@ class GdgbackApplicationTests {
 				.id("exist")
 				.name("옥찌")
 				.build();
-		assertThrows(UserAlreadyExistsException.class, () -> userService.createUser(userCreateRequestDto));
+		assertThrows(UserAlreadyExistsException.class, () -> userServiceImpl.createUser(userCreateRequestDto));
 	}
 	@Test
 	void readUser() {
 		String id = "exist";
-		assertDoesNotThrow(() -> userService.readUser(id));
+		assertDoesNotThrow(() -> userServiceImpl.readUser(id));
 	}
 	@Test
 	void readNotExistingUser() {
 		String id = "notExist";
-		assertThrows(UserNotExistsException.class, () -> userService.readUser(id));
+		assertThrows(UserNotExistsException.class, () -> userServiceImpl.readUser(id));
 	}
 
 	/*
