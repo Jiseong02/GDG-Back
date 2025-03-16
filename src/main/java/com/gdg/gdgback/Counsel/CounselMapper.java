@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CounselMapper {
-    public static CounselReadResponseDto documentToDto(CounselDocument counselDocument) {
+    public static CounselReadResponseDto map(CounselDocument counselDocument) {
         LocalDateTime startTime = counselDocument.getStartTime();
         LocalDateTime endTime = counselDocument.getEndTime();
         if(endTime == null) {
@@ -27,20 +27,20 @@ public class CounselMapper {
                 .build();
     }
 
-    public static CounselReadListResponseDto documentToReadListDto(List<CounselDocument> counselDocumentList) {
+    public static CounselReadListResponseDto map(List<CounselDocument> counselDocumentList) {
         ArrayList<CounselReadResponseDto> counselDtoList = new ArrayList<>();
         for(CounselDocument counselDocument : counselDocumentList) {
-            counselDtoList.add(CounselMapper.documentToDto(counselDocument));
+            counselDtoList.add(CounselMapper.map(counselDocument));
         }
         return CounselReadListResponseDto.builder()
                 .counsels(counselDtoList)
                 .build();
     }
 
-    public static CounselReadByUserIdResponseDto documentToReadByUserIdDto(List<CounselDocument> counselDocumentList) {
+    public static CounselReadByUserIdResponseDto mapToCounselReadByUserIdResponseDto(List<CounselDocument> counselDocumentList) {
         ArrayList<CounselReadResponseDto> counselDtoList = new ArrayList<>();
         for(CounselDocument counselDocument : counselDocumentList) {
-            counselDtoList.add(CounselMapper.documentToDto(counselDocument));
+            counselDtoList.add(CounselMapper.map(counselDocument));
         }
         return CounselReadByUserIdResponseDto.builder()
                 .counsels(counselDtoList)

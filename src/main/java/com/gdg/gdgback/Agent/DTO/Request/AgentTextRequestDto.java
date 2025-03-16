@@ -5,7 +5,7 @@ import lombok.*;
 
 @Data
 @Builder
-public class TextRequestDto {
+public class AgentTextRequestDto {
     private String counselId;
 
     @NotNull(message = "content는 필수 입력 값입니다.")

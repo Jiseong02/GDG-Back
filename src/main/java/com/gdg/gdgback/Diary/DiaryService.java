@@ -29,7 +29,7 @@ public class DiaryService{
         if(!userRepository.existsById(createRequestDto.getUserId())) {
             throw new UserNotExistsException();
         }
-        return diaryRepository.save(DiaryMapper.dtoToDocument(createRequestDto)).getId();
+        return diaryRepository.save(DiaryMapper.map(createRequestDto)).getId();
     }
 
     public DiaryReadResponseDto readDiary(String id) throws DiaryNotFoundException{
@@ -60,9 +60,9 @@ public class DiaryService{
 
     private DiaryReadResponseDto convertDocumentToDto(DiaryDocument document) {
         CounselReadResponseDto counsel = counselRepository.findById(document.getCounselId())
-                .map(CounselMapper::documentToDto)
+                .map(CounselMapper::map)
                 .orElse(null);
-        return DiaryMapper.documentToReadResponseDto(document, counsel);
+        return DiaryMapper.map(document, counsel);
     }
 
     private DiaryReadListResponseDto convertDocumentListToListDto(List<DiaryDocument> documentList) {

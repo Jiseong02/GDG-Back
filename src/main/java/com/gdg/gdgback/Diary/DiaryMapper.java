@@ -5,7 +5,7 @@ import com.gdg.gdgback.Diary.DTO.Request.DiaryCreateRequestDto;
 import com.gdg.gdgback.Diary.DTO.Response.DiaryReadResponseDto;
 
 public class DiaryMapper {
-    public static DiaryDocument dtoToDocument(DiaryCreateRequestDto createRequestDto) {
+    public static DiaryDocument map(DiaryCreateRequestDto createRequestDto) {
         return DiaryDocument.builder()
                 .userId(createRequestDto.getUserId())
                 .counselId(createRequestDto.getCounselId())
@@ -17,7 +17,7 @@ public class DiaryMapper {
                 .build();
     }
 
-    public static DiaryReadResponseDto documentToReadResponseDto(DiaryDocument diaryDocument, CounselReadResponseDto counsel) {
+    public static DiaryReadResponseDto map(DiaryDocument diaryDocument, CounselReadResponseDto counsel) {
         return DiaryReadResponseDto.builder()
                 .id(diaryDocument.getId())
                 .userId(diaryDocument.getUserId())

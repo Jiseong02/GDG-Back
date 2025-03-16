@@ -4,7 +4,7 @@ import lombok.*;
 
 @Data
 @Builder
-public class AudioRequestDto {
+public class AgentAudioRequestDto {
     private String counselId;
     private byte[] content;
 }

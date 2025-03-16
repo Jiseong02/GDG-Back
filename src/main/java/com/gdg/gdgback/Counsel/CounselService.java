@@ -1,6 +1,6 @@
 package com.gdg.gdgback.Counsel;
 
-import com.gdg.gdgback.Agent.DTO.Request.TextRequestDto;
+import com.gdg.gdgback.Agent.DTO.Request.AgentTextRequestDto;
 import com.gdg.gdgback.Agent.Service.AgentService;
 import com.gdg.gdgback.Counsel.DTO.Request.CounselCreateRequestDto;
 import com.gdg.gdgback.Counsel.DTO.Request.CounselDeleteRequestDto;
@@ -56,7 +56,7 @@ public class CounselService {
         return CounselCreateResponseDto.builder()
                 .id(counselRepository.save(counselDocument).getId())
                 .content(
-                    agentService.getTextResponse(TextRequestDto.builder().content("저는 지금 공황을 겪고 있어요.").build())
+                    agentService.getTextResponse(AgentTextRequestDto.builder().content("저는 지금 공황을 겪고 있어요.").build())
                 )
                 .build();
     }
@@ -65,11 +65,11 @@ public class CounselService {
         CounselDocument counselDocument = counselRepository.findById(id)
                 .orElseThrow(CounselNotExistsException::new);
 
-        return CounselMapper.documentToDto(counselDocument);
+        return CounselMapper.map(counselDocument);
     }
 
     public CounselReadListResponseDto readCounselList() {
-        return CounselMapper.documentToReadListDto(counselRepository.findAll());
+        return CounselMapper.map(counselRepository.findAll());
     }
 
     public CounselReadByUserIdResponseDto readCounselByUserId(String id) throws UserNotExistsException {
@@ -77,7 +77,7 @@ public class CounselService {
             throw new UserNotExistsException();
         }
 
-        return CounselMapper.documentToReadByUserIdDto(counselRepository.findAllByUserId(id));
+        return CounselMapper.mapToCounselReadByUserIdResponseDto(counselRepository.findAllByUserId(id));
     }
 
     public void deleteCounsel(CounselDeleteRequestDto deleteRequestDto) throws CounselNotExistsException {

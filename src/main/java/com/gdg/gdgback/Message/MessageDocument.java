@@ -1,4 +1,4 @@
-package com.gdg.gdgback.Agent;
+package com.gdg.gdgback.Message;
 
 import lombok.Builder;
 import lombok.Data;
@@ -18,8 +18,9 @@ public class MessageDocument {
     @Indexed
     String counselId;
 
-    @CreatedDate
-    LocalDateTime date;
     String role;
     String content;
+
+    @CreatedDate
+    LocalDateTime date;
 }
