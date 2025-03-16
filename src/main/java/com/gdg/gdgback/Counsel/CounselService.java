@@ -51,7 +51,7 @@ public class CounselService {
         CounselDocument counselDocument = CounselMapper.map(createRequestDto);
 
         String id = counselRepository.save(counselDocument).getId();
-        String response = agentService.getTextResponse(AgentTextRequestDto.builder().content("저는 지금 공황을 겪고 있어요.").build());
+        String response = agentService.getTextResponse(AgentTextRequestDto.builder().counselId(id).content("지금 공황이 오는 것 같아요.").build());
 
         return CounselCreateResponseDto.builder()
                 .id(id)
