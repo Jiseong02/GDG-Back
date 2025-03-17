@@ -14,7 +14,7 @@ public class DiaryCreateRequestDto {
     private byte[] picture;
     private String[] category;
     private int score;
-    private boolean expected;
+    private Boolean expected;
     @NotNull(message = "title 은 필수 입력 값입니다.")
     private String title;
     @NotNull(message = "content 는 필수 입력 값입니다.")
