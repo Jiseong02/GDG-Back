@@ -15,7 +15,7 @@ public class CounselMapper {
     public static CounselReadResponseDto map(CounselDocument counselDocument) {
         ZonedDateTime endTime = counselDocument.getEndTime();
         if(endTime == null) {
-            endTime = ZonedDateTime.now(ZoneId.of("Asia/Korea"));
+            endTime = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
         }
 
         return CounselReadResponseDto.builder()
@@ -41,7 +41,7 @@ public class CounselMapper {
     public static CounselDocument map(CounselCreateRequestDto dto) {
         return CounselDocument.builder()
                 .userId(dto.getUserId())
-                .startTime(ZonedDateTime.now(ZoneId.of("Asia/Korea"))
+                .startTime(ZonedDateTime.now(ZoneId.of("Asia/Seoul"))
                 .build();
     }
 }
