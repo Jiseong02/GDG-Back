@@ -7,7 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Builder
 @Getter
@@ -19,8 +19,7 @@ public class DiaryDocument {
     String userId;
     String counselId;
 
-    @CreatedDate
-    LocalDateTime date;
+    ZonedDateTime date;
     byte[] picture;
     String[] category;
     int score;
