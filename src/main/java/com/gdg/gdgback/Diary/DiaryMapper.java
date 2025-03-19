@@ -4,6 +4,9 @@ import com.gdg.gdgback.Counsel.DTO.Response.CounselReadResponseDto;
 import com.gdg.gdgback.Diary.DTO.Request.DiaryCreateRequestDto;
 import com.gdg.gdgback.Diary.DTO.Response.DiaryReadResponseDto;
 
+import java.time.ZonedDateTime;
+import java.time.ZoneId;
+
 public class DiaryMapper {
     public static DiaryDocument map(DiaryCreateRequestDto createRequestDto) {
         return DiaryDocument.builder()
@@ -13,6 +16,7 @@ public class DiaryMapper {
                 .expected(createRequestDto.getExpected())
                 .category(createRequestDto.getCategory())
                 .score(createRequestDto.getScore())
+                .date(ZonedDateTime.now(ZoneId.of("Asia/Seoul")))
                 .title(createRequestDto.getTitle())
                 .content(createRequestDto.getContent())
                 .build();
