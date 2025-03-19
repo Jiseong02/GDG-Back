@@ -23,7 +23,7 @@ public class CounselMapper {
                 .userId(counselDocument.getUserId())
                 .startTime(counselDocument.getStartTime())
                 .endTime(endTime)
-                .seconds(Duration.between(startTime, endTime).toSeconds())
+                .seconds(Duration.between(startTime.toInstant(), endTime.toInstant()).toSeconds())
                 .summation(counselDocument.getSummation())
                 .build();
     }
