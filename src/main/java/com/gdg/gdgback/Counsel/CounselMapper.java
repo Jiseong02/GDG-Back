@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 public class CounselMapper {
     public static CounselReadResponseDto map(CounselDocument counselDocument) {
+        ZonedDateTime startTime = counselDocument.getStartTime();
         ZonedDateTime endTime = counselDocument.getEndTime();
         if(endTime == null) {
             endTime = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
