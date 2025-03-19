@@ -17,7 +17,7 @@ public class DiaryReadResponseDto {
 
     Date date;
     byte[] picture;
-    Boolean expected;
+    boolean expected;
     String[] category;
     int score;
     String title;
