@@ -22,7 +22,7 @@ public class DiaryDocument {
     byte[] picture;
     String[] category;
     int score;
-    boolean expected;
+    Boolean expected;
     String title;
     String content;
 }
