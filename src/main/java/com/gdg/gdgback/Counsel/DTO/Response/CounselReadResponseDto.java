@@ -3,7 +3,7 @@ package com.gdg.gdgback.Counsel.DTO.Response;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 @Builder
 @Data
@@ -11,8 +11,8 @@ public class CounselReadResponseDto {
     String id;
     String userId;
 
-    Date startTime;
-    Date endTime;
+    ZonedDateTime startTime;
+    ZonedDateTime endTime;
     long seconds;
     String summation;
 }
