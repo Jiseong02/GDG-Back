@@ -15,7 +15,7 @@ public class DiaryReadResponseDto {
 
     CounselReadResponseDto counsel;
 
-    ZonedDateTime date;
+    Date date;
     byte[] picture;
     Boolean expected;
     String[] category;
