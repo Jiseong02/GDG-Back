@@ -87,7 +87,7 @@ public class CounselServiceImpl implements CounselService {
     @Scheduled(cron = "0 0 2 * * ?")
     @Override
     public void deleteCounselsOverTimeLimit() {
-        ZonedDateTime threshold = ZonedDateTime.now(ZonedId.of("Asia/Seoul")).minusMinutes(30);
+        ZonedDateTime threshold = ZonedDateTime.now(ZoneId.of("Asia/Seoul")).minusMinutes(30);
 
         Query query = new Query(Criteria.where("endTime").is(null).and("startTime").lt(threshold));
 
@@ -99,7 +99,7 @@ public class CounselServiceImpl implements CounselService {
         validateCounselExists(counselEndRequestDto.getId());
 
         Query query = new Query(Criteria.where("id").is(counselEndRequestDto.getId()));
-        Update update = new Update().set("endTime", ZonedDateTime.now(ZonedId.of("Asia/Seoul")));
+        Update update = new Update().set("endTime", ZonedDateTime.now(ZoneId.of("Asia/Seoul")));
 
         mongoTemplate.updateFirst(query, update, CounselDocument.class);
     }
