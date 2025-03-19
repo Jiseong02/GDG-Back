@@ -7,7 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Builder
 @Getter
@@ -17,11 +17,9 @@ public class CounselDocument {
     String id;
     @Indexed
     String userId;
-
-    @CreatedDate
     @Indexed
-    LocalDateTime startTime;
+    ZonedDateTime startTime;
     @Indexed
-    LocalDateTime endTime;
+    ZonedDateTime endTime;
     String summation;
 }
