@@ -41,7 +41,7 @@ public class CounselMapper {
     public static CounselDocument map(CounselCreateRequestDto dto) {
         return CounselDocument.builder()
                 .userId(dto.getUserId())
-                .startTime(ZonedDateTime.now(ZoneId.of("Asia/Seoul"))
+                .startTime(ZonedDateTime.now(ZoneId.of("Asia/Seoul")))
                 .build();
     }
 }
