@@ -2,12 +2,11 @@ package com.gdg.gdgback.Counsel;
 
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 @Builder
 @Getter
@@ -18,8 +17,8 @@ public class CounselDocument {
     @Indexed
     String userId;
     @Indexed
-    ZonedDateTime startTime;
+    LocalDateTime startTime;
     @Indexed
-    ZonedDateTime endTime;
+    LocalDateTime endTime;
     String summation;
 }

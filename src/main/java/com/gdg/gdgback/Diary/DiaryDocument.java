@@ -2,12 +2,11 @@ package com.gdg.gdgback.Diary;
 
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Builder
 @Getter
@@ -19,7 +18,7 @@ public class DiaryDocument {
     String userId;
     String counselId;
 
-    Date date;
+    LocalDateTime date;
     byte[] picture;
     String[] category;
     int score;

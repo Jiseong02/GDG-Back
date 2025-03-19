@@ -5,18 +5,17 @@ import com.gdg.gdgback.Counsel.DTO.Response.CounselReadListResponseDto;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadResponseDto;
 
 import java.time.Duration;
-import java.time.ZonedDateTime;
-import java.time.ZoneId;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class CounselMapper {
     public static CounselReadResponseDto map(CounselDocument counselDocument) {
-        ZonedDateTime startTime = counselDocument.getStartTime();
-        ZonedDateTime endTime = counselDocument.getEndTime();
+        LocalDateTime startTime = counselDocument.getStartTime();
+        LocalDateTime endTime = counselDocument.getEndTime();
         if(endTime == null) {
-            endTime = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
+            endTime = LocalDateTime.now();
         }
 
         return CounselReadResponseDto.builder()
@@ -24,7 +23,7 @@ public class CounselMapper {
                 .userId(counselDocument.getUserId())
                 .startTime(counselDocument.getStartTime())
                 .endTime(endTime)
-                .seconds(Duration.between(startTime.toInstant(), endTime.toInstant()).toSeconds())
+                .seconds(Duration.between(startTime, endTime).toSeconds())
                 .summation(counselDocument.getSummation())
                 .build();
     }
@@ -42,7 +41,7 @@ public class CounselMapper {
     public static CounselDocument map(CounselCreateRequestDto dto) {
         return CounselDocument.builder()
                 .userId(dto.getUserId())
-                .startTime(ZonedDateTime.now(ZoneId.of("Asia/Seoul")))
+                .startTime(LocalDateTime.now())
                 .build();
     }
 }

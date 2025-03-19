@@ -16,8 +16,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.time.ZonedDateTime;
-import java.time.ZoneId;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -87,7 +86,7 @@ public class CounselServiceImpl implements CounselService {
     @Scheduled(cron = "0 0 2 * * ?")
     @Override
     public void deleteCounselsOverTimeLimit() {
-        ZonedDateTime threshold = ZonedDateTime.now(ZoneId.of("Asia/Seoul")).minusMinutes(30);
+        LocalDateTime threshold = LocalDateTime.now().minusMinutes(30);
 
         Query query = new Query(Criteria.where("endTime").is(null).and("startTime").lt(threshold));
 
@@ -99,7 +98,7 @@ public class CounselServiceImpl implements CounselService {
         validateCounselExists(counselEndRequestDto.getId());
 
         Query query = new Query(Criteria.where("id").is(counselEndRequestDto.getId()));
-        Update update = new Update().set("endTime", ZonedDateTime.now(ZoneId.of("Asia/Seoul")));
+        Update update = new Update().set("endTime", LocalDateTime.now());
 
         mongoTemplate.updateFirst(query, update, CounselDocument.class);
     }
