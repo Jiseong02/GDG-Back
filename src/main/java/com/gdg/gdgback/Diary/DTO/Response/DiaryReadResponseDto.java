@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Builder
 @Data
@@ -15,8 +15,7 @@ public class DiaryReadResponseDto {
 
     CounselReadResponseDto counsel;
 
-    @CreatedDate
-    LocalDateTime date;
+    ZonedDateTime date;
     byte[] picture;
     Boolean expected;
     String[] category;
