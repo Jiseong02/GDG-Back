@@ -10,6 +10,5 @@ public interface UserService {
     UserReadResponseDto readUser(String id);
     UserReadListResponseDto readUserList();
     void deleteUser(UserDeleteRequestDto deleteRequestDto);
-    void validateUserExists(String id);
     void validateUserNotExists(String id);
 }

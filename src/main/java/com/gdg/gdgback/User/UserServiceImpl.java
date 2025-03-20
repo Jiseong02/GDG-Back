@@ -50,13 +50,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void validateUserExists(String id) {
-        if(!userRepository.existsById(id)) {
-            throw new UserNotExistsException(id);
-        }
-    }
-
-    @Override
     public void validateUserNotExists(String id) {
         if(userRepository.existsById(id)) {
             throw new UserAlreadyExistsException();

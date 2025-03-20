@@ -1,11 +1,13 @@
 package com.gdg.gdgback;
 
 import com.gdg.gdgback.User.DTO.Request.UserCreateRequestDto;
+import com.gdg.gdgback.User.DTO.Request.UserDeleteRequestDto;
 import com.gdg.gdgback.User.Exception.UserAlreadyExistsException;
 import com.gdg.gdgback.User.Exception.UserNotExistsException;
 import com.gdg.gdgback.User.UserDocument;
 import com.gdg.gdgback.User.UserRepository;
 import com.gdg.gdgback.User.UserServiceImpl;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,27 +28,28 @@ public class UserServiceTest {
     @InjectMocks
     UserServiceImpl userService;
 
+    private final String ID = "testId";
+    private final String NAME = "testName";
+
     @BeforeEach
     void setUserRepository() {
-        // 모조 리포지토리에 "exist"라는 아이디를 가진 유저가 저장되어 있다고 가정한다.
-        UserDocument mockedUser = UserDocument.builder()
-                .id("exist")
-                .name("옥찌")
+        UserDocument testUser = UserDocument.builder()
+                .id(ID)
+                .name(NAME)
                 .build();
 
         doReturn(Optional.empty()).when(userRepository).findById(anyString());
-        doReturn(Optional.of(mockedUser)).when(userRepository).findById("exist");
+        doReturn(Optional.of(testUser)).when(userRepository).findById(ID);
         doReturn(false).when(userRepository).existsById(anyString());
-        doReturn(true).when(userRepository).existsById("exist");
-
-        when(userRepository.existsById(anyString())).thenReturn(false);
-        when(userRepository.existsById("exist")).thenReturn(true);
+        doReturn(true).when(userRepository).existsById(ID);
+        doReturn(false).when(userRepository).existsById(anyString());
+        doReturn(true).when(userRepository).existsById(ID);
     }
 
     @Test
     void createUser() {
         UserCreateRequestDto userCreateRequestDto = UserCreateRequestDto.builder()
-                .id("notExist")
+                .id("id_not_exist")
                 .name("빵빵이")
                 .build();
         assertDoesNotThrow(() -> userService.createUser(userCreateRequestDto));
@@ -55,21 +58,34 @@ public class UserServiceTest {
     @Test
     void createExistingUser() {
         UserCreateRequestDto userCreateRequestDto = UserCreateRequestDto.builder()
-                .id("exist")
-                .name("옥찌")
+                .id(ID)
+                .name("버그 터지지 마라 제발")
                 .build();
         assertThrows(UserAlreadyExistsException.class, () -> userService.createUser(userCreateRequestDto));
     }
 
     @Test
     void readUser() {
-        String id = "exist";
-        assertDoesNotThrow(() -> userService.readUser(id));
+        assertDoesNotThrow(() -> userService.readUser(ID));
     }
 
     @Test
     void readNotExistingUser() {
-        String id = "notExist";
+        String id = "id_not_exist";
         assertThrows(UserNotExistsException.class, () -> userService.readUser(id));
+    }
+    @Test
+    void deleteUser() {
+        UserDeleteRequestDto dto = UserDeleteRequestDto.builder()
+                .id(ID)
+                .build();
+        assertDoesNotThrow(()->userService.deleteUser(dto));
+    }
+    @Test
+    void deleteUserNotExists() {
+        UserDeleteRequestDto dto = UserDeleteRequestDto.builder()
+                .id("not_exist_id")
+                .build();
+        Assertions.assertThrows(UserNotExistsException.class, ()->userService.deleteUser(dto));
     }
 }
