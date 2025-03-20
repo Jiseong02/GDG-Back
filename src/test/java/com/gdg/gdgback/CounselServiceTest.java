@@ -8,7 +8,7 @@ import com.gdg.gdgback.Counsel.CounselRepository;
 import com.gdg.gdgback.Counsel.CounselServiceImpl;
 import com.gdg.gdgback.Counsel.DTO.Request.CounselCreateRequestDto;
 import com.gdg.gdgback.Counsel.DTO.Request.CounselDeleteRequestDto;
-import com.gdg.gdgback.Global.Validator;
+import com.gdg.gdgback.Global.ValidatorImpl;
 import com.gdg.gdgback.User.Exception.UserNotExistsException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,11 +24,13 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
+import static com.gdg.gdgback.GdgbackApplicationTests.ID;
+
 @ExtendWith(MockitoExtension.class)
 public class CounselServiceTest {
     CounselRepository counselRepository = mock(CounselRepository.class);
     AgentService agentService = mock(AgentService.class);
-    Validator validator = mock(Validator.class);
+    ValidatorImpl validator = mock(ValidatorImpl.class);
 
     @InjectMocks
     CounselServiceImpl counselService;
@@ -37,12 +39,12 @@ public class CounselServiceTest {
     void setUp() {
         doReturn("testResponse").when(agentService).getTextResponse(any(AgentTextRequestDto.class));
         doThrow(UserNotExistsException.class).when(validator).validateUserExists(anyString());
-        doNothing().when(validator).validateUserExists("testId");
+        doNothing().when(validator).validateUserExists(ID);
         doThrow(CounselNotExistsException.class).when(validator).validateCounselExists(anyString());
-        doNothing().when(validator).validateCounselExists("testId");
+        doNothing().when(validator).validateCounselExists(ID);
 
         CounselDocument testDocument = CounselDocument.builder()
-                .id("testId")
+                .id(ID)
                 .userId("testUserId")
                 .startTime(LocalDateTime.now().minusMinutes(3L))
                 .endTime(LocalDateTime.now())
@@ -58,7 +60,7 @@ public class CounselServiceTest {
     @Test
     void createCounsel() {
         CounselCreateRequestDto dto = CounselCreateRequestDto.builder()
-                .userId("testId")
+                .userId(ID)
                 .build();
 
         Assertions.assertDoesNotThrow(()->counselService.createCounsel(dto));
@@ -73,8 +75,7 @@ public class CounselServiceTest {
     }
     @Test
     void readCounsel() {
-        String id = "testId";
-        Assertions.assertDoesNotThrow(()->counselService.readCounsel(id));
+        Assertions.assertDoesNotThrow(()->counselService.readCounsel(ID));
     }
     @Test
     void readCounselNotExists() {
@@ -88,7 +89,7 @@ public class CounselServiceTest {
     @Test
     void deleteCounsel() {
         CounselDeleteRequestDto dto = CounselDeleteRequestDto.builder()
-                .id("testId")
+                .id(ID)
                 .build();
         Assertions.assertDoesNotThrow(()->counselService.deleteCounsel(dto));
     }

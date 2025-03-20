@@ -18,6 +18,8 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 @ActiveProfiles("test")
 class GdgbackApplicationTests {
-	@MockitoBean
-	UserRepository mockedRepository = mock(UserRepository.class);
+	public static final String ID = "testId";
+	public static final String NAME = "testName";
+	public static final String USERID = "testUserId";
+	public static final String COUNSELID = "testCounselId";
 }

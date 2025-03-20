@@ -16,6 +16,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
+import static com.gdg.gdgback.GdgbackApplicationTests.ID;
+import static com.gdg.gdgback.GdgbackApplicationTests.NAME;
+
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -27,9 +30,6 @@ public class UserServiceTest {
 
     @InjectMocks
     UserServiceImpl userService;
-
-    private final String ID = "testId";
-    private final String NAME = "testName";
 
     @BeforeEach
     void setUserRepository() {

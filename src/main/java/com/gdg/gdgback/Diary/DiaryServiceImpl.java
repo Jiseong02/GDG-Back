@@ -4,7 +4,7 @@ import com.gdg.gdgback.Counsel.CounselNotExistsException;
 import com.gdg.gdgback.Counsel.CounselService;
 import com.gdg.gdgback.Diary.DTO.Request.*;
 import com.gdg.gdgback.Diary.DTO.Response.*;
-import com.gdg.gdgback.Global.Validator;
+import com.gdg.gdgback.Global.ValidatorImpl;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadResponseDto;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +19,10 @@ public class DiaryServiceImpl implements DiaryService {
 
     private final CounselService counselService;
 
-    private final Validator validator;
+    private final ValidatorImpl validator;
 
     @Autowired
-    DiaryServiceImpl(CounselService counselService, DiaryRepository diaryRepository, Validator validator) {
+    DiaryServiceImpl(CounselService counselService, DiaryRepository diaryRepository, ValidatorImpl validator) {
         this.diaryRepository = diaryRepository;
 
         this.counselService = counselService;
