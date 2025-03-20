@@ -19,7 +19,7 @@ public class DiaryController {
     }
 
     @GetMapping
-    ResponseEntity<DiaryReadResponseDto> readDiary(@RequestParam String id) throws DiaryNotFoundException {
+    ResponseEntity<DiaryReadResponseDto> readDiary(@RequestParam String id) {
         return ResponseEntity.ok().body(diaryService.readDiary(id));
     }
 
@@ -29,17 +29,17 @@ public class DiaryController {
     }
 
     @GetMapping("/user")
-    ResponseEntity<DiaryReadListResponseDto> readDiaryListByUserId(@RequestParam String id) throws UserNotExistsException {
+    ResponseEntity<DiaryReadListResponseDto> readDiaryListByUserId(@RequestParam String id) {
         return ResponseEntity.ok().body(diaryService.readDiaryListByUserId(id));
     }
 
     @PostMapping
-    ResponseEntity<String> createDiary(@Valid @RequestBody DiaryCreateRequestDto createRequestDto) throws UserNotExistsException {
+    ResponseEntity<String> createDiary(@Valid @RequestBody DiaryCreateRequestDto createRequestDto) {
         return ResponseEntity.ok().body(diaryService.createDiary(createRequestDto));
     }
 
     @PostMapping("/delete")
-    ResponseEntity<String> deleteDiary(@Valid @RequestBody DiaryDeleteRequestDto deleteRequestDto) throws DiaryNotFoundException {
+    ResponseEntity<String> deleteDiary(@Valid @RequestBody DiaryDeleteRequestDto deleteRequestDto) {
         this.diaryService.deleteDiary(deleteRequestDto);
         return ResponseEntity.ok().body("정상적으로 일지가 삭제되었습니다.");
     }

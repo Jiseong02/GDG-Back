@@ -8,10 +8,10 @@ import com.gdg.gdgback.User.Exception.UserAlreadyExistsException;
 import com.gdg.gdgback.User.Exception.UserNotExistsException;
 
 public interface UserService {
-    void createUser(UserCreateRequestDto userCreateRequestDto) throws UserAlreadyExistsException;
-    UserReadResponseDto readUser(String id) throws UserNotExistsException;
+    void createUser(UserCreateRequestDto userCreateRequestDto);
+    UserReadResponseDto readUser(String id);
     UserReadListResponseDto readUserList();
-    void deleteUser(UserDeleteRequestDto deleteRequestDto) throws UserNotExistsException;
-    void validateUserExists(String id) throws UserNotExistsException;
-    void validateUserNotExists(String id) throws UserAlreadyExistsException;
+    void deleteUser(UserDeleteRequestDto deleteRequestDto);
+    void validateUserExists(String id);
+    void validateUserNotExists(String id);
 }

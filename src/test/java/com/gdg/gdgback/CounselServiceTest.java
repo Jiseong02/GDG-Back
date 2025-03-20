@@ -34,11 +34,7 @@ public class CounselServiceTest {
 
     @BeforeEach
     void setUp() {
-        try {
-            doReturn("testResponse").when(agentService).getTextResponse(any(AgentTextRequestDto.class));
-        } catch(IOException e){
-            System.out.println("IOException 발생\n");
-        }
+        doReturn("testResponse").when(agentService).getTextResponse(any(AgentTextRequestDto.class));
         doThrow(UserNotExistsException.class).when(validator).validateUserExists(anyString());
         doNothing().when(validator).validateUserExists("testId");
         doThrow(CounselNotExistsException.class).when(validator).validateCounselExists(anyString());

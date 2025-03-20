@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface MessageService {
     void createMessage(MessageCreateRequestDto messageCreateRequestDto);
-    MessageReadListResponseDto readMessageByCounselId(String id) throws CounselNotExistsException;
-    MessageReadResponseDto readMessage(String id) throws MessageNotExistsException;
+    MessageReadListResponseDto readMessageByCounselId(String id);
+    MessageReadResponseDto readMessage(String id);
     MessageReadListResponseDto readListMessage();
 }

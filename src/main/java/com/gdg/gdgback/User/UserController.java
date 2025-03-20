@@ -25,16 +25,16 @@ public class UserController {
         return ResponseEntity.ok(userService.readUserList());
     }
     @GetMapping
-    public ResponseEntity<UserReadResponseDto> readUser(String id) throws UserNotExistsException {
+    public ResponseEntity<UserReadResponseDto> readUser(String id) {
         return ResponseEntity.ok(userService.readUser(id));
     }
     @PostMapping
-    public ResponseEntity<java.lang.String> createUser(@Valid @RequestBody UserCreateRequestDto userCreateRequestDto) throws UserAlreadyExistsException {
+    public ResponseEntity<java.lang.String> createUser(@Valid @RequestBody UserCreateRequestDto userCreateRequestDto) {
         userService.createUser(userCreateRequestDto);
         return ResponseEntity.ok("회원가입 되었습니다.");
     }
     @PostMapping("/delete")
-    public ResponseEntity<String> deleteUser(@Valid @RequestBody UserDeleteRequestDto deleteRequestDto) throws UserNotExistsException {
+    public ResponseEntity<String> deleteUser(@Valid @RequestBody UserDeleteRequestDto deleteRequestDto) {
         userService.deleteUser(deleteRequestDto);
         return ResponseEntity.ok("정상적으로 삭제되었습니다.");
     }

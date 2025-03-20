@@ -18,13 +18,13 @@ public class Validator {
         this.counselRepository = counselRepository;
     }
 
-    public void validateUserExists(String id) throws UserNotExistsException {
+    public void validateUserExists(String id) {
         if(!userRepository.existsById(id)) {
             throw new UserNotExistsException(id);
         }
     }
 
-    public void validateCounselExists(String id) throws CounselNotExistsException {
+    public void validateCounselExists(String id) {
         if(!counselRepository.existsById(id)) {
             throw new CounselNotExistsException(id);
         }

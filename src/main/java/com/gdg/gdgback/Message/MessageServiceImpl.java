@@ -33,7 +33,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public MessageReadListResponseDto readMessageByCounselId(String id) throws CounselNotExistsException {
+    public MessageReadListResponseDto readMessageByCounselId(String id) {
         validator.validateCounselExists(id);
 
         List<MessageDocument> messages = messageRepository.findAllByCounselId(id);
@@ -42,7 +42,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public MessageReadResponseDto readMessage(String id) throws MessageNotExistsException{
+    public MessageReadResponseDto readMessage(String id) {
         MessageDocument messageDocument = messageRepository.findById(id)
                 .orElseThrow(MessageNotExistsException::new);
 
