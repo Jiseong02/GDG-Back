@@ -1,6 +1,5 @@
 package com.gdg.gdgback.Message;
 
-import com.gdg.gdgback.Counsel.CounselNotExistsException;
 import com.gdg.gdgback.Global.Validator;
 import com.gdg.gdgback.Message.DTO.Request.*;
 import com.gdg.gdgback.Message.DTO.Response.*;

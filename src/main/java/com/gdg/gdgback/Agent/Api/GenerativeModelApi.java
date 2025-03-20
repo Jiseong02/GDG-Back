@@ -43,7 +43,7 @@ public class GenerativeModelApi {
         try {
             return ResponseHandler.getText(generativeModel.generateContent(prompt));
         } catch (IOException e) {
-            throw new AgentFailedToRespondException("모델로부터 응답을 받지 못했습니다.");
+            throw new AgentFailedToRespondException(request);
         }
     }
 }

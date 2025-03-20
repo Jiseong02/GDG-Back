@@ -5,7 +5,6 @@ import com.gdg.gdgback.Agent.Service.AgentService;
 import com.gdg.gdgback.Counsel.DTO.Request.*;
 import com.gdg.gdgback.Counsel.DTO.Response.*;
 import com.gdg.gdgback.Global.Validator;
-import com.gdg.gdgback.User.Exception.UserNotExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -15,7 +14,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 

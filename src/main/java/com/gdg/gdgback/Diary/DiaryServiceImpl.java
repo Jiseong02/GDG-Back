@@ -5,7 +5,6 @@ import com.gdg.gdgback.Counsel.CounselService;
 import com.gdg.gdgback.Diary.DTO.Request.*;
 import com.gdg.gdgback.Diary.DTO.Response.*;
 import com.gdg.gdgback.Global.Validator;
-import com.gdg.gdgback.User.Exception.UserNotExistsException;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadResponseDto;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;

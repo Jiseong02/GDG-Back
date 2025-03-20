@@ -7,6 +7,7 @@ import com.gdg.gdgback.Counsel.CounselNotExistsException;
 import com.gdg.gdgback.Counsel.CounselRepository;
 import com.gdg.gdgback.Counsel.CounselServiceImpl;
 import com.gdg.gdgback.Counsel.DTO.Request.CounselCreateRequestDto;
+import com.gdg.gdgback.Counsel.DTO.Request.CounselDeleteRequestDto;
 import com.gdg.gdgback.Global.Validator;
 import com.gdg.gdgback.User.Exception.UserNotExistsException;
 import org.junit.jupiter.api.Assertions;
@@ -16,8 +17,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.*;
@@ -48,9 +50,10 @@ public class CounselServiceTest {
                 .summation("testSummation")
                 .build();
 
-        doReturn(Optional.of(testDocument)).when(counselRepository).save(any(CounselDocument.class));
+        doReturn(testDocument).when(counselRepository).save(any(CounselDocument.class));
         doReturn(Optional.empty()).when(counselRepository).findById(anyString());
         doReturn(Optional.of(testDocument)).when(counselRepository).findById("testId");
+        doReturn(new ArrayList<CounselDocument>()).when(counselRepository).findAll();
     }
 
     @Test
@@ -59,7 +62,7 @@ public class CounselServiceTest {
                 .userId("testId")
                 .build();
 
-        counselService.createCounsel(dto).getId();
+        Assertions.assertDoesNotThrow(()->counselService.createCounsel(dto));
     }
     @Test
     void createCounselNotExistUser() {
@@ -68,5 +71,33 @@ public class CounselServiceTest {
                 .build();
 
         Assertions.assertThrows(UserNotExistsException.class, ()->counselService.createCounsel(dto));
+    }
+    @Test
+    void readCounsel() {
+        String id = "testId";
+        Assertions.assertDoesNotThrow(()->counselService.readCounsel(id));
+    }
+    @Test
+    void readCounselNotExists() {
+        String id = "not_exist_id";
+        Assertions.assertThrows(CounselNotExistsException.class, ()->counselService.readCounsel(id));
+    }
+    @Test
+    void readCounselList() {
+        Assertions.assertDoesNotThrow(()->counselService.readCounselList());
+    }
+    @Test
+    void deleteCounsel() {
+        CounselDeleteRequestDto dto = CounselDeleteRequestDto.builder()
+                .id("testId")
+                .build();
+        Assertions.assertDoesNotThrow(()->counselService.deleteCounsel(dto));
+    }
+    @Test
+    void deleteCounselNotExists() {
+        CounselDeleteRequestDto dto = CounselDeleteRequestDto.builder()
+                .id("not_exist_id")
+                .build();
+        Assertions.assertThrows(CounselNotExistsException.class, ()->counselService.deleteCounsel(dto));
     }
 }

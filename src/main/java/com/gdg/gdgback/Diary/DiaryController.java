@@ -2,7 +2,6 @@ package com.gdg.gdgback.Diary;
 
 import com.gdg.gdgback.Diary.DTO.Request.*;
 import com.gdg.gdgback.Diary.DTO.Response.*;
-import com.gdg.gdgback.User.Exception.UserNotExistsException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

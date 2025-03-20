@@ -6,14 +6,11 @@ import com.gdg.gdgback.Counsel.DTO.Request.CounselEndRequestDto;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselCreateResponseDto;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadListResponseDto;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadResponseDto;
-import com.gdg.gdgback.User.Exception.UserNotExistsException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
 
 @Profile("!test")
 @RestController

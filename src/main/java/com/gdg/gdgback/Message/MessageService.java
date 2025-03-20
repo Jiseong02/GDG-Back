@@ -1,6 +1,5 @@
 package com.gdg.gdgback.Message;
 
-import com.gdg.gdgback.Counsel.CounselNotExistsException;
 import com.gdg.gdgback.Message.DTO.Request.MessageCreateRequestDto;
 import com.gdg.gdgback.Message.DTO.Response.MessageReadListResponseDto;
 import com.gdg.gdgback.Message.DTO.Response.MessageReadResponseDto;
