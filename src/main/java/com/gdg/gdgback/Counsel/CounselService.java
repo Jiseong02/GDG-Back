@@ -9,12 +9,12 @@ import java.io.IOException;
 
 @Service
 public interface CounselService {
-    CounselReadResponseDto readCounsel(String id) throws CounselNotExistsException;
+    CounselReadResponseDto readCounsel(String id);
     CounselReadListResponseDto readCounselList();
-    CounselReadListResponseDto readCounselByUserId(String id) throws UserNotExistsException;
-    CounselCreateResponseDto createCounsel(CounselCreateRequestDto createRequestDto) throws UserNotExistsException, IOException;
+    CounselReadListResponseDto readCounselByUserId(String id);
+    CounselCreateResponseDto createCounsel(CounselCreateRequestDto createRequestDto);
     void deleteCounselsOverTimeLimit();
-    void endCounsel(CounselEndRequestDto counselEndRequestDto) throws CounselNotExistsException;
-    void deleteCounsel(CounselDeleteRequestDto deleteRequestDto) throws CounselNotExistsException;
-    void validateCounselExists(String id) throws CounselNotExistsException;
+    void endCounsel(CounselEndRequestDto counselEndRequestDto);
+    void deleteCounsel(CounselDeleteRequestDto deleteRequestDto);
+    void validateCounselExists(String id);
 }

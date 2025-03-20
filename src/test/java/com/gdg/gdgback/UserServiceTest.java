@@ -19,8 +19,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
@@ -37,8 +36,11 @@ public class UserServiceTest {
                 .name("옥찌")
                 .build();
 
-        when(userRepository.findById(anyString())).thenReturn(Optional.empty());
-        when(userRepository.findById("exist")).thenReturn(Optional.of(mockedUser));
+        doReturn(Optional.empty()).when(userRepository).findById(anyString());
+        doReturn(Optional.of(mockedUser)).when(userRepository).findById("exist");
+        doReturn(false).when(userRepository).existsById(anyString());
+        doReturn(true).when(userRepository).existsById("exist");
+
         when(userRepository.existsById(anyString())).thenReturn(false);
         when(userRepository.existsById("exist")).thenReturn(true);
     }

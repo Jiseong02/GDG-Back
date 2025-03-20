@@ -1,5 +1,6 @@
 package com.gdg.gdgback.Agent.Api;
 
+import com.gdg.gdgback.Agent.Exception.AgentFailedToCreateSTTError;
 import com.google.cloud.speech.v2.*;
 import com.google.protobuf.ByteString;
 import org.springframework.context.annotation.Profile;
@@ -13,8 +14,12 @@ public class SpeechToTextApi {
     static final private String recognizer = "gdg-recognizer";
     static private SpeechClient speechClient;
 
-    SpeechToTextApi() throws IOException {
-        speechClient = SpeechClient.create();
+    SpeechToTextApi() {
+        try {
+            speechClient = SpeechClient.create();
+        } catch (IOException e) {
+            throw new AgentFailedToCreateSTTError();
+        }
     }
 
     public String speechToText(byte[] speech) {

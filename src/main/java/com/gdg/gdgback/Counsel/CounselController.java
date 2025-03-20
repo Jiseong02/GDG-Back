@@ -27,7 +27,7 @@ public class CounselController {
     }
 
     @GetMapping
-    ResponseEntity<CounselReadResponseDto> readCounsel(@RequestParam String id) throws CounselNotExistsException {
+    ResponseEntity<CounselReadResponseDto> readCounsel(@RequestParam String id) {
         return ResponseEntity.ok().body(counselService.readCounsel(id));
     }
 
@@ -37,23 +37,23 @@ public class CounselController {
     }
 
     @GetMapping("/user")
-    ResponseEntity<CounselReadListResponseDto> readCounselByUserId(@RequestParam String id) throws UserNotExistsException {
+    ResponseEntity<CounselReadListResponseDto> readCounselByUserId(@RequestParam String id) {
         return ResponseEntity.ok().body(counselService.readCounselByUserId(id));
     }
 
     @PostMapping
-    ResponseEntity<CounselCreateResponseDto> createCounsel(@Valid @RequestBody CounselCreateRequestDto createRequestDto) throws IOException, UserNotExistsException {
+    ResponseEntity<CounselCreateResponseDto> createCounsel(@Valid @RequestBody CounselCreateRequestDto createRequestDto) {
         return ResponseEntity.ok().body(counselService.createCounsel(createRequestDto));
     }
 
     @PostMapping("/end")
-    ResponseEntity<String> endCounsel(@Valid @RequestBody CounselEndRequestDto counselEndRequestDto) throws CounselNotExistsException {
+    ResponseEntity<String> endCounsel(@Valid @RequestBody CounselEndRequestDto counselEndRequestDto) {
         counselService.endCounsel(counselEndRequestDto);
         return ResponseEntity.ok().body("정상적으로 상담이 종료되었습니다.");
     }
 
     @PostMapping("/delete")
-    ResponseEntity<String> deleteCounsel(@Valid @RequestBody CounselDeleteRequestDto deleteRequestDto) throws CounselNotExistsException{
+    ResponseEntity<String> deleteCounsel(@Valid @RequestBody CounselDeleteRequestDto deleteRequestDto) {
         counselService.deleteCounsel(deleteRequestDto);
         return ResponseEntity.ok().body("정상적으로 삭제되었습니다.");
     }

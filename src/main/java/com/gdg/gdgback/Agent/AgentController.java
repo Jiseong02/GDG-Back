@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
-
 @Profile("!test")
 @RestController
 @RequestMapping("/counsel/agent")
@@ -27,17 +25,17 @@ public class AgentController {
     }
 
     @PostMapping("/text")
-    ResponseEntity<String> getTextResponse(@Valid @RequestBody AgentTextRequestDto agentTextRequestDto) throws IOException {
+    ResponseEntity<String> getTextResponse(@Valid @RequestBody AgentTextRequestDto agentTextRequestDto) {
         return ResponseEntity.ok().body(agentService.getTextResponse(agentTextRequestDto));
     }
     @PostMapping("/voice")
-    ResponseEntity<byte[]> getVoiceResponse(@Valid @RequestBody AgentTextRequestDto agentTextRequestDto) throws IOException {
+    ResponseEntity<byte[]> getVoiceResponse(@Valid @RequestBody AgentTextRequestDto agentTextRequestDto) {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_TYPE, "audio/mpeg")
                 .body(agentService.getAudioResponse(agentTextRequestDto));
     }
     @PostMapping("/call")
-    ResponseEntity<byte[]> getVoiceResponse(@Valid @RequestBody AgentAudioRequestDto agentAudioRequestDto) throws IOException {
+    ResponseEntity<byte[]> getVoiceResponse(@Valid @RequestBody AgentAudioRequestDto agentAudioRequestDto) {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_TYPE, "audio/mpeg")
                 .body(agentService.getAudioResponse(agentAudioRequestDto));
