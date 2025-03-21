@@ -1,14 +1,9 @@
-package com.gdg.gdgback;
+package com.gdg.gdgback.Diary;
 
 import com.gdg.gdgback.Counsel.CounselDocument;
-import com.gdg.gdgback.Counsel.CounselNotExistsException;
 import com.gdg.gdgback.Counsel.CounselService;
 import com.gdg.gdgback.Diary.DTO.Request.DiaryCreateRequestDto;
-import com.gdg.gdgback.Diary.DiaryDocument;
-import com.gdg.gdgback.Diary.DiaryRepository;
-import com.gdg.gdgback.Diary.DiaryServiceImpl;
 import com.gdg.gdgback.Global.Validator;
-import com.gdg.gdgback.Global.ValidatorImpl;
 import com.gdg.gdgback.User.Exception.UserNotExistsException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,11 +17,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import static com.gdg.gdgback.GdgbackApplicationTests.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.doNothing;
 
 
 @ExtendWith(MockitoExtension.class)

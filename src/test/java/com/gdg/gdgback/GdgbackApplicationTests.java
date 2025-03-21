@@ -17,9 +17,5 @@ import static org.mockito.Mockito.*;
 // "test" 프로필 - ADC 인증 필요한 서비스는 제외하고 테스트.
 @SpringBootTest
 @ActiveProfiles("test")
-class GdgbackApplicationTests {
-	public static final String ID = "testId";
-	public static final String NAME = "testName";
-	public static final String USERID = "testUserId";
-	public static final String COUNSELID = "testCounselId";
+public class GdgbackApplicationTests {
 }
