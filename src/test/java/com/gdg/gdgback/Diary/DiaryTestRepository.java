@@ -82,7 +82,8 @@ public class DiaryTestRepository implements DiaryRepository {
 
     @Override
     public <S extends DiaryDocument> S save(S entity) {
-        return null;
+        entity.id = "test";
+        return entity;
     }
 
     @Override
@@ -92,12 +93,13 @@ public class DiaryTestRepository implements DiaryRepository {
 
     @Override
     public Optional<DiaryDocument> findById(String s) {
-        return Optional.empty();
+        if (!s.equals(testDocument.id)) throw new NullPointerException();
+        return Optional.of(testDocument);
     }
 
     @Override
     public boolean existsById(String s) {
-        return false;
+        return s.equals(testDocument.id);
     }
 
     @Override
@@ -117,12 +119,12 @@ public class DiaryTestRepository implements DiaryRepository {
 
     @Override
     public void deleteById(String s) {
-
+        if (!s.equals(testDocument.id)) throw new NullPointerException();
     }
 
     @Override
     public void delete(DiaryDocument entity) {
-
+        if (!entity.equals(testDocument)) throw new NullPointerException();
     }
 
     @Override
