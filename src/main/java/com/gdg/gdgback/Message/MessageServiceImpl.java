@@ -1,6 +1,6 @@
 package com.gdg.gdgback.Message;
 
-import com.gdg.gdgback.Global.ValidatorImpl;
+import com.gdg.gdgback.Global.Validator;
 import com.gdg.gdgback.Message.DTO.Request.*;
 import com.gdg.gdgback.Message.DTO.Response.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +15,10 @@ import java.util.List;
 public class MessageServiceImpl implements MessageService {
     private final MessageRepository messageRepository;
 
-    private final ValidatorImpl validator;
+    private final Validator validator;
 
     @Autowired
-    MessageServiceImpl(MessageRepository messageRepository, ValidatorImpl validator) {
+    MessageServiceImpl(MessageRepository messageRepository, Validator validator) {
         this.messageRepository = messageRepository;
         this.validator = validator;
     }

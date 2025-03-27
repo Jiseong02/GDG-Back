@@ -4,7 +4,7 @@ import com.gdg.gdgback.Agent.DTO.Request.AgentTextRequestDto;
 import com.gdg.gdgback.Agent.Service.AgentService;
 import com.gdg.gdgback.Counsel.DTO.Request.*;
 import com.gdg.gdgback.Counsel.DTO.Response.*;
-import com.gdg.gdgback.Global.ValidatorImpl;
+import com.gdg.gdgback.Global.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -23,13 +23,13 @@ public class CounselServiceImpl implements CounselService {
     private final CounselRepository counselRepository;
     private final AgentService agentService;
 
-    private final ValidatorImpl validator;
+    private final Validator validator;
 
     @Autowired
     private MongoTemplate mongoTemplate;
 
     @Autowired
-    CounselServiceImpl(CounselRepository counselRepository, AgentService agentService, ValidatorImpl validator) {
+    CounselServiceImpl(CounselRepository counselRepository, AgentService agentService, Validator validator) {
         this.counselRepository = counselRepository;
         this.agentService = agentService;
         this.validator = validator;

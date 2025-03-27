@@ -1,4 +1,4 @@
-package com.gdg.gdgback;
+package com.gdg.gdgback.General;
 
 import com.gdg.gdgback.Counsel.CounselNotExistsException;
 import com.gdg.gdgback.Global.Validator;

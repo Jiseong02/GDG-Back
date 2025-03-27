@@ -4,7 +4,7 @@ import com.gdg.gdgback.Counsel.CounselService;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadResponseDto;
 import com.gdg.gdgback.Diary.DTO.Request.DiaryCreateRequestDto;
 import com.gdg.gdgback.Global.Validator;
-import com.gdg.gdgback.TestValidator;
+import com.gdg.gdgback.General.TestValidator;
 import com.gdg.gdgback.User.Exception.UserNotExistsException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
