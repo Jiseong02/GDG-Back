@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createUser(UserCreateRequestDto userCreateRequestDto) throws UserAlreadyExistsException {
+    public void createUser(UserCreateRequestDto userCreateRequestDto) {
         validateUserNotExists(userCreateRequestDto.getId());
 
         UserDocument userDocument = UserMapper.map(userCreateRequestDto);
@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserReadResponseDto readUser(String id) throws UserNotExistsException {
+    public UserReadResponseDto readUser(String id) {
         UserDocument userDocument = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotExistsException(id));
 
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(UserDeleteRequestDto deleteRequestDto) throws UserNotExistsException {
+    public void deleteUser(UserDeleteRequestDto deleteRequestDto) {
         UserDocument userDocument = userRepository.findById(deleteRequestDto.getId())
                 .orElseThrow(() -> new UserNotExistsException(deleteRequestDto.getId()));
 
@@ -50,14 +50,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void validateUserExists(String id) throws UserNotExistsException {
-        if(!userRepository.existsById(id)) {
-            throw new UserNotExistsException(id);
-        }
-    }
-
-    @Override
-    public void validateUserNotExists(String id) throws UserAlreadyExistsException {
+    public void validateUserNotExists(String id) {
         if(userRepository.existsById(id)) {
             throw new UserAlreadyExistsException();
         }

@@ -6,14 +6,11 @@ import com.gdg.gdgback.Counsel.DTO.Request.CounselEndRequestDto;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselCreateResponseDto;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadListResponseDto;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadResponseDto;
-import com.gdg.gdgback.User.Exception.UserNotExistsException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
 
 @Profile("!test")
 @RestController
@@ -27,7 +24,7 @@ public class CounselController {
     }
 
     @GetMapping
-    ResponseEntity<CounselReadResponseDto> readCounsel(@RequestParam String id) throws CounselNotExistsException {
+    ResponseEntity<CounselReadResponseDto> readCounsel(@RequestParam String id) {
         return ResponseEntity.ok().body(counselService.readCounsel(id));
     }
 
@@ -37,23 +34,23 @@ public class CounselController {
     }
 
     @GetMapping("/user")
-    ResponseEntity<CounselReadListResponseDto> readCounselByUserId(@RequestParam String id) throws UserNotExistsException {
+    ResponseEntity<CounselReadListResponseDto> readCounselByUserId(@RequestParam String id) {
         return ResponseEntity.ok().body(counselService.readCounselByUserId(id));
     }
 
     @PostMapping
-    ResponseEntity<CounselCreateResponseDto> createCounsel(@Valid @RequestBody CounselCreateRequestDto createRequestDto) throws IOException, UserNotExistsException {
+    ResponseEntity<CounselCreateResponseDto> createCounsel(@Valid @RequestBody CounselCreateRequestDto createRequestDto) {
         return ResponseEntity.ok().body(counselService.createCounsel(createRequestDto));
     }
 
     @PostMapping("/end")
-    ResponseEntity<String> endCounsel(@Valid @RequestBody CounselEndRequestDto counselEndRequestDto) throws CounselNotExistsException {
+    ResponseEntity<String> endCounsel(@Valid @RequestBody CounselEndRequestDto counselEndRequestDto) {
         counselService.endCounsel(counselEndRequestDto);
         return ResponseEntity.ok().body("정상적으로 상담이 종료되었습니다.");
     }
 
     @PostMapping("/delete")
-    ResponseEntity<String> deleteCounsel(@Valid @RequestBody CounselDeleteRequestDto deleteRequestDto) throws CounselNotExistsException{
+    ResponseEntity<String> deleteCounsel(@Valid @RequestBody CounselDeleteRequestDto deleteRequestDto) {
         counselService.deleteCounsel(deleteRequestDto);
         return ResponseEntity.ok().body("정상적으로 삭제되었습니다.");
     }

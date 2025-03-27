@@ -1,10 +1,10 @@
 package com.gdg.gdgback.Diary;
 
+import com.gdg.gdgback.Counsel.CounselNotExistsException;
 import com.gdg.gdgback.Counsel.CounselService;
 import com.gdg.gdgback.Diary.DTO.Request.*;
 import com.gdg.gdgback.Diary.DTO.Response.*;
 import com.gdg.gdgback.Global.Validator;
-import com.gdg.gdgback.User.Exception.UserNotExistsException;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadResponseDto;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,14 +31,14 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     @Override
-    public String createDiary(DiaryCreateRequestDto createRequestDto) throws UserNotExistsException {
+    public String createDiary(DiaryCreateRequestDto createRequestDto) {
         validator.validateUserExists(createRequestDto.getUserId());
 
         return diaryRepository.save(DiaryMapper.map(createRequestDto)).getId();
     }
 
     @Override
-    public DiaryReadResponseDto readDiary(String id) throws DiaryNotFoundException {
+    public DiaryReadResponseDto readDiary(String id) {
         DiaryDocument diaryDocument = diaryRepository.findById(id)
                 .orElseThrow(() -> new DiaryNotFoundException(id));
         return convertDocumentToDto(diaryDocument);
@@ -51,7 +51,7 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     @Override
-    public DiaryReadListResponseDto readDiaryListByUserId(String id) throws UserNotExistsException {
+    public DiaryReadListResponseDto readDiaryListByUserId(String id) {
         validator.validateUserExists(id);
 
         List<DiaryDocument> diaryDocumentList = diaryRepository.findAllByUserId(id);
@@ -59,7 +59,7 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     @Override
-    public void deleteDiary(DiaryDeleteRequestDto deleteRequestDto) throws DiaryNotFoundException {
+    public void deleteDiary(DiaryDeleteRequestDto deleteRequestDto) {
         DiaryDocument diaryDocument = diaryRepository.findById(deleteRequestDto.getId())
                 .orElseThrow(() -> new DiaryNotFoundException(deleteRequestDto.getId()));
         diaryRepository.delete(diaryDocument);
@@ -69,7 +69,7 @@ public class DiaryServiceImpl implements DiaryService {
         try {
             CounselReadResponseDto counsel = counselService.readCounsel(document.getCounselId());
             return DiaryMapper.map(document, counsel);
-        } catch (Exception e) {
+        } catch (CounselNotExistsException e) {
             return DiaryMapper.map(document, null);
         }
     }

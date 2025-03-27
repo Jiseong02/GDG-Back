@@ -5,7 +5,6 @@ import com.gdg.gdgback.Agent.Service.AgentService;
 import com.gdg.gdgback.Counsel.DTO.Request.*;
 import com.gdg.gdgback.Counsel.DTO.Response.*;
 import com.gdg.gdgback.Global.Validator;
-import com.gdg.gdgback.User.Exception.UserNotExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -15,7 +14,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -38,7 +36,7 @@ public class CounselServiceImpl implements CounselService {
     }
 
     @Override
-    public CounselCreateResponseDto createCounsel(CounselCreateRequestDto createRequestDto) throws UserNotExistsException, IOException {
+    public CounselCreateResponseDto createCounsel(CounselCreateRequestDto createRequestDto) {
         validator.validateUserExists(createRequestDto.getUserId());
 
         CounselDocument counselDocument = CounselMapper.map(createRequestDto);
@@ -52,7 +50,7 @@ public class CounselServiceImpl implements CounselService {
     }
 
     @Override
-    public CounselReadResponseDto readCounsel(String id) throws CounselNotExistsException {
+    public CounselReadResponseDto readCounsel(String id) {
         CounselDocument counselDocument = counselRepository.findById(id)
                 .orElseThrow(() -> new CounselNotExistsException(id));
 
@@ -67,7 +65,7 @@ public class CounselServiceImpl implements CounselService {
     }
 
     @Override
-    public CounselReadListResponseDto readCounselByUserId(String id) throws UserNotExistsException {
+    public CounselReadListResponseDto readCounselByUserId(String id) {
         validator.validateUserExists(id);
 
         List<CounselDocument> counselDocumentList = counselRepository.findAllByUserId(id);
@@ -76,7 +74,7 @@ public class CounselServiceImpl implements CounselService {
     }
 
     @Override
-    public void deleteCounsel(CounselDeleteRequestDto deleteRequestDto) throws CounselNotExistsException {
+    public void deleteCounsel(CounselDeleteRequestDto deleteRequestDto) {
         CounselDocument counselDocument = counselRepository.findById(deleteRequestDto.getId())
                 .orElseThrow(() -> new CounselNotExistsException(deleteRequestDto.getId()));
 
@@ -94,7 +92,7 @@ public class CounselServiceImpl implements CounselService {
     }
 
     @Override
-    public void endCounsel(CounselEndRequestDto counselEndRequestDto) throws CounselNotExistsException {
+    public void endCounsel(CounselEndRequestDto counselEndRequestDto) {
         validateCounselExists(counselEndRequestDto.getId());
 
         Query query = new Query(Criteria.where("id").is(counselEndRequestDto.getId()));
@@ -104,7 +102,7 @@ public class CounselServiceImpl implements CounselService {
     }
 
     @Override
-    public void validateCounselExists(String id) throws CounselNotExistsException {
+    public void validateCounselExists(String id) {
         if(!counselRepository.existsById(id)) {
             throw new CounselNotExistsException(id);
         }

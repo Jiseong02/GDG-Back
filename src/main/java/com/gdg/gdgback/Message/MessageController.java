@@ -1,6 +1,5 @@
 package com.gdg.gdgback.Message;
 
-import com.gdg.gdgback.Counsel.CounselNotExistsException;
 import com.gdg.gdgback.Message.DTO.Response.MessageReadListResponseDto;
 import com.gdg.gdgback.Message.DTO.Response.MessageReadResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +19,12 @@ public class MessageController {
     }
 
     @GetMapping
-    public ResponseEntity<MessageReadListResponseDto> readMessageByCounselId(@RequestParam String counselId) throws CounselNotExistsException {
+    public ResponseEntity<MessageReadListResponseDto> readMessageByCounselId(@RequestParam String counselId) {
         return ResponseEntity.ok().body(messageService.readMessageByCounselId(counselId));
     }
 
     @GetMapping("/id")
-    public ResponseEntity<MessageReadResponseDto> readMessage(@RequestParam String id) throws MessageNotExistsException{
+    public ResponseEntity<MessageReadResponseDto> readMessage(@RequestParam String id) {
         return ResponseEntity.ok().body(messageService.readMessage(id));
     }
 

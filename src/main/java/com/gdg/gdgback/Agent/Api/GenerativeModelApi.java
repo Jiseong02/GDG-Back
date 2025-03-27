@@ -1,5 +1,6 @@
 package com.gdg.gdgback.Agent.Api;
 
+import com.gdg.gdgback.Agent.Exception.AgentFailedToRespondException;
 import com.google.cloud.vertexai.VertexAI;
 import com.google.cloud.vertexai.generativeai.GenerativeModel;
 import com.google.cloud.vertexai.generativeai.ResponseHandler;
@@ -21,7 +22,7 @@ public class GenerativeModelApi {
         this.generativeModel = new GenerativeModel(modelName, vertexAI);
     }
 
-    public String generateResponse(String request) throws IOException {
+    public String generateResponse(String request) {
         String prompt = """
         역할: 당신은 인지 행동 치료 기반의 유능한 공황장애 전문 상담가로서 환자의 심리적 안정과 공감에 초점을 맞춰 대답해야 합니다.
         제한사항:
@@ -39,6 +40,10 @@ public class GenerativeModelApi {
         상담가: 지금 심장이 빨리 뛰고 숨이 막히는 증상이 나타나고 있군요. 많이 불안하시죠? 공황 발작은 갑작스럽게 극심한 불안과 함께 다양한 신체 증상이 나타나는 현상입니다. 지금 어떤 생각을 하고 계신가요?
         프롬프트:
         """ + request;
-        return ResponseHandler.getText(generativeModel.generateContent(prompt));
+        try {
+            return ResponseHandler.getText(generativeModel.generateContent(prompt));
+        } catch (IOException e) {
+            throw new AgentFailedToRespondException(request);
+        }
     }
 }
