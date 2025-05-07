@@ -42,7 +42,7 @@ public class CounselServiceImpl implements CounselService {
         CounselDocument counselDocument = CounselMapper.map(createRequestDto);
 
         String id = counselRepository.save(counselDocument).getId();
-        String response = agentService.getTextResponse(AgentTextRequestDto.builder().counselId(id).content("지금 공황이 오는 것 같아요. 최대한 짧게 뭐라도 말해주세요.").build());
+        String response = agentService.replyByText(AgentTextRequestDto.builder().counselId(id).content("지금 공황이 오는 것 같아요. 최대한 짧게 뭐라도 말해주세요.").build());
         return CounselCreateResponseDto.builder()
                 .id(id)
                 .content(response)

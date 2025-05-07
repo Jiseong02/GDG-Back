@@ -3,6 +3,7 @@ package com.gdg.gdgback.Agent;
 import com.gdg.gdgback.Agent.DTO.Request.AgentAudioRequestDto;
 import com.gdg.gdgback.Agent.DTO.Request.AgentTextRequestDto;
 import com.gdg.gdgback.Agent.Service.AgentService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -25,19 +26,19 @@ public class AgentController {
     }
 
     @PostMapping("/text")
-    ResponseEntity<String> getTextResponse(@Valid @RequestBody AgentTextRequestDto agentTextRequestDto) {
-        return ResponseEntity.ok().body(agentService.getTextResponse(agentTextRequestDto));
+    ResponseEntity<String> getTextResponse(HttpSession session, @Valid @RequestBody AgentTextRequestDto agentTextRequestDto) {
+        return ResponseEntity.ok().body(agentService.replyByText(session, agentTextRequestDto));
     }
     @PostMapping("/voice")
-    ResponseEntity<byte[]> getVoiceResponse(@Valid @RequestBody AgentTextRequestDto agentTextRequestDto) {
+    ResponseEntity<byte[]> getVoiceResponse(HttpSession session, @Valid @RequestBody AgentTextRequestDto agentTextRequestDto) {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_TYPE, "audio/mpeg")
-                .body(agentService.getAudioResponse(agentTextRequestDto));
+                .body(agentService.replyByAudio(session, agentTextRequestDto));
     }
     @PostMapping("/call")
-    ResponseEntity<byte[]> getVoiceResponse(@Valid @RequestBody AgentAudioRequestDto agentAudioRequestDto) {
+    ResponseEntity<byte[]> getVoiceResponse(HttpSession session, @Valid @RequestBody AgentAudioRequestDto agentAudioRequestDto) {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_TYPE, "audio/mpeg")
-                .body(agentService.getAudioResponse(agentAudioRequestDto));
+                .body(agentService.replyByAudio(session, agentAudioRequestDto));
     }
 }

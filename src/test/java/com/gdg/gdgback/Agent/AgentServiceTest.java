@@ -8,6 +8,7 @@ import com.gdg.gdgback.Agent.Service.Implement.GoogleSpeechService;
 import com.gdg.gdgback.Agent.Service.SpeechService;
 import com.gdg.gdgback.Message.MessageService;
 import com.gdg.gdgback.Message.MessageServiceImpl;
+import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,6 +25,7 @@ public class AgentServiceTest {
     GenerativeModelApi generativeModelApi = mock(GenerativeModelApi.class);
     SpeechService speechService = mock(GoogleSpeechService.class);
     MessageService messageService = mock(MessageServiceImpl.class);
+    HttpSession session = mock(HttpSession.class);
 
     @InjectMocks
     GoogleAgentService agentService;
@@ -36,27 +38,31 @@ public class AgentServiceTest {
     }
 
     @Test
-    void getTextResponse() {
+    void replyByText() {
         AgentTextRequestDto dto = AgentTextRequestDto.builder()
                 .counselId("test")
                 .content("test")
                 .build();
-        Assertions.assertDoesNotThrow(()->agentService.getTextResponse(dto));
+        Assertions.assertDoesNotThrow(()->agentService.replyByText(session, dto));
     }
     @Test
-    void getAudioResponseFromText() {
+    void replyByAudioFromText() {
         AgentTextRequestDto dto = AgentTextRequestDto.builder()
                 .counselId("test")
                 .content("test")
                 .build();
-        Assertions.assertDoesNotThrow(()->agentService.getAudioResponse(dto));
+        Assertions.assertDoesNotThrow(()->agentService.replyByAudio(session, dto));
     }
     @Test
-    void getAudioResponseFromAudio() {
+    void replyByAudioResponseFromAudio() {
         AgentAudioRequestDto dto = AgentAudioRequestDto.builder()
                 .counselId("test")
                 .content(new byte[5])
                 .build();
-        Assertions.assertDoesNotThrow(()->agentService.getAudioResponse(dto));
+        Assertions.assertDoesNotThrow(()->agentService.replyByAudio(session, dto));
+    }
+    @Test
+    void summarize() {
+        Assertions.assertDoesNotThrow(()->agentService.summarize("test"));
     }
 }
