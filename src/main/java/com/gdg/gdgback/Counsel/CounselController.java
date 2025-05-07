@@ -6,6 +6,7 @@ import com.gdg.gdgback.Counsel.DTO.Request.CounselEndRequestDto;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselCreateResponseDto;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadListResponseDto;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadResponseDto;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -39,8 +40,8 @@ public class CounselController {
     }
 
     @PostMapping
-    ResponseEntity<CounselCreateResponseDto> createCounsel(@Valid @RequestBody CounselCreateRequestDto createRequestDto) {
-        return ResponseEntity.ok().body(counselService.createCounsel(createRequestDto));
+    ResponseEntity<CounselCreateResponseDto> createCounsel(HttpSession session, @Valid @RequestBody CounselCreateRequestDto createRequestDto) {
+        return ResponseEntity.ok().body(counselService.createCounsel(session, createRequestDto));
     }
 
     @PostMapping("/end")

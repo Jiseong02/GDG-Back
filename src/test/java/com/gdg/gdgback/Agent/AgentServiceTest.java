@@ -62,7 +62,7 @@ public class AgentServiceTest {
         Assertions.assertDoesNotThrow(()->agentService.replyByAudio(session, dto));
     }
     @Test
-    void summarize() {
-        Assertions.assertDoesNotThrow(()->agentService.summarize("test"));
+    void summarizeDialogue() {
+        Assertions.assertDoesNotThrow(()->agentService.summarizeDialogue(session, "hi", "hello, are you alright?"));
     }
 }

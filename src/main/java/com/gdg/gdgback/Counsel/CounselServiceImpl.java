@@ -5,6 +5,7 @@ import com.gdg.gdgback.Agent.Service.AgentService;
 import com.gdg.gdgback.Counsel.DTO.Request.*;
 import com.gdg.gdgback.Counsel.DTO.Response.*;
 import com.gdg.gdgback.Global.Validator;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -36,13 +37,14 @@ public class CounselServiceImpl implements CounselService {
     }
 
     @Override
-    public CounselCreateResponseDto createCounsel(CounselCreateRequestDto createRequestDto) {
+    public CounselCreateResponseDto createCounsel(HttpSession session, CounselCreateRequestDto createRequestDto) {
         validator.validateUserExists(createRequestDto.getUserId());
 
+        session.setAttribute("Dialogue", "[Dialogue]");
         CounselDocument counselDocument = CounselMapper.map(createRequestDto);
 
         String id = counselRepository.save(counselDocument).getId();
-        String response = agentService.replyByText(AgentTextRequestDto.builder().counselId(id).content("지금 공황이 오는 것 같아요. 최대한 짧게 뭐라도 말해주세요.").build());
+        String response = agentService.replyByText(session, AgentTextRequestDto.builder().counselId(id).content("지금 공황이 오는 것 같아요. 최대한 짧게 뭐라도 말해주세요.").build());
         return CounselCreateResponseDto.builder()
                 .id(id)
                 .content(response)

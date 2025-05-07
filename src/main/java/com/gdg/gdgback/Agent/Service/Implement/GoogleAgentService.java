@@ -83,6 +83,6 @@ public class GoogleAgentService implements AgentService {
                 """;
 
         session.setAttribute("dialogue", dialogue);
-        return model.generateResponse(direction + dialogue + "[Result of summarization]");
+        return model.generateResponse(direction + dialogue + "\n\n[Result of summarization]");
     }
 }

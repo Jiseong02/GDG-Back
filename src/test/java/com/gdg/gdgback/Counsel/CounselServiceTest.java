@@ -7,6 +7,7 @@ import com.gdg.gdgback.Counsel.DTO.Request.CounselDeleteRequestDto;
 import com.gdg.gdgback.Global.Validator;
 import com.gdg.gdgback.General.TestValidator;
 import com.gdg.gdgback.User.Exception.UserNotExistsException;
+import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,7 @@ public class CounselServiceTest {
     @Spy
     CounselRepository counselRepository = new CounselTestRepository();
     AgentService agentService = mock(AgentService.class);
+    HttpSession session = mock(HttpSession.class);
     @Spy
     Validator validator = new TestValidator();
 
@@ -31,7 +33,7 @@ public class CounselServiceTest {
 
     @BeforeEach
     void setUp() {
-        doReturn("testResponse").when(agentService).replyByText(any(AgentTextRequestDto.class));
+        doReturn("testResponse").when(agentService).replyByText(session, any(AgentTextRequestDto.class));
     }
 
     @Test
@@ -40,7 +42,7 @@ public class CounselServiceTest {
                 .userId("test")
                 .build();
 
-        Assertions.assertDoesNotThrow(()->counselService.createCounsel(dto));
+        Assertions.assertDoesNotThrow(()->counselService.createCounsel(session, dto));
     }
     @Test
     void createCounselNotExistUser() {
@@ -48,7 +50,7 @@ public class CounselServiceTest {
                 .userId("id_not_exists")
                 .build();
 
-        Assertions.assertThrows(UserNotExistsException.class, ()->counselService.createCounsel(dto));
+        Assertions.assertThrows(UserNotExistsException.class, ()->counselService.createCounsel(session, dto));
     }
     @Test
     void readCounsel() {
