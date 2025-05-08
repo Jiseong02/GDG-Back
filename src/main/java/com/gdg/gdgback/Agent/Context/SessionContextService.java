@@ -38,6 +38,7 @@ public class SessionContextService implements ContextService {
             context.history = context.history.subList(1, HISTORY_LIMIT + 1);
         }
 
+        session.setAttribute("context", context);
     }
 
     @Override
