@@ -1,4 +1,4 @@
-package com.gdg.gdgback.Agent.Api;
+package com.gdg.gdgback.Agent.Core;
 
 import com.gdg.gdgback.Agent.Exception.AgentFailedToRespondException;
 import com.google.cloud.vertexai.VertexAI;

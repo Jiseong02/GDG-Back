@@ -1,4 +1,4 @@
-package com.gdg.gdgback.Agent;
+package com.gdg.gdgback.Agent.Context;
 
 import lombok.Builder;
 import lombok.Data;
@@ -10,6 +10,6 @@ import java.util.List;
 public class Context {
     public Context() {}
 
-    List<String> history;
+    List<DialogueEntry> history;
     String summary;
 }

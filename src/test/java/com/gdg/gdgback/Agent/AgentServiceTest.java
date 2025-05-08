@@ -1,11 +1,11 @@
 package com.gdg.gdgback.Agent;
 
-import com.gdg.gdgback.Agent.Api.GenerativeModelApi;
+import com.gdg.gdgback.Agent.Core.GenerativeModelApi;
 import com.gdg.gdgback.Agent.DTO.Request.AgentAudioRequestDto;
 import com.gdg.gdgback.Agent.DTO.Request.AgentTextRequestDto;
-import com.gdg.gdgback.Agent.Service.Implement.GoogleAgentService;
-import com.gdg.gdgback.Agent.Service.Implement.GoogleSpeechService;
-import com.gdg.gdgback.Agent.Service.SpeechService;
+import com.gdg.gdgback.Agent.Service.GoogleAgentService;
+import com.gdg.gdgback.Agent.Speech.GoogleSpeechService;
+import com.gdg.gdgback.Agent.Speech.SpeechService;
 import com.gdg.gdgback.Message.MessageService;
 import com.gdg.gdgback.Message.MessageServiceImpl;
 import jakarta.servlet.http.HttpSession;
@@ -49,7 +49,7 @@ public class AgentServiceTest {
                 User: I feel ashamed that I can't control this.
                 Counselor: There’s nothing to be ashamed of. You're doing the right thing by talking about it and seeking help.
                 """;
-        doReturn(testDialogue).when(session).getAttribute("dialogue");
+        doReturn(testDialogue).when(session).getAttribute("context");
     }
 
     @Test

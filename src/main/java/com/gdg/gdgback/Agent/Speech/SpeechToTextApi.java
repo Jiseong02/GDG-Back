@@ -1,4 +1,4 @@
-package com.gdg.gdgback.Agent.Api;
+package com.gdg.gdgback.Agent.Speech;
 
 import com.gdg.gdgback.Agent.Exception.AgentFailedToCreateSTTError;
 import com.google.cloud.speech.v2.*;

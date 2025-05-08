@@ -1,4 +1,4 @@
-package com.gdg.gdgback.Agent.Service;
+package com.gdg.gdgback.Agent.Speech;
 
 public interface SpeechService {
     byte[] textToSpeech(String text);

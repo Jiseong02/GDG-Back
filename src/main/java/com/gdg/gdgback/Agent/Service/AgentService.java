@@ -6,7 +6,6 @@ import jakarta.servlet.http.HttpSession;
 
 public interface AgentService {
     String replyByText(HttpSession session, AgentTextRequestDto agentTextRequestDto);
-    String summarizeDialogue(HttpSession session, String user, String agent);
     byte[] replyByAudio(HttpSession session, AgentTextRequestDto agentTextRequestDto);
     byte[] replyByAudio(HttpSession session, AgentAudioRequestDto agentAudioRequestDto);
 }

@@ -1,8 +1,5 @@
-package com.gdg.gdgback.Agent.Service.Implement;
+package com.gdg.gdgback.Agent.Speech;
 
-import com.gdg.gdgback.Agent.Api.SpeechToTextApi;
-import com.gdg.gdgback.Agent.Api.TextToSpeechApi;
-import com.gdg.gdgback.Agent.Service.SpeechService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;

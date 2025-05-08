@@ -1,4 +1,4 @@
-package com.gdg.gdgback.Agent.Api;
+package com.gdg.gdgback.Agent.Speech;
 
 import com.gdg.gdgback.Agent.Exception.AgentFailedToCreateTTSError;
 import com.google.cloud.texttospeech.v1.*;
