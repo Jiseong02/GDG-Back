@@ -39,7 +39,7 @@ public class SessionContextService implements ContextService {
 
         if(context.history.size() > HISTORY_LIMIT) {
             context.summary = generateUpdatedSummary(context.summary, context.history.getFirst());
-            context.history = context.history.subList(1, HISTORY_LIMIT + 1);
+            context.history = new ArrayList<>(context.history.subList(1, HISTORY_LIMIT + 1));
         }
 
         session.setAttribute("context", context);

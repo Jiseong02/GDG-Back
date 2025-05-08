@@ -57,7 +57,7 @@ public class GoogleAgentService implements AgentService {
     @Transactional
     public String replyByText(HttpSession session, AgentTextRequestDto agentTextRequestDto) {
         String counselId = agentTextRequestDto.getCounselId();
-        String userMessage = "[User Input]\n" + agentTextRequestDto.getContent();
+        String userMessage = agentTextRequestDto.getContent();
 
         Context context = contextService.getContext(session);
         String prompt = DIRECTION + "\n\n" + context.toString() + "\n\n" + userMessage;
@@ -69,7 +69,7 @@ public class GoogleAgentService implements AgentService {
 
         contextService.updateContext(session, DialogueEntry.of(userMessage, response));
 
-        return response + "\n[Context]\n" + context.toString();
+        return response + "\n[Prompt]\n" + prompt;
     }
 
     @Override
