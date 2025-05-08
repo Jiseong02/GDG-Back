@@ -25,7 +25,6 @@ public class SessionContextService implements ContextService {
         return context;
     }
 
-    @Async
     @Override
     public void updateContext(HttpSession session, DialogueEntry dialogue) {
         final int HISTORY_LIMIT = 5;
