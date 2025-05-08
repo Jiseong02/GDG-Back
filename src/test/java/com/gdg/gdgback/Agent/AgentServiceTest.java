@@ -18,6 +18,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -38,7 +40,10 @@ public class AgentServiceTest {
         doReturn("test").when(generativeModelApi).generateResponse(anyString());
         doReturn("test").when(speechService).speechToText(any(byte[].class));
         doReturn(new byte[5]).when(speechService).textToSpeech(anyString());
-        Context testContext = Context.builder().build();
+        Context testContext = Context.builder()
+                .summary("")
+                .history(new ArrayList<>())
+                .build();
         doReturn(testContext).when(contextService).getContext(session);
     }
 
