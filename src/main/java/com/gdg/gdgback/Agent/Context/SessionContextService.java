@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 public class SessionContextService implements ContextService {
     private final GenerativeModelApi model;
@@ -19,7 +21,10 @@ public class SessionContextService implements ContextService {
     public Context getContext(HttpSession session) {
         Context context = (Context)session.getAttribute("context");
         if(context == null) {
-            context = Context.builder().build();
+            context = Context.builder()
+                    .summary("")
+                    .history(new ArrayList<>())
+                    .build();
             session.setAttribute("context", context);
         }
         return context;

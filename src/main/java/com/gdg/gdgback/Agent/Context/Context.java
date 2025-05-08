@@ -15,7 +15,7 @@ public class Context {
         StringBuilder sb = new StringBuilder();
 
         sb.append("[Summary of previous dialogue]\n");
-        if (summary == null) {
+        if (summary.isEmpty()) {
             sb.append("(No summary yet)");
         } else {
             sb.append(summary);
@@ -23,7 +23,7 @@ public class Context {
         sb.append("\n\n");
 
         sb.append("[Recent History]\n");
-        if (history == null || history.isEmpty()) {
+        if (history.isEmpty()) {
             sb.append("(No dialogue history)");
         } else {
             for (DialogueEntry entry : history) {
