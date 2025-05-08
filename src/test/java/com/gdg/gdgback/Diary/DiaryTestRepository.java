@@ -21,7 +21,7 @@ public class DiaryTestRepository implements DiaryRepository {
                 .userId("test")
                 .score(0)
                 .date(LocalDateTime.now())
-                .picture(null)
+                .imageUrl(null)
                 .expected(null)
                 .category(null)
                 .title("test")

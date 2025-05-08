@@ -42,7 +42,7 @@ public class DiaryServiceTest {
                 .category(new String[3])
                 .score(5)
                 .expected(true)
-                .picture(new byte[3])
+                .picture(null)
                 .title("test")
                 .content("test")
                 .build();
@@ -56,7 +56,7 @@ public class DiaryServiceTest {
                 .category(new String[3])
                 .score(5)
                 .expected(true)
-                .picture(new byte[3])
+                .picture(null)
                 .title("test")
                 .content("test")
                 .build();

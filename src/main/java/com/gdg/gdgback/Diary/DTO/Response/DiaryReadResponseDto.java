@@ -15,7 +15,7 @@ public class DiaryReadResponseDto {
     CounselReadResponseDto counsel;
 
     LocalDateTime date;
-    byte[] picture;
+    String imageUrl;
     Boolean expected;
     String[] category;
     int score;

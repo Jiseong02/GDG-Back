@@ -6,11 +6,11 @@ import com.gdg.gdgback.Diary.DTO.Response.DiaryReadResponseDto;
 
 import java.time.LocalDateTime;
 public class DiaryMapper {
-    public static DiaryDocument map(DiaryCreateRequestDto createRequestDto) {
+    public static DiaryDocument map(DiaryCreateRequestDto createRequestDto, String imageUrl) {
         return DiaryDocument.builder()
                 .userId(createRequestDto.getUserId())
                 .counselId(createRequestDto.getCounselId())
-                .picture(createRequestDto.getPicture())
+                .imageUrl(imageUrl)
                 .expected(createRequestDto.getExpected())
                 .category(createRequestDto.getCategory())
                 .score(createRequestDto.getScore())
@@ -27,7 +27,7 @@ public class DiaryMapper {
                 .counsel(counsel)
                 .expected(diaryDocument.getExpected())
                 .date(diaryDocument.getDate())
-                .picture(diaryDocument.getPicture())
+                .imageUrl(diaryDocument.getImageUrl())
                 .category(diaryDocument.getCategory())
                 .score(diaryDocument.getScore())
                 .title(diaryDocument.getTitle())

@@ -42,11 +42,11 @@ public class DiaryServiceImpl implements DiaryService {
         validator.validateUserExists(createRequestDto.getUserId());
 
         MultipartFile image = createRequestDto.getPicture();
-        if(!image.isEmpty()) {
-            String imageUrl = saveDiaryImage(image);
+        String imageUrl = null;
+        if(image != null) {
+            imageUrl = uploadDiaryImage(image);
         }
-
-        return diaryRepository.save(DiaryMapper.map(createRequestDto)).getId();
+        return diaryRepository.save(DiaryMapper.map(createRequestDto, imageUrl)).getId();
     }
 
     @Override
@@ -77,14 +77,15 @@ public class DiaryServiceImpl implements DiaryService {
         diaryRepository.delete(diaryDocument);
     }
 
-    private String saveDiaryImage(MultipartFile image) {
+    private String uploadDiaryImage(MultipartFile image) {
         String fileName = UUID.randomUUID().toString() + "_" + image.getOriginalFilename();
         Path path = Paths.get("images/" + fileName);
         try {
+            Files.createDirectories(path.getParent());
             Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-            return path.toString();
+            return fileName;
         } catch (IOException e) {
-            throw new DiaryImageIOException("");
+            throw new DiaryImageIOException("Image is not saved.");
         }
     }
 
