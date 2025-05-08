@@ -3,6 +3,7 @@ package com.gdg.gdgback.Diary.DTO.Request;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 @Builder
 @Data
@@ -11,7 +12,7 @@ public class DiaryCreateRequestDto {
     private String userId;
     private String counselId;
 
-    private byte[] picture;
+    private MultipartFile picture;
     private String[] category;
     private int score;
     private Boolean expected;

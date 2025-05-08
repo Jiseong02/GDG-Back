@@ -8,9 +8,16 @@ import com.gdg.gdgback.Global.Validator;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadResponseDto;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,6 +40,11 @@ public class DiaryServiceImpl implements DiaryService {
     @Override
     public String createDiary(DiaryCreateRequestDto createRequestDto) {
         validator.validateUserExists(createRequestDto.getUserId());
+
+        MultipartFile image = createRequestDto.getPicture();
+        if(!image.isEmpty()) {
+            String imageUrl = saveDiaryImage(image);
+        }
 
         return diaryRepository.save(DiaryMapper.map(createRequestDto)).getId();
     }
@@ -63,6 +75,17 @@ public class DiaryServiceImpl implements DiaryService {
         DiaryDocument diaryDocument = diaryRepository.findById(deleteRequestDto.getId())
                 .orElseThrow(() -> new DiaryNotFoundException(deleteRequestDto.getId()));
         diaryRepository.delete(diaryDocument);
+    }
+
+    private String saveDiaryImage(MultipartFile image) {
+        String fileName = UUID.randomUUID().toString() + "_" + image.getOriginalFilename();
+        Path path = Paths.get("images/" + fileName);
+        try {
+            Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+            return path.toString();
+        } catch (IOException e) {
+            throw new DiaryImageIOException("");
+        }
     }
 
     private DiaryReadResponseDto convertDocumentToDto(DiaryDocument document) {

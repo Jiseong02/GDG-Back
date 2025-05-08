@@ -19,7 +19,7 @@ public class DiaryDocument {
     String counselId;
 
     LocalDateTime date;
-    byte[] picture;
+    String imageUrl;
     String[] category;
     int score;
     Boolean expected;
