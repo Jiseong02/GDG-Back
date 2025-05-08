@@ -33,7 +33,7 @@ public class CounselServiceTest {
 
     @BeforeEach
     void setUp() {
-        doReturn("testResponse").when(agentService).replyByText(session, any(AgentTextRequestDto.class));
+        doReturn("testResponse").when(agentService).replyByText(any(HttpSession.class), any(AgentTextRequestDto.class));
     }
 
     @Test

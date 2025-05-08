@@ -1,3 +1,8 @@
+server:
+  servlet:
+    session:
+      timeout: 5m
+
 spring:
   profiles:
     active: default
