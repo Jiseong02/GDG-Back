@@ -69,7 +69,7 @@ public class GoogleAgentService implements AgentService {
 
         contextService.updateContext(session, DialogueEntry.of(userMessage, response));
 
-        return response + "\n[Prompt]\n" + prompt;
+        return response;
     }
 
     @Override
