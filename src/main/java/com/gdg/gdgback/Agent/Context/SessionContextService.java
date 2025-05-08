@@ -17,7 +17,7 @@ public class SessionContextService implements ContextService {
     public Context getContext(HttpSession session) {
         Context context = (Context)session.getAttribute("context");
         if(context == null) {
-            context = new Context();
+            context = Context.builder().build();
             session.setAttribute("context", context);
         }
         return context;
