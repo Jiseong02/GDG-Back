@@ -1,5 +1,7 @@
 package com.gdg.gdgback.Agent;
 
+import com.gdg.gdgback.Agent.Context.Context;
+import com.gdg.gdgback.Agent.Context.ContextService;
 import com.gdg.gdgback.Agent.Core.GenerativeModelApi;
 import com.gdg.gdgback.Agent.DTO.Request.AgentAudioRequestDto;
 import com.gdg.gdgback.Agent.DTO.Request.AgentTextRequestDto;
@@ -25,6 +27,7 @@ public class AgentServiceTest {
     GenerativeModelApi generativeModelApi = mock(GenerativeModelApi.class);
     SpeechService speechService = mock(GoogleSpeechService.class);
     MessageService messageService = mock(MessageServiceImpl.class);
+    ContextService contextService = mock(ContextService.class);
     HttpSession session = mock(HttpSession.class);
 
     @InjectMocks
@@ -35,21 +38,8 @@ public class AgentServiceTest {
         doReturn("test").when(generativeModelApi).generateResponse(anyString());
         doReturn("test").when(speechService).speechToText(any(byte[].class));
         doReturn(new byte[5]).when(speechService).textToSpeech(anyString());
-        String testDialogue = """
-                [Dialogue]
-                User: My hands are trembling and my chest feels tight. I feel like something terrible is going to happen.
-                Counselor: You're describing classic symptoms of a panic attack. Try to focus on your breathing — slow and deep inhales.
-                
-                User: I can't stop thinking I'm going to faint or lose control.
-                Counselor: That fear is very common. You’re not in danger, even if it feels overwhelming. Let’s try grounding exercises together.
-                
-                User: What if this never stops?
-                Counselor: I hear how scared you are. These episodes always pass, and we’ll work together on ways to reduce their frequency.
-                
-                User: I feel ashamed that I can't control this.
-                Counselor: There’s nothing to be ashamed of. You're doing the right thing by talking about it and seeking help.
-                """;
-        doReturn(testDialogue).when(session).getAttribute("context");
+        Context testContext = Context.builder().build();
+        doReturn(testContext).when(contextService).getContext(session);
     }
 
     @Test
@@ -75,9 +65,5 @@ public class AgentServiceTest {
                 .content(new byte[5])
                 .build();
         Assertions.assertDoesNotThrow(()->agentService.replyByAudio(session, dto));
-    }
-    @Test
-    void summarizeDialogue() {
-        Assertions.assertDoesNotThrow(()->agentService.summarizeDialogue(session, "Can i really survive in this hell?", "As you've always done. I'm very sure you can do it."));
     }
 }
