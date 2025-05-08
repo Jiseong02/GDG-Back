@@ -3,10 +3,9 @@ package com.gdg.gdgback.Agent.Context;
 import com.gdg.gdgback.Agent.Core.GenerativeModelApi;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 
 public class SessionContextService implements ContextService {
-    private final int HISTORY_LIMIT =5;
-
     private final GenerativeModelApi model;
 
     @Autowired
@@ -24,15 +23,19 @@ public class SessionContextService implements ContextService {
         return context;
     }
 
+    @Async
     @Override
     public void updateContext(HttpSession session, DialogueEntry dialogue) {
-        Context context = (Context)session.getAttribute("context");
+        final int HISTORY_LIMIT = 5;
 
+        Context context = (Context)session.getAttribute("context");
         context.history.add(dialogue);
+
         if(context.history.size() > HISTORY_LIMIT) {
             context.summary = generateUpdatedSummary(context.summary, context.history.getFirst());
             context.history = context.history.subList(1, HISTORY_LIMIT + 1);
         }
+
     }
 
     @Override
