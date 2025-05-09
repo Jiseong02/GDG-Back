@@ -23,7 +23,7 @@ public class DiaryDocument {
     LocalDateTime date;
     String imageUrl;
     String[] category;
-    int score;
+    Integer score;
     Boolean expected;
     String title;
     String content;
