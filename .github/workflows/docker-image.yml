@@ -68,5 +68,5 @@ jobs:
             echo ${{ secrets.SERVER_PASSWORD }} | sudo -S docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
             echo ${{ secrets.SERVER_PASSWORD }} | sudo -S docker stop app || true
             echo ${{ secrets.SERVER_PASSWORD }} | sudo -S docker rm app || true
-            echo ${{ secrets.SERVER_PASSWORD }} | sudo -S docker run -d -e GOOGLE_APPLICATION_CREDENTIALS="/credential.json" -v /etc/credentials/gcloud-credential.json:/credential.json --name app -p 8080:8080 ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
+            echo ${{ secrets.SERVER_PASSWORD }} | sudo -S docker run -d -e GOOGLE_APPLICATION_CREDENTIALS="/credential.json" -v /etc/credentials/gcloud-credential.json:/credential.json -v /home/ubuntu/images:/app/images --name app -p 8080:8080 ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
             echo ${{ secrets.SERVER_PASSWORD }} | sudo -S docker system prune -af
