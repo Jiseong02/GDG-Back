@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/diary")
@@ -33,7 +34,7 @@ public class DiaryController {
     }
 
     @PostMapping
-    ResponseEntity<String> createDiary(@Valid @RequestBody DiaryCreateRequestDto createRequestDto) {
+    ResponseEntity<String> createDiary(@Valid @ModelAttribute DiaryCreateRequestDto createRequestDto) {
         return ResponseEntity.ok().body(diaryService.createDiary(createRequestDto));
     }
 
@@ -41,5 +42,11 @@ public class DiaryController {
     ResponseEntity<String> deleteDiary(@Valid @RequestBody DiaryDeleteRequestDto deleteRequestDto) {
         this.diaryService.deleteDiary(deleteRequestDto);
         return ResponseEntity.ok().body("정상적으로 일지가 삭제되었습니다.");
+    }
+
+    @PostMapping("/image")
+    ResponseEntity<String> uploadDiaryImage(@Valid @ModelAttribute DiaryImageUploadRequestDto imageUploadRequestDto) {
+        String imageUrl = this.diaryService.uploadDiaryImage(imageUploadRequestDto);
+        return ResponseEntity.ok().body(imageUrl);
     }
 }

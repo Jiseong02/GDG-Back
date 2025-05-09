@@ -6,6 +6,7 @@ import com.gdg.gdgback.Diary.DTO.Request.*;
 import com.gdg.gdgback.Diary.DTO.Response.*;
 import com.gdg.gdgback.Global.Validator;
 import com.gdg.gdgback.Counsel.DTO.Response.CounselReadResponseDto;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,13 +41,7 @@ public class DiaryServiceImpl implements DiaryService {
     @Override
     public String createDiary(DiaryCreateRequestDto createRequestDto) {
         validator.validateUserExists(createRequestDto.getUserId());
-
-        MultipartFile image = createRequestDto.getPicture();
-        String imageUrl = null;
-        if(image != null) {
-            imageUrl = uploadDiaryImage(image);
-        }
-        return diaryRepository.save(DiaryMapper.map(createRequestDto, imageUrl)).getId();
+        return diaryRepository.save(DiaryMapper.map(createRequestDto)).getId();
     }
 
     @Override
@@ -77,15 +72,28 @@ public class DiaryServiceImpl implements DiaryService {
         diaryRepository.delete(diaryDocument);
     }
 
-    private String uploadDiaryImage(MultipartFile image) {
-        String fileName = UUID.randomUUID().toString() + "_" + image.getOriginalFilename();
-        Path path = Paths.get("images/" + fileName);
+    @Async
+    @Override
+    public String uploadDiaryImage(DiaryImageUploadRequestDto imageUploadRequestDto) {
+        DiaryDocument diaryDocument = diaryRepository.findById(imageUploadRequestDto.getId())
+                .orElseThrow(() -> new DiaryNotFoundException(imageUploadRequestDto.getId()));
+
+        String imageUrl = saveImage(imageUploadRequestDto.getImage());
+
+        diaryDocument.setImageUrl(imageUrl);
+        diaryRepository.save(diaryDocument);
+        return imageUrl;
+    }
+
+    private String saveImage(MultipartFile image) {
         try {
+            String fileName = Paths.get(UUID.randomUUID() + "_" + image.getOriginalFilename()).getFileName().toString();
+            Path path = Paths.get("images/" + fileName);
             Files.createDirectories(path.getParent());
             Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-            return fileName;
+            return "/images/" + fileName;
         } catch (IOException e) {
-            throw new DiaryImageIOException("Image is not saved.");
+            throw new DiaryImageIOException("Failed to save image file.");
         }
     }
 
