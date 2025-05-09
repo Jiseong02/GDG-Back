@@ -34,7 +34,7 @@ public class DiaryController {
     }
 
     @PostMapping
-    ResponseEntity<String> createDiary(@Valid @ModelAttribute DiaryCreateRequestDto createRequestDto) {
+    ResponseEntity<String> createDiary(@Valid @RequestBody DiaryCreateRequestDto createRequestDto) {
         return ResponseEntity.ok().body(diaryService.createDiary(createRequestDto));
     }
 
