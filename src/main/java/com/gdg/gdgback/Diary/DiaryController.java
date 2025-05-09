@@ -19,7 +19,7 @@ public class DiaryController {
     }
 
     @GetMapping
-    ResponseEntity<DiaryReadResponseDto> readDiary(@RequestParam(name="id") String id) {
+    ResponseEntity<DiaryReadResponseDto> readDiary(@RequestParam String id) {
         return ResponseEntity.ok().body(diaryService.readDiary(id));
     }
 

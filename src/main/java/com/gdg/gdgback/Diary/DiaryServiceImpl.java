@@ -99,10 +99,14 @@ public class DiaryServiceImpl implements DiaryService {
 
     private DiaryReadResponseDto convertDocumentToDto(DiaryDocument document) {
         try {
-            CounselReadResponseDto counsel = counselService.readCounsel(document.getCounselId());
-            return DiaryMapper.map(document, counsel);
+            String counselId = document.getCounselId();
+            if (counselId == null) {
+                return DiaryMapper.map(document, null);
+            } else {
+                return DiaryMapper.map(document, counselService.readCounsel(counselId));
+            }
         } catch (CounselNotExistsException e) {
-            return DiaryMapper.map(document, null);
+            return DiaryMapper.map(document, null); // 얘가 범인인가?
         }
     }
 
