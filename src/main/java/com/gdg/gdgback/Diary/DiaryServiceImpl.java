@@ -90,7 +90,7 @@ public class DiaryServiceImpl implements DiaryService {
     private String saveImage(MultipartFile image) {
         try {
             String fileName = Paths.get(UUID.randomUUID() + "_" + image.getOriginalFilename()).getFileName().toString();
-            Path path = Paths.get(UPLOAD_PATH + fileName);
+            Path path = Paths.get(UPLOAD_PATH, fileName);
             Files.createDirectories(path.getParent());
             Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
             return "/images/" + fileName;
