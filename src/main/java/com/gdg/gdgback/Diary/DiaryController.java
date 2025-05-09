@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.concurrent.CompletableFuture;
+
 @RestController
 @RequestMapping("/diary")
 public class DiaryController {
@@ -45,8 +47,7 @@ public class DiaryController {
     }
 
     @PostMapping("/image")
-    ResponseEntity<String> uploadDiaryImage(@Valid @ModelAttribute DiaryImageUploadRequestDto imageUploadRequestDto) {
-        String imageUrl = this.diaryService.uploadDiaryImage(imageUploadRequestDto);
-        return ResponseEntity.ok().body(imageUrl);
+    ResponseEntity<CompletableFuture<String>> uploadDiaryImage(@Valid @ModelAttribute DiaryImageUploadRequestDto imageUploadRequestDto) {
+        return ResponseEntity.ok().body(this.diaryService.uploadDiaryImage(imageUploadRequestDto));
     }
 }

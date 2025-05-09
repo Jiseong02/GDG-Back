@@ -5,7 +5,6 @@ import com.gdg.gdgback.Counsel.CounselService;
 import com.gdg.gdgback.Diary.DTO.Request.*;
 import com.gdg.gdgback.Diary.DTO.Response.*;
 import com.gdg.gdgback.Global.Validator;
-import com.gdg.gdgback.Counsel.DTO.Response.CounselReadResponseDto;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Service
@@ -74,7 +74,7 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Async
     @Override
-    public String uploadDiaryImage(DiaryImageUploadRequestDto imageUploadRequestDto) {
+    public CompletableFuture<String> uploadDiaryImage(DiaryImageUploadRequestDto imageUploadRequestDto) {
         DiaryDocument diaryDocument = diaryRepository.findById(imageUploadRequestDto.getId())
                 .orElseThrow(() -> new DiaryNotFoundException(imageUploadRequestDto.getId()));
 
@@ -82,7 +82,7 @@ public class DiaryServiceImpl implements DiaryService {
 
         diaryDocument.setImageUrl(imageUrl);
         diaryRepository.save(diaryDocument);
-        return imageUrl;
+        return CompletableFuture.completedFuture(imageUrl);
     }
 
     private String saveImage(MultipartFile image) {
