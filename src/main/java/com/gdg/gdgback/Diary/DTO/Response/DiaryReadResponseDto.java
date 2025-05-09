@@ -18,7 +18,7 @@ public class DiaryReadResponseDto {
     String imageUrl;
     Boolean expected;
     String[] category;
-    int score;
+    Integer score;
     String title;
     String content;
 }

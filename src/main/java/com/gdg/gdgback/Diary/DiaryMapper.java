@@ -26,7 +26,7 @@ public class DiaryMapper {
                 .counsel(counsel)
                 .expected(diaryDocument.getExpected())
                 .date(diaryDocument.getDate())
-                .imageUrl(diaryDocument.getImageUrl())
+                .imageUrl(diaryDocument.getImageUrl()) // ????
                 .category(diaryDocument.getCategory())
                 .score(diaryDocument.getScore())
                 .title(diaryDocument.getTitle())
