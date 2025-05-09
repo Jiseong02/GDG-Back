@@ -10,6 +10,9 @@ spring:
     mongodb:
       uri: mongodb+srv://pupajusang01:1234@gdgback.rbtvd.mongodb.net/?retryWrites=true&w=majority&appName=gdgback
       database: gdgback
+  web:
+    resources:
+      static-locations: classpath:/static/, file:/app/images/
 
 gemini:
   api:
