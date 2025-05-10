@@ -3,7 +3,6 @@ package com.gdg.gdgback.Agent.Context;
 import com.gdg.gdgback.Agent.Core.GenerativeModelApi;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,7 +31,7 @@ public class SessionContextService implements ContextService {
 
     @Override
     public void updateContext(HttpSession session, DialogueEntry dialogue) {
-        final int HISTORY_LIMIT = 5;
+        final int HISTORY_LIMIT = 2;
 
         Context context = (Context)session.getAttribute("context");
         context.history.add(dialogue);
