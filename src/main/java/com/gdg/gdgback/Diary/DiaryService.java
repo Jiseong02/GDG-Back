@@ -8,6 +8,7 @@ import com.gdg.gdgback.Diary.DTO.Response.DiaryReadResponseDto;
 import com.gdg.gdgback.User.Exception.UserNotExistsException;
 import org.springframework.stereotype.Service;
 
+import java.time.YearMonth;
 import java.util.concurrent.CompletableFuture;
 
 @Service
@@ -16,6 +17,7 @@ public interface DiaryService {
     DiaryReadResponseDto readDiary(String id) throws DiaryNotFoundException;
     DiaryReadListResponseDto readDiaryList();
     DiaryReadListResponseDto readDiaryListByUserId(String id) throws UserNotExistsException;
+    DiaryReadListResponseDto readDiaryListByUserIdAndYearMonth(String id, YearMonth yearMonth);
     void deleteDiary(DiaryDeleteRequestDto deleteRequestDto) throws DiaryNotFoundException;
 
     CompletableFuture<String> uploadDiaryImage(DiaryImageUploadRequestDto imageUploadRequestDto);

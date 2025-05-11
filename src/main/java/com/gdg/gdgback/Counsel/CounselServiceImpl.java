@@ -15,7 +15,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.util.List;
 
 @Service
@@ -71,7 +73,20 @@ public class CounselServiceImpl implements CounselService {
         validator.validateUserExists(id);
 
         List<CounselDocument> counselDocumentList = counselRepository.findAllByUserId(id);
+        return CounselMapper.map(counselDocumentList);
+    }
 
+    @Override
+    public CounselReadListResponseDto readCounselByUserIdAndYearMonth(String id, YearMonth yearMonth) {
+        validator.validateUserExists(id);
+        LocalDate start = yearMonth.atDay(1);
+        LocalDate end = yearMonth.atEndOfMonth();
+
+        Query query = new Query()
+                .addCriteria(Criteria.where("userId").is(id))
+                .addCriteria(Criteria.where("createdAt").gte(start).lte(end));
+
+        List<CounselDocument> counselDocumentList = mongoTemplate.find(query, CounselDocument.class);
         return CounselMapper.map(counselDocumentList);
     }
 

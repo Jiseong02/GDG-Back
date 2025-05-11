@@ -5,6 +5,9 @@ import com.gdg.gdgback.Counsel.CounselService;
 import com.gdg.gdgback.Diary.DTO.Request.*;
 import com.gdg.gdgback.Diary.DTO.Response.*;
 import com.gdg.gdgback.Global.Validator;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -23,13 +28,15 @@ import java.util.stream.Collectors;
 
 @Service
 public class DiaryServiceImpl implements DiaryService {
-    private final String UPLOAD_PATH = "/app/images";
 
     private final DiaryRepository diaryRepository;
 
     private final CounselService counselService;
 
     private final Validator validator;
+
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     @Autowired
     DiaryServiceImpl(CounselService counselService, DiaryRepository diaryRepository, Validator validator) {
@@ -68,6 +75,20 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     @Override
+    public DiaryReadListResponseDto readDiaryListByUserIdAndYearMonth(String id, YearMonth yearMonth) {
+        validator.validateUserExists(id);
+
+        LocalDate start = yearMonth.atDay(1);
+        LocalDate end = yearMonth.atEndOfMonth();
+
+        Query query = new Query()
+                .addCriteria(Criteria.where("userId").is(id))
+                .addCriteria(Criteria.where("date").gte(start).lte(end));
+
+        return convertDocumentListToListDto(mongoTemplate.find(query, DiaryDocument.class));
+    }
+
+    @Override
     public void deleteDiary(DiaryDeleteRequestDto deleteRequestDto) {
         DiaryDocument diaryDocument = diaryRepository.findById(deleteRequestDto.getId())
                 .orElseThrow(() -> new DiaryNotFoundException(deleteRequestDto.getId()));
@@ -89,6 +110,7 @@ public class DiaryServiceImpl implements DiaryService {
 
     private String saveImage(MultipartFile image) {
         try {
+            String UPLOAD_PATH = "/app/images";
             String fileName = Paths.get(UUID.randomUUID() + "_" + image.getOriginalFilename()).getFileName().toString();
             Path path = Paths.get(UPLOAD_PATH, fileName);
             Files.createDirectories(path.getParent());
