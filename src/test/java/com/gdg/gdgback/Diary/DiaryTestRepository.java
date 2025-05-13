@@ -30,7 +30,7 @@ public class DiaryTestRepository implements DiaryRepository {
     }
 
     @Override
-    public List<DiaryDocument> findAllByUserId(String id) {
+    public List<DiaryDocument> findAllByUserIdOrderByDateDesc(String id) {
         if (!id.equals("test")) throw new NullPointerException();
         return List.of(testDocument);
     }

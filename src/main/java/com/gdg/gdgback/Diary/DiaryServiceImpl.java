@@ -70,7 +70,7 @@ public class DiaryServiceImpl implements DiaryService {
     public DiaryReadListResponseDto readDiaryListByUserId(String id) {
         validator.validateUserExists(id);
 
-        List<DiaryDocument> diaryDocumentList = diaryRepository.findAllByUserId(id);
+        List<DiaryDocument> diaryDocumentList = diaryRepository.findAllByUserIdOrderByDateDesc(id);
         return convertDocumentListToListDto(diaryDocumentList);
     }
 

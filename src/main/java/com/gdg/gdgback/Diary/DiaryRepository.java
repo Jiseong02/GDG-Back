@@ -7,5 +7,5 @@ import java.util.List;
 
 @Repository
 public interface DiaryRepository extends MongoRepository<DiaryDocument, String> {
-    List<DiaryDocument> findAllByUserId(String id);
+    List<DiaryDocument> findAllByUserIdOrderByDateDesc(String id);
 }
