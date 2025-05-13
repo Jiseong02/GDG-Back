@@ -14,7 +14,7 @@ public class Context {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("[Summary of previous dialogue]\n");
+        sb.append("[PAST CONTEXT]\n");
         if (summary.isEmpty()) {
             sb.append("(No summary yet)");
         } else {
@@ -22,7 +22,7 @@ public class Context {
         }
         sb.append("\n\n");
 
-        sb.append("[Recent History]\n");
+        sb.append("[RECENT HISTORY]\n");
         if (history.isEmpty()) {
             sb.append("(No dialogue history)");
         } else {
