@@ -63,6 +63,6 @@ public class SessionContextService implements ContextService {
                 + "\n\n[New dialogue]\n" + dialogue.toString()
                 + "\n\n[Result of summarization]\n";
 
-        return model.generateResponse(prompt);
+        return model.generateResponseInJapan(prompt);
     }
 }

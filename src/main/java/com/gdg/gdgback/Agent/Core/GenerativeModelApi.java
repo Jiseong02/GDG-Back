@@ -14,17 +14,26 @@ import java.io.IOException;
 @Profile("!test")
 public class GenerativeModelApi {
     private final GenerativeModel generativeModel;
+    private final GenerativeModel generativeModelInJapan;
 
     @Autowired
     GenerativeModelApi() {
-        String modelName = "gemini-1.5-flash-001";
-        VertexAI vertexAI = new VertexAI("fair-backbone-449407-u7", "asia-northeast3");
-        this.generativeModel = new GenerativeModel(modelName, vertexAI);
+        String projectId = "fair-backbone-449407-u7";
+        this.generativeModel = new GenerativeModel("gemini-1.5-flash-001", new VertexAI(projectId, "asia-northeast3"));
+        this.generativeModelInJapan = new GenerativeModel("gemini-1.5-flash-001", new VertexAI(projectId, "asia-northeast1"));
     }
 
     public String generateResponse(String prompt) {
         try {
             return ResponseHandler.getText(generativeModel.generateContent(prompt));
+        } catch (IOException e) {
+            throw new AgentFailedToRespondException(prompt);
+        }
+    }
+
+    public String generateResponseInJapan(String prompt) {
+        try {
+            return ResponseHandler.getText(generativeModelInJapan.generateContent(prompt));
         } catch (IOException e) {
             throw new AgentFailedToRespondException(prompt);
         }
