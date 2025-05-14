@@ -28,6 +28,7 @@ public class AnalysisServiceImpl implements AnalysisService {
         List<DiaryReadResponseDto> diaries = diaryService.readDiaryListByUserIdAndYearMonth(userId, yearMonth).getDiaries();
 
         return AnalysisResponseDto.builder()
+                .diaryNum(diaries.size())
                 .symptomStats(getSymptomStats(diaries))
                 .expectationStat(getExpectationStat(diaries))
                 .scoreStats(getScoreStats(diaries))

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 @Builder
 @Data
 public class AnalysisResponseDto {
+    int diaryNum;
     ArrayList<SymptomStat> symptomStats;
     ExpectationStat expectationStat;
     ArrayList<ScoreStat> scoreStats;

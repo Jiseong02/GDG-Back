@@ -31,10 +31,6 @@ public class GoogleAgentService implements AgentService {
             - Always validate emotions.
             - If helpful, explain panic in simple terms.
             - End with a reflective, gentle question.
-            
-            [EXAMPLE]
-            Patient: My heart suddenly started racing and I can't breathe.
-            Therapist: That sounds frightening. Sudden heart racing and breathlessness are common in panic attacks, which can feel intense but aren’t dangerous. What’s going through your mind right now?
             """;
 
     @Autowired
